@@ -24,4 +24,5 @@ int main() {
 }
 
 void sol() {
+    cout << "a" << endl;
 }
