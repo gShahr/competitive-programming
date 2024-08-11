@@ -295,27 +295,29 @@ int main() {
     for (int i = 0; i < t; i++) {
         int n, x;
         cin >> n >> x;
-        vector<int> ans;
-        for (int j = 2; j < n; j++) {
-            int cnt = 0;
-            int curr;
-            while (cnt < n) {
-                curr = 0;
-                for (int k = 0; k < j; k++) {
-                    curr++;
-                    cnt++;
-                    if (cnt >= n) break;
-                }
-                if (cnt >= n) break;
-                for (int k = 0; k < j-2; k++) {
-                    curr--;
-                    cnt++;
-                    if (cnt >= n) break;
-                }
+        int diff = n - x;
+        set<int> d;
+        for (int j = 1; j*j <= diff; j++) {
+            if (diff % j == 0) {
+                if ((j+2) % 2 == 0) d.insert((j+2)/2);
+                if ((diff/j + 2) % 2 == 0) d.insert((diff/j + 2)/2);
             }
-            if (curr == x) ans.push_back(j);
         }
-        debug(ans);
+        diff = n + x - 2;
+        for (int j = 1; j*j <= diff; j++) {
+            if (diff % j == 0) {
+                if ((j+2) % 2 == 0) d.insert((j+2)/2);
+                if ((diff/j + 2) % 2 == 0) d.insert((diff/j + 2)/2);
+            }
+        }
+        int ans = 0;
+        for (auto j: d) {
+            if (j >= x) {
+                ans++;
+            }
+        }
+        cout << ans << endl;
+        debug(d);
     }
 }
 
@@ -343,5 +345,8 @@ divisors of 8 => 1, 2, 4, 8
 76 4
 d = 8
 => k = 5
+
+309: [d = {2,3,4,5,7,10,13,19,37,39}] for (76, 4)
+318: [ans = {4,5,7,10,13,14,19,37,40}] for (76, 4) actual answer
 
 */
