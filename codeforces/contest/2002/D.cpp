@@ -300,18 +300,35 @@ int main() {
         set<int> bad;
         vector<int> p(n);
         for (int i = 0; i < n; i++) cin >> p[i];
-        for (int i = 0; i < n; i++) {
-            if (i == 0 && p[i] == 1) continue;
+        auto check = [&](int i) {
+            // out of bounds
+            if (i < 0 || i >= n) return;
+            // front vertex is always 1
+            if (i == 0) {
+                if (p[i] == 1) bad.erase(p[i]);
+                else bad.insert(p[i]);
+            }
+            // end vertex is always leaf node
             else if (i >= n-1) {
-                if (floor(log2(p[i-1])) == floor(log2(n)) && floor(log2(p[i])) == floor(log2(n))) continue;
+                if (floor(log2(p[i])) == floor(log2(n))) bad.erase(p[i]);
                 else bad.insert(p[i]);
-            } else if (floor(log2(p[i])) == floor(log2(n))) {
-                if (floor(log2(p[i-1])) == floor(log2(n))) continue;
-                else if (p[i-1] == p[i]/2) continue;
+            }
+            // p[i] is leaf node
+            else if (floor(log2(p[i])) == floor(log2(n))) {
+                // leaf leaf
+                // parent leaf
+                if (floor(log2(p[i-1])) == floor(log2(n)) || p[i-1] == p[i]/2) bad.erase(p[i]);
                 else bad.insert(p[i]);
-            } else if (p[i-1] == p[i]/2 && p[i] == p[i+1]/2) continue;
-            else bad.insert(p[i]);
-        }
+            }
+            // p[i] is non-leaf node 
+            else {
+                // parent x child
+                // leaf x child
+                if (p[i] == p[i+1]/2) bad.erase(p[i]);
+                else bad.insert(p[i]);
+            }
+        };
+        for (int i = 0; i < n; i++) check(i);
         debug(bad);
         for (int i = 0; i < q; i++) {
             bool ok = true;
@@ -319,28 +336,14 @@ int main() {
             cin >> x >> y;
             x--, y--;
             swap(p[x], p[y]);
-            if (x == 0 && p[x] == 1) bad.erase(p[x]);
-            else if (x >+ n-1) {
-                if (floor(log2(p[x-1])) == floor(log2(n)) && floor(log2(p[x])) == floor(log2(n))) bad.erase(p[x]);
-                else bad.insert(p[x]);
-            } else if (floor(log2(p[x])) == floor(log2(n))) {
-                if (floor(log2(p[x-1])) == floor(log2(n))) bad.erase(p[x]);
-                else if (p[x-1] == p[x]/2) bad.erase(p[x]);
-                else bad.insert(p[x]);
-            } else if (p[x-1] == p[x]/2 && p[x] == p[x+1]/2) bad.erase(p[x]);
-            else bad.insert(p[x]);
-
-            if (y == 0 && p[y] == 1) bad.erase(p[y]);
-            else if (y >= n-1) {
-                if (floor(log2(p[y-1])) == floor(log2(n)) && floor(log2(p[y])) == floor(log2(n))) bad.erase(p[y]);
-                else bad.insert(p[y]);
-            } else if (floor(log2(p[y])) == floor(log2(n))) {
-                if (floor(log2(p[y-1])) == floor(log2(n))) bad.erase(p[y]);
-                else if (p[y-1] == p[y]/2) bad.erase(p[y]);
-                else bad.insert(p[y]);
-            } else if (p[y-1] == p[y]/2 && p[y] == p[y+1]/2) bad.erase(p[y]);
-            else bad.insert(p[y]);
-
+            // check elements of those that were swapped
+            // check elements adjacent to those that were swapped
+            check(x - 1);
+            check(x);
+            check(x + 1);
+            check(y - 1);
+            check(y);
+            check(y + 1);
             if (!bad.empty()) ok = false;
             if (ok) cout << "YES\n";
             else cout << "NO\n";
