@@ -315,16 +315,19 @@ int main() {
             }
             // p[i] is leaf node
             else if (floor(log2(p[i])) == floor(log2(n))) {
-                // leaf leaf
-                // parent leaf
-                if (floor(log2(p[i-1])) == floor(log2(n)) || p[i-1] == p[i]/2) bad.erase(p[i]);
+                // parent leaf leaf next
+                if ((p[i-2] == p[i-1]/2 && i-2 >= 0 && p[i-2] == p[i]/2
+                && p[i]/4 == p[i+1]/2)
+                // parent leaf leaf
+                || (p[i-1] == p[i]/2 && p[i-1] == p[i+1]/2)) bad.erase(p[i]);
                 else bad.insert(p[i]);
             }
             // p[i] is non-leaf node 
             else {
                 // parent x child
+                if ((p[i-1] == p[i]/2 && p[i] == p[i+1]/2)
                 // leaf x child
-                if (p[i] == p[i+1]/2) bad.erase(p[i]);
+                || (floor(log2(p[i-1])) == floor(log2(n)) && p[i] == p[i+1]/2)) bad.erase(p[i]);
                 else bad.insert(p[i]);
             }
         };
@@ -344,6 +347,7 @@ int main() {
             check(y - 1);
             check(y);
             check(y + 1);
+            debug(bad);
             if (!bad.empty()) ok = false;
             if (ok) cout << "YES\n";
             else cout << "NO\n";
@@ -354,5 +358,10 @@ int main() {
 }
 
 /*
+
+p[i] := leaf
+next := non-leaf
+
+parent(parent(p[i])) = parent(next)
 
 */
