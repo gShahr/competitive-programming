@@ -299,7 +299,7 @@ int main() {
         for (int i = 0; i < n; i++) cin >> a[i];
         for (int i = 0; i < k; i++) cin >> v[i];
         int ans = 0;
-        for (int i = 0; i < d; i++) {
+        for (int i = 0; i < min(2*n, d); i++) {
             // reset
             int c = (d-i-1)/2;
             for (int j = 0; j < n; j++) {
