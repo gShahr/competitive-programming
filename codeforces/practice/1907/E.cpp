@@ -290,31 +290,21 @@ namespace __DEBUG_UTIL__
 #endif
 
 int main() {
-    int mx = 10000001;
-    vector<int> dp(mx, 0);
-    for (int i = 0; i <= mx; i++) {
-        int c = i;
-        int m = 1;
-        while (c) {
-            m *= (c % 10 + 1);
-            c /= 10;
-        }
-        dp[i] = m;
-    }
-    // vector<int> cum(mx+1, 0);
-    // for (int i = 0; i < mx; i++) {
-    //     cum[i+1] = cum[i] + dp[i];
-    // }
-    // for (int i = 0; i < 20 && i < dp.size(); ++i) {
-    //     debug(dp[i]);
-    // }    
     int t;
     cin >> t;
+    auto trig = [](int n) {
+        n++;
+        return n * (n + 1) / 2;
+    };
     while (t--) {
-        int n;
+        long long int n;
         cin >> n;
-        int ans = cum[n];
-        debug(ans);
+        long long int ans = 1;
+        while (n) {
+            ans *= trig(n%10);
+            n/=10;
+        }
         cout << ans << endl;
+        debug(ans);
     }
 }
