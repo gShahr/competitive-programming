@@ -461,23 +461,13 @@ int main() {
             int z = i;
             i = c[i].second;
             if (a[i] != b[i]) {
-                // int l = aa.find_first_equal(0, i, b[i]);
-                // int r = aa.find_first_equal(i, n - 1, b[i]);
-                // if (l != -1 && aa.query_max(l, i) == b[i] && bb.query_min(l, i) == b[i]) {
-                //     aa.update_range(l, i, b[i]);
-                // }
-                // if (r != -1 && aa.query_max(i, r) == b[i] && bb.query_min(i, r) == b[i]) {
-                //     aa.update_range(i, r, b[i]);
-                // }
-                int l = i;
-                int r = i;
-                while (r < n && a[r] != b[i]) {
-                    if (b[i] > b[r] || a[r] > b[i]) r = n;
-                    else r++;
+                int l = aa.find_first_equal(0, i, b[i]);
+                int r = aa.find_first_equal(i, n - 1, b[i]);
+                if (l != -1 && aa.query_max(l, i) == b[i] && bb.query_min(l, i) == b[i]) {
+                    aa.update_range(l, i, b[i]);
                 }
-                while (l >= 0 && a[l] != b[i]) {
-                    if (b[i] > b[l] || a[l] > b[i]) l = -1;
-                    else l--;
+                if (r != -1 && aa.query_max(i, r) == b[i] && bb.query_min(i, r) == b[i]) {
+                    aa.update_range(i, r, b[i]);
                 }
                 if (r < n) {
                     aa.update_range(i, r, b[i]);
