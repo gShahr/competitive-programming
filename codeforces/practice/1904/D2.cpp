@@ -393,25 +393,13 @@ private:
     }
 
     void get_internal_array(int v, int tl, int tr, std::vector<int>& result) {
+        push(v);
         if (tl == tr) {
-            result[v] = tree_max[v];
+            result[tl] = tree_max[v];
         } else {
             int tm = (tl + tr) / 2;
             get_internal_array(v * 2, tl, tm, result);
             get_internal_array(v * 2 + 1, tm + 1, tr, result);
-            result[v] = tree_max[v];
-        }
-    }
-
-    void get_segment_values(int v, int tl, int tr, int l, int r, std::vector<int>& result) {
-        if (l > r) return;
-        push(v);
-        if (l == tl && r == tr) {
-            result.push_back(tree_max[v]);
-        } else {
-            int tm = (tl + tr) / 2;
-            get_segment_values(v * 2, tl, tm, l, std::min(r, tm), result);
-            get_segment_values(v * 2 + 1, tm + 1, tr, std::max(l, tm + 1), r, result);
         }
     }
 
@@ -445,27 +433,9 @@ public:
     }
 
     std::vector<int> get_internal_array() {
-        std::vector<int> result(tree_max.size(), INT_MIN);
+        std::vector<int> result(n, INT_MIN);
         get_internal_array(1, 0, n - 1, result);
         return result;
-    }
-
-    std::vector<int> get_segment_values(int l, int r) {
-        std::vector<int> result;
-        get_segment_values(1, 0, n - 1, l, r, result);
-        return result;
-    }
-
-    bool is_equal(const SegmentTree& other) const {
-        return tree_max == other.tree_max &&
-               tree_min == other.tree_min;
-    }
-
-    void print_tree() {
-        std::cout << "Index\tMax\tMin\n";
-        for (size_t i = 1; i < tree_max.size(); ++i) {
-            std::cout << i << "\t" << tree_max[i] << "\t" << tree_min[i] << "\n";
-        }
     }
 };
 
@@ -524,9 +494,9 @@ int main() {
             }
             i = z;
         }
-        debug(aa.get_internal_array());
-        //a = aa.get_segment_values(0, n - 1);
+        a = aa.get_internal_array();
         bool ok = true;
+        debug(a, b);
         for (int i = 0; i < n; i++) {
             if (a[i] != b[i]) {
                 ok = false;
