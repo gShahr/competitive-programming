@@ -350,5 +350,8 @@ int main() {
 
 /*
 
+Go in increasing order from sequence B.
+Higher values wipe out lower values as we move along the segment.
+Can naively make a O(n^2) solution it fits within the time limits.
 
 */
