@@ -292,7 +292,30 @@ namespace __DEBUG_UTIL__
 int main() {
     int t;
     cin >> t;
-    for (int i = 0; i < t; i++) {
+    while (t-- > 0) {
+        int n, q;
+        cin >> n >> q;
+        for (int i = 1; i < n; i++) {
+            cout << i << ' ' << i+1 << endl;
+        }
+        int old = -1;
+        int u = n;
+        int v1 = n-1;
+        int v2 = -1;
+        while (q-- > 0) {
+            int d;
+            cin >> d;
+            if (old == d) cout << -1 << ' ' << -1 << ' ' << -1 << endl;
+            else {
+                // u remains the same
+                // v2 changes
+                v2 = n-1 - d + 1;
+                cout << u << ' ' << v1 << ' ' << v2 << endl;
+                // v1 changes
+                v1 = v2;
+            }
+            old = d;
+        }
     }
 }
 
