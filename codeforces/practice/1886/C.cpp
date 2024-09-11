@@ -320,4 +320,9 @@ int main() {
 
 /*
 
+Replace set with stack
+Move iterator forward -> add element to stack
+Move iterator backward -> pop element from stack
+Makes algo O(nlonn) -> O(n)
+
 */
