@@ -1,26 +1,27 @@
+bool check(map<char, int>& cnt1, map<char, int>& cnt2) {
+    for (char i = 'a'; i <= 'z'; i++) {
+        if (cnt1[i] < cnt2[i]) return false;
+    }
+    return true;
+}
+
 class Solution {
 public:
     long long validSubstringCount(string word1, string word2) {
         long long int ans = 0;
         int n = word1.size();
         int m = word2.size();
-        multiset<char> words, removed;
-        for (auto i: word2) words.insert(i);
+        map<char, int> cnt1, cnt2;
+        for (auto i: word2) cnt2[i]++;
         int l = 0;
         int r = 0;
         while (r < n) {
-            while (r < n && !words.empty()) {
-                if (words.find(word1[r]) != words.end()) {
-                    words.erase(words.find(word1[r]));
-                    removed.insert(word1[r]);
-                }
+            while (r < n && !check(cnt1, cnt2)) {
+                cnt1[word1[r]]++;
                 r++;
             }
-            if (words.empty()) ans += (n - r + 1);
-            if (removed.find(word1[l]) != removed.end()) {
-                words.insert(word1[l]);
-                removed.erase(removed.find(word1[l]));
-            }
+            if (check(cnt1, cnt2)) ans += (n - r + 1);
+            cnt1[word1[l]]--;
             l++;
         }
         return ans;
