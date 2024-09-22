@@ -4,16 +4,21 @@ public:
         long long int ans = 0;
         int n = word1.size();
         int m = word2.size();
-        int j = 0;
+        multiset<char> l, removed;
+        for (auto i: word2) l.insert(i);
         for (int i = 0; i < n; i++) {
-            if (j >= m) {
-                ans += (n-i);
-                j = 0;
-            } else if (word1[i] == word2[j]) {
-                j++;
-            } else {
-                j = 0;
+            if (l.find(word1[i]) != l.end()) {
+                l.erase(l.find(word1[i]));
+                removed.insert(word1[i]);
             }
+            if (l.empty()) ans += (n-i);
+            if (i-m+1 >= 0) {
+                if (removed.find(word1[i-m+1]) != removed.end()) {
+                    l.insert(word1[i-m+1]);
+                    removed.erase(removed.find(word1[i-m+1]));
+                }
+            }
+
         }
         return ans;
     }
