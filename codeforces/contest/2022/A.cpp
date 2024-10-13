@@ -304,7 +304,7 @@ int main() {
             a[i] %= 2;
         }
         int left = 0;
-        for (auto i: a) left += a[i];
+        for (auto i: a) left += i;
         ans += left;
         left -= min(r, left);
         ans -= 2*left;
