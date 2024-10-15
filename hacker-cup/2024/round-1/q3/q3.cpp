@@ -321,4 +321,30 @@ Find the expected number of days for a random walk on interval [a, b] where you
 start at some location x such that a <= x <= b and have an absorbing barrier at a.
 Probability of moving either back or forward is equal (0.5).
 
+[0, 2], x = 1
+
+l => .5
+r l l => .5^3
+r l r l => .5^4
+r l r l r l => .5^6
+
+.5 * 1
+.5^3 * 3
+.5^4 * 4
+.5^6 * 6
+.5^8 * 8
+.5^10 * 10
+
+[0, 5], x = 4
+[0, 4], x = 3
+[0, 3], x = 2
+[0, 2], x = 1 => E[x] = 
+[0, 1], x = 0 => E[x] = 0
+
+E[L] := expected number of moves to reach x-1
+
+[0, 5], x = 4
+[0, 4], x = 3
+[0, 3], x = 2
+
 */
