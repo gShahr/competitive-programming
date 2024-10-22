@@ -289,6 +289,30 @@ namespace __DEBUG_UTIL__
 #endif
 #endif
 
+bool check(int x, int k, vector<int>& a) {
+    priority_queue<int> pq;
+    for (auto i : a) pq.push(i);
+    while (pq.size() > x) {
+        vector<int> values;
+        for (int i = 0; i < x; i++) {
+            values.push_back(pq.top());
+            pq.pop();
+        }
+        for (int i = 0; i < x; i++) values[i] -= values[0];
+        for (int i = 0; i < x; i++) {
+            if (values[i] > 0) pq.push(values[i]);
+        }
+    }
+    while (pq.size() < x) pq.push(0);
+    int mx = pq.top();
+    int need = 0;
+    while (!pq.empty()) {
+        need += mx - pq.top();
+        pq.pop();
+    }
+    return need <= k;
+}
+
 int main() {
     int t;
     cin >> t;
@@ -297,32 +321,29 @@ int main() {
         cin >> n >> k;
         vector<int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
-        sort(a.begin(), a.end());
-        int del = 0;
-        for (int i = 0; i < n; i++) {
-            del += (a[n-1] - a[i]);
+        int x = 1;
+        for (int i = 1e9; i >= 1; i /= 2) {
+            while (check(x+i, k, a)) x += i;
         }
-        priority_queue<int, vector<int>, greater<int>> pq;
-        for (auto i: a) pq.push(i);
-        while (del < k) {
-            int x = pq.top();
-            pq.pop();
-            int y = pq.top();
-            pq.pop();
-            int nw = x + y;
-            del -= (a[n-1] - x + a[n-1] - y);
-            del += (a[n-1] - nw);
-            pq.push(nw);
-        }
-        int ans = pq.size();
-        cout << ans << endl;
-        debug(ans);
+        cout << x << endl;
     }
 }
 
 /*
 
 N cards => A[i] is the same for all with k extra cards potentially being used
+7 4 6 6 9 3 10 2 8 7
+=> 2 3 4 6 6 7 7 8 9 10 => 2 3 4 0 0 1 1 1 2 3
+=> 0 0 1 1 1 2 2 2 3 4 => 0 0 0 0 0 1 1 1 2 3 => 0 0 1 1 1 2 3 => 1 + 2 + 2 + 2 + 3 + 3 = 13
 
+2 3 4 6 6 7 7 8 9 10
+=> 2 3 4 0 0 1 1 1 2 3
+=> 0 0 1 1 1 2 2 2 3 4
+
+2 3 4 6 6 7 7 8 9 10
+2 3 4 5 5 6 6 7 8 9
+2 3 4 4 4 5 5 6 7 8
+2 3 4 3 3 4 4 5 6 7
+2 3 3 3 4 4 4 5 6 7
 
 */
