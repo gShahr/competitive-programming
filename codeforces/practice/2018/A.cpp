@@ -289,27 +289,13 @@ namespace __DEBUG_UTIL__
 #endif
 #endif
 
-bool check(int x, int k, vector<int>& a) {
-    priority_queue<int> pq;
-    for (auto i : a) pq.push(i);
-    while (pq.size() > x) {
-        vector<int> values;
-        for (int i = 0; i < x; i++) {
-            values.push_back(pq.top());
-            pq.pop();
-        }
-        for (int i = 0; i < x; i++) values[i] -= values[0];
-        for (int i = 0; i < x; i++) {
-            if (values[i] > 0) pq.push(values[i]);
-        }
-    }
-    while (pq.size() < x) pq.push(0);
-    int mx = pq.top();
-    int need = 0;
-    while (!pq.empty()) {
-        need += mx - pq.top();
-        pq.pop();
-    }
+bool check(int x, long long int k, vector<long long int>& a) {
+    long long int need = 0;
+    vector<long long int> b = a;
+    while (b.size() < x) b.push_back(0);
+    for (int i = 0; i < x; i++) need += b[0] - b[i];
+    for (int i = x; i < b.size(); i++) need -= b[i];
+    need = max(need, accumulate(b.begin(), b.end(), 0LL) % x);
     return need <= k;
 }
 
@@ -317,13 +303,14 @@ int main() {
     int t;
     cin >> t;
     while (t--) {
-        int n, k;
+        long long int n, k;
         cin >> n >> k;
-        vector<int> a(n);
+        vector<long long int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end(), greater<long long int>());
         int x = 1;
         for (int i = 1e9; i >= 1; i /= 2) {
-            while (check(x+i, k, a)) x += i;
+            while (x+i <= n && check(x+i, k, a)) x += i;
         }
         cout << x << endl;
     }
@@ -346,4 +333,10 @@ N cards => A[i] is the same for all with k extra cards potentially being used
 2 3 4 3 3 4 4 5 6 7
 2 3 3 3 4 4 4 5 6 7
 
+Suppose the piles are less than x
+=> Case is handled
+Otherwise the piles will be greater than x
+=> n-x elements sum >=
+    => 
+=> n-x elements sum <
 */
