@@ -310,7 +310,7 @@ int main() {
         set<long long int> visited;
         map<long long int, vector<long long int>> adj;
         for (int i = 0; i < n; i++) {
-            int x = i + a[i];
+            long long int x = i + a[i];
             adj[x].push_back(i + x);
         }
         long long int ans = dfs(a, visited, adj, n);
