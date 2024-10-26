@@ -291,13 +291,12 @@ namespace __DEBUG_UTIL__
 
 bool check(int x, long long int k, vector<long long int>& a) {
     long long int need = 0;
-    vector<long long int> b = a;
-    while (b.size() < x) b.push_back(0);
-    for (int i = 0; i < x; i++) need += b[0] - b[i];
-    for (int i = x; i < b.size(); i++) need -= b[i];
-    need = max(need, accumulate(b.begin(), b.end(), 0LL) % x);
+    for (int i = 0; i < x; i++) need += a[0] - a[i];
+    for (int i = x; i < a.size(); i++) need -= a[i];
+    need = max(need, accumulate(a.begin(), a.end(), 0LL) % x);
     return need <= k;
 }
+
 
 int main() {
     int t;
@@ -308,11 +307,16 @@ int main() {
         vector<long long int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
         sort(a.begin(), a.end(), greater<long long int>());
-        int x = 1;
-        for (int i = 1e9; i >= 1; i /= 2) {
-            while (x+i <= n && check(x+i, k, a)) x += i;
+        int ans = 1;
+        long long int sum = accumulate(a.begin(), a.end(), 0LL);
+        long long int l = 0;
+        long long int r = sum;
+        for (int i = 1; i <= n; i++) {
+            l += a[0] - a[i-1];
+            r -= a[i-1];
+            if (max(l - r, (i - sum % i) % i) <= k) ans = i;
         }
-        cout << x << endl;
+        cout << ans << endl;
     }
 }
 
