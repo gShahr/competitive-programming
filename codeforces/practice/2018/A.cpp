@@ -289,15 +289,6 @@ namespace __DEBUG_UTIL__
 #endif
 #endif
 
-bool check(int x, long long int k, vector<long long int>& a) {
-    long long int need = 0;
-    for (int i = 0; i < x; i++) need += a[0] - a[i];
-    for (int i = x; i < a.size(); i++) need -= a[i];
-    need = max(need, accumulate(a.begin(), a.end(), 0LL) % x);
-    return need <= k;
-}
-
-
 int main() {
     int t;
     cin >> t;
