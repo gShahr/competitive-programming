@@ -289,24 +289,19 @@ namespace __DEBUG_UTIL__
 #endif
 #endif
 
-int dfs(int x, int k, int cost, vector<vector<int>>& dp, vector<int>& a, vector<int>& b, vector<int>& pre) {
-    if (x >= a.size()) {
-        // assert(x == a.size());
-        dp[x][k] = cost;
-        return cost;
-    }
-    if (dp[x][k] != -1) return cost;
-    // two options
-    // type 1 (increment k) as long as k is less than m
-    if (k < (int)b.size()) dfs(x, k+1, cost, dp, a, b, pre);
-    // type 2 (remove prefix and increment cost)
-    // mx value that prefix can be is b[k-1]
-    int pos = upper_bound(pre.begin() + x, pre.end(), pre[x-1] + b[k-1]) - pre.begin() - 1;
-    debug(pos, x, k, cost);
-    return dp[x][k] = dfs(pos, k, cost + (int)b.size() - k, dp, a, b, pre);
+#define int long long int
+
+int dfs(int x, int k, vector<vector<int>>& dp, vector<int>& a, vector<int>& b, vector<int>& pre) {
+    if (x >= a.size()) return 0;
+    if (dp[x][k] != -1) return dp[x][k];
+    int res = INT_MAX;
+    if (k < (int)b.size()) res = dfs(x, k+1, dp, a, b, pre);
+    int dx = upper_bound(pre.begin() + x, pre.end(), pre[x] + b[k-1]) - pre.begin() - x - 1;
+    if (dx > 0) res = min(res, dfs(x + dx, k, dp, a, b, pre) + (int)b.size() - k);
+    return dp[x][k] = res;
 }
 
-int main() {
+int32_t main() {
     int t;
     cin >> t;
     while (t--) {
@@ -318,17 +313,22 @@ int main() {
         vector<int> pre(n+1, 0);
         for (int i = 0; i < n; i++) pre[i+1] = pre[i] + a[i];
         vector<vector<int>> dp(n+1, vector<int>(m+1, -1)); // {index in a, value of k}
-        int ans = INT_MAX;
-        dfs(0, 1, 0, dp, a, b, pre);
-        for (int i = 0; i <= m; i++) ans = min(ans, dp[n][i]);
-        debug(pre, dp);
+        int ans = dfs(0, 1, dp, a, b, pre);
+        debug(dp);
+        if (ans == INT_MAX) ans = -1;
         cout << ans << endl;
         debug(ans);
     }
 }
 
 /*
+// two options
+// type 1 (increment k) as long as k is less than m
+// type 2 (remove prefix and increment cost)
+// mx value that prefix can be is b[k-1]
 
-
-
+impossible 0 impossible
+impossible 1 1
+impossible 2 1
+impossible 3 1
 */
