@@ -303,12 +303,12 @@ int32_t main() {
         sum[0] = 1;
         int curr = 0;
         int mod = 1e9 + 7;
-        for (int i = 0; i < n; i++) {
-            if (s[i] == '0') curr++;
+        for (int i = 1; i <= n; i++) {
+            if (s[i-1] == '0') curr++;
             else curr--;
-            if (sum.find(curr) != sum.end()) ans += sum[curr] * (n - i);
+            if (sum.find(curr) != sum.end()) ans += sum[curr] * (n - i + 1);
             ans %= mod;
-            sum[curr] += (i + 2);
+            sum[curr] += (i + 1);
         }
         cout << ans << endl;
         debug(ans);
