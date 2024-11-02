@@ -299,22 +299,55 @@ int32_t main() {
         cin >> s;
         int n = s.size();
         int ans = 0;
+        map<int, int> sum;
+        sum[0] = 0;
+        int curr = 0;
+        int mod = 1e9 + 7;
         for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                for (int k = i; k <= j; k++) {
-                    int cnt = 0;
-                    for (int l = k; l <= j; l++) {
-                        if (s[l] == '0') cnt--;
-                        else cnt++;
-                        if (cnt == 0) ans++;
-                    }
-                }
-            }
+            if (s[i] == '0') curr++;
+            else curr--;
+            if (sum.find(curr) != sum.end()) ans += (sum[curr] + 1) * (n - i);
+            debug(ans);
+            sum[curr] += (i + 1);
         }
+        cout << ans << endl;
         debug(ans);
     }
 }
 
 /*
-0011 
+
+x = 5
+y = 7
+
+prev_total += x + y 
+
+|||x|||y|||z
+
+x-z => x index
+y-z => y index
+
+x y z => indices
+
+x * (n-y)
+
+x * (n-z)
+y * (n-z)
+=> (n-z) * (x+y)
+
+10
+314: [ans = 1]
+1000
+314: [ans = 3]
+1001
+314: [ans = 7]
+1010
+314: [ans = 11]
+
+0 1 0 -1 0
+0 1 2 3 4
+
+3 * 1 + 1 * 1 => (3 + 1) * 1
+=> 
+0 2 3 
 */
