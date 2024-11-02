@@ -300,15 +300,15 @@ int32_t main() {
         int n = s.size();
         int ans = 0;
         map<int, int> sum;
-        sum[0] = 0;
+        sum[0] = 1;
         int curr = 0;
         int mod = 1e9 + 7;
         for (int i = 0; i < n; i++) {
             if (s[i] == '0') curr++;
             else curr--;
-            if (sum.find(curr) != sum.end()) ans += (sum[curr] + 1) * (n - i);
-            debug(ans);
-            sum[curr] += (i + 1);
+            if (sum.find(curr) != sum.end()) ans += sum[curr] * (n - i);
+            ans %= mod;
+            sum[curr] += (i + 2);
         }
         cout << ans << endl;
         debug(ans);
@@ -349,5 +349,6 @@ y * (n-z)
 
 3 * 1 + 1 * 1 => (3 + 1) * 1
 => 
-0 2 3 
+0 2 3
+
 */
