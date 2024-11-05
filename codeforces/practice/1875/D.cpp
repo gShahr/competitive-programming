@@ -291,6 +291,16 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+int dfs(int val, int mex, vector<vector<int>>& dp, map<int, int> &cnt) {
+    if (val <= 0) {
+        return mex * (cnt[0]-1);
+    } else {
+        if (dp[val][mex] != -1) return dp[val][mex];
+        int res = min(dfs(val-1, val, dp, cnt) + (cnt[val]-1) * mex + val, dfs(val-1, mex, dp, cnt));
+        return dp[val][mex] = res;
+    }
+}
+
 int32_t main() {
     int t;
     cin >> t;
@@ -319,22 +329,12 @@ int32_t main() {
                 }
             }
         }
-        debug(mex);
         map<int, int> cnt;
-        for (auto x: a) cnt[x]++;
-        int ans = INT_MAX;
-        for (int i = mex-1; i >= 0; i--) {
-            int curr = 0;
-            int prev = mex;
-            for (int j = i; j >= 0; j--) {
-                curr += (cnt[j]-1) * (prev) + j;
-                prev = j;
-            }
-            ans = min(ans, curr);
-        }
-        if (ans >= INT_MAX) ans = 0;
-        cout << ans << endl;
+        for (int i = 0; i < n; i++) cnt[a[i]]++;
+        vector<vector<int>> dp(n+1, vector<int>(mex+1, -1));
+        int ans = dfs(mex-1, mex, dp, cnt);
         debug(ans);
+        cout << ans << endl;
     }
 }
 
@@ -345,4 +345,7 @@ int32_t main() {
 2 => + mex => +2 => +1
 
 0 1 1 => 
+
+dp => either skip to i-1 index or remove the current index completely 
+dp[val][mex] = min cost
 */
