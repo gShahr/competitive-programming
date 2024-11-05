@@ -291,13 +291,16 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
-int dfs(int val, int mex, vector<vector<int>>& dp, map<int, int> &cnt) {
+int dfs(int val, int mex, vector<int>& dp, map<int, int> &cnt) {
     if (val <= 0) {
         return mex * (cnt[0]-1);
     } else {
-        if (dp[val][mex] != -1) return dp[val][mex];
-        int res = min(dfs(val-1, val, dp, cnt) + (cnt[val]-1) * mex + val, dfs(val-1, mex, dp, cnt));
-        return dp[val][mex] = res;
+        if (dp[val] != -1) return dp[val];
+        int res = INT_MAX;
+        for (int i = val; i >= 0; i--) {
+            res = min(res, dfs(i-1, i, dp, cnt) + (cnt[i]-1) * mex + i);
+        }
+        return dp[val] = res;
     }
 }
 
@@ -331,7 +334,7 @@ int32_t main() {
         }
         map<int, int> cnt;
         for (int i = 0; i < n; i++) cnt[a[i]]++;
-        vector<vector<int>> dp(n+1, vector<int>(mex+1, -1));
+        vector<int> dp(mex+1, -1);
         int ans = dfs(mex-1, mex, dp, cnt);
         debug(ans);
         cout << ans << endl;
