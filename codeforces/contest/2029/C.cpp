@@ -295,83 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
-        int n, m;
-        cin >> n >> m;
-        string a;
-        cin >> a;
-        vector<int> b(n, -1);
-        int step = n;
-        for (int i = 0; i < n; i++) {
-            if (i <= 0) {
-                b[i] = step;
-                step++;
-            } else if (a[i] == a[i-1]) b[i] = step;
-            else {
-                step++;
-                b[i] = step;
-            }
-        }
-        int ans = 0;
-        set<pair<int, int>> visited;
-        for (int i = 0; i < m; i++) {
-            int l, r;
-            cin >> l >> r;
-            l--, r--;
-            pair<int, int> current;
-            if (a[l] == '0' && a[r] == '0') {
-                current = {-1, r};
-            } else if (a[l] == '0' && a[r] == '1') {
-                current = {b[l], b[r]};
-            } else if (a[l] == '1' && a[r] == '0') {
-                current = {l, r};
-            } else if (a[l] == '1' && a[r] == '1') {
-                current = {l, -1};
-            }
-            debug(visited, current);
-            if (visited.find(current) != visited.end()) continue;
-            visited.insert(current);
-            ans++;
-        }
-        cout << ans << endl;
-        debug(ans);
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        
     }
 }
 
 /*
 
-101100
-1 2
-1 3
-2 4
-5 5
-1 6
+1 2 3 4 1 1 1 1 5 6 7
 
-101100 →
- 011100;
-101100 →
- 011100;
-101100 →
- 101100;
-101100 →
- 101100;
-101100 →
- 000111.
+9 9 8 2 4 4 3 5 3
+1 1 2 2 3 4 3 4 3
 
-000100
-000111000111
+1 2 3 2 3 4 3 4 3
 
-100111
-[100]111
-[1001]11
+1 2 3 4 1 3 2 1 1 10
 
-10100
-[1010]0 => 00110
-[101]00 => 01100
-
-
-
-1 -> 0 
-=> if 0 is last index in segment, then need to add {l, -1} to prevent any more from the right being taken
-=> if 1 is the first index in segment, then need to add {-1, r} to prevent any more from the left being taken
-
+4 2 2
 */
