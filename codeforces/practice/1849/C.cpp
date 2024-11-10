@@ -299,41 +299,30 @@ int32_t main() {
         cin >> n >> m;
         string a;
         cin >> a;
-        vector<int> b(n, -1);
-        int step = n;
-        for (int i = 0; i < n; i++) {
-            if (i <= 0) {
-                b[i] = step;
-                step++;
-            } else if (a[i] == a[i-1]) b[i] = step;
-            else {
-                step++;
-                b[i] = step;
-            }
-        }
+        vector<pair<int, int>> left, right;
+        map<pair<int, int>, pair<int, int>> visited;
         int ans = 0;
-        set<pair<int, int>> visited;
         for (int i = 0; i < m; i++) {
             int l, r;
             cin >> l >> r;
             l--, r--;
-            pair<int, int> current;
-            if (a[l] == '0' && a[r] == '0') {
-                current = {-1, r};
-            } else if (a[l] == '0' && a[r] == '1') {
-                current = {b[l], b[r]};
-            } else if (a[l] == '1' && a[r] == '0') {
-                current = {l, r};
-            } else if (a[l] == '1' && a[r] == '1') {
-                current = {l, -1};
-            }
-            debug(visited, current);
-            if (visited.find(current) != visited.end()) continue;
-            visited.insert(current);
+            int l1 = l;
+            int r1 = l;
+            while (l1 >= 0 and a[l1-1] == '0') l1--;
+            while (r1 < n and a[r1] == '0' and a[r1+1] == '0') r1++;
+            int l2 = r;
+            int r2 = r;
+            while (l2 >= 0 and a[l2-1] == '1' and a[l2] == '1') l2--;
+            while (r2 < n and a[r2+1] == '1') r2++;
+            if (a[l1] == '0' and a[r1] == '1') r1--;
+            if (a[l2] == '0' and a[r2] == '1') l2++; 
+            debug(l1, r1, l2, r2);
+            if (visited[{l1, r1}] == make_pair(l2, r2)) continue;
+            visited[{l1, r1}] = {l2, r2};
             ans++;
         }
-        cout << ans << endl;
         debug(ans);
+        cout << ans << endl;
     }
 }
 
@@ -373,5 +362,11 @@ int32_t main() {
 1 -> 0 
 => if 0 is last index in segment, then need to add {l, -1} to prevent any more from the right being taken
 => if 1 is the first index in segment, then need to add {-1, r} to prevent any more from the left being taken
+
+
+l1, r1
+l2, r2
+
+
 
 */
