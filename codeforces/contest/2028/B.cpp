@@ -297,11 +297,10 @@ int32_t main() {
     while (t--) {
         int n, b, c;
         cin >> n >> b >> c;
-        if (n == 1 && b == 0 && c == 0) {
-            cout << 0 << endl;
-            continue;
-        } else if (b == 0) {
-            cout << -1 << endl;
+        if (b == 0) {
+            if (c >= n) cout << n << endl;
+            else if (c == n-1 || c == n-2) cout << n-1 << endl;
+            else cout << -1 << endl;
             continue;
         }
         int ans = n - (((b*((n-c-1)/b)+c) - c) / b + 1);
@@ -347,6 +346,11 @@ then c + bx = 99
 then c + (b * ((n-c-1)/b) - c)) / b + 1
 
 (((b*(n-c-1)/b)+c) - c) / b + 1
+
+c = 1
+n = 3
+=> [1, 1, 1]
+=> [0, 1, 2]
 
 
 */
