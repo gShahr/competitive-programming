@@ -299,28 +299,28 @@ int32_t main() {
         cin >> n >> m;
         string a;
         cin >> a;
-        vector<pair<int, int>> left, right;
-        map<pair<int, int>, pair<int, int>> visited;
+        set<pair<int, int>> visited;
+        bool same = false;
         int ans = 0;
+        vector<int> b(n, -1);
+        int step = 0;
+        for (int i = 0; i < n; i++) {
+            while (a[i] )
+        }
         for (int i = 0; i < m; i++) {
             int l, r;
             cin >> l >> r;
             l--, r--;
-            int l1 = l;
-            int r1 = l;
-            while (l1 >= 0 and a[l1-1] == '0') l1--;
-            while (r1 < n and a[r1] == '0' and a[r1+1] == '0') r1++;
-            int l2 = r;
-            int r2 = r;
-            while (l2 >= 0 and a[l2-1] == '1' and a[l2] == '1') l2--;
-            while (r2 < n and a[r2+1] == '1') r2++;
-            if (a[l1] == '0' and a[r1] == '1') r1--;
-            if (a[l2] == '0' and a[r2] == '1') l2++; 
-            debug(l1, r1, l2, r2);
-            if (visited[{l1, r1}] == make_pair(l2, r2)) continue;
-            visited[{l1, r1}] = {l2, r2};
-            ans++;
+            int s1, s2;
+            s1 = b[l];
+            s2 = b[r];
+            if (s1 == s2) same = true;
+            else if (visited.find({s1, s2}) != visited.end()) {
+                visited.insert({s1, s2});
+                ans++;
+            }
         }
+        if (same) ans++;
         debug(ans);
         cout << ans << endl;
     }
@@ -357,16 +357,14 @@ int32_t main() {
 [1010]0 => 00110
 [101]00 => 01100
 
-
-
 1 -> 0 
 => if 0 is last index in segment, then need to add {l, -1} to prevent any more from the right being taken
 => if 1 is the first index in segment, then need to add {-1, r} to prevent any more from the left being taken
 
-
 l1, r1
 l2, r2
 
+1 => check if 0 is to the left; otherwise fill in the ones to the left
 
 
 */
