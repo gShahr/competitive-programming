@@ -344,6 +344,10 @@ Then Q must satisfy Q >= Z. In the case where Z > Q.
 18
 
 0 primes => 2 always works
+    => assume number is non-prime, then n = pq
+    => set x = 2, then increase until it is equal to 2q
+    => then increase q p-2 times
+    => 2q + (p-2)q = 2q + pq - 2q = pq = n
 1 prime => must be the smallest number
 >= 2 primes => impossible
     => even number => odd distance away => impossible as it would lead to a contradiction 
