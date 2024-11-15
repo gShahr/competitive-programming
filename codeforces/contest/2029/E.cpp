@@ -291,32 +291,17 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
-bool is_prime(int x) {
-    if (x == 1) return false;
-    for (int i = 2; i * i <= x; i++) {
-        if (x % i == 0) return false;
-    }
-    return true;
-}
-
-void dfs(int x, int mx, set<int>& visited) {
-    if (x > mx || visited.count(x)) return;
-    visited.insert(x);
-    vector<int> d;
-    for (int i = 1; i * i <= x; i++) {
-        if (x % i == 0) {
-            if (i > 1) d.push_back(i);
-            if (i * i != x) d.push_back(x / i);
-        }
-    }
-    for (auto y: d) {
-        dfs(x+y, mx, visited);
-    }
-}
-
 int32_t main() {
     int t;
     cin >> t;
+    vector<int> sieve(4*1e5+1, false);
+    sieve[0] = sieve[1] = false;
+    for (int i = 2; i * i <= 4*1e5; i++) {
+        if (sieve[i]) continue;
+        for (int j = i * i; j <= 4*1e5; j += i) {
+            if (!sieve[j]) sieve[j] = i;
+        }
+    }
     while (t--) {
         int n;
         cin >> n;
@@ -324,19 +309,16 @@ int32_t main() {
         for (int i = 0; i < n; i++) cin >> a[i];
         vector<int> p;
         for (auto x: a) {
-            if (is_prime(x)) p.push_back(x);
+            if (!sieve[x]) p.push_back(x);
         }
         int ans;
         if (p.size() <= 0) ans = 2;
         else if (p.size() == 1) {
             bool valid = true;
-            int mx = 3*p[0];
-            set<int> visited;
-            dfs(2*p[0], mx, visited);
             for (auto x: a) {
-                if (x == p[0]) continue;
+                if (x == p[0] || x % p[0] == 0) continue;
                 else if (x < 2*p[0]) valid = false;
-                else if (x <= mx) valid &= visited.count(x);
+                else if (x - sieve[x] < 2*p[0]) valid = false;
             }
             if (valid) ans = p[0];
             else ans = -1;
@@ -403,5 +385,17 @@ greater or equal to 3*p always works
 3p + x - sqrt(3p + x) >= 2p
 <=> p + x >= sqrt(3p + x)
 <=> p^2 + 2px + x^2 >= 3p + x
+=> doesn't really help as there are 2 free variables here
+
+2 can reach everything number past 2p
+=> quite simple to see
+odd numbers 
+=> can only be generated from even number
+    => proof by contradiction:
+        Suppose the number was generated from an odd number, then the distance between x and y would be 
+        even which cant be a generator for x because it is an odd number => contradiction.
+    Therefore, only consider prior numbers x such that they are even. In this case, we take the min divisor
+    such that we obtain the largest number and check if it is greater or equal to 2p (utilizing the proof for
+    even numbers).
 
 */
