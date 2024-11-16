@@ -295,6 +295,11 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, v;
+        cin >> n >> m >> v;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+
     }
 }
 
@@ -309,6 +314,10 @@ than or equal to v.
 where we make the boundary cut where the prefix sum is first greater than or equal to v as to minimize the sum so that the sum to 
 the right of boundary cut is maximized which means that any other potential cut taken will result in a value less than or equal to
 the maximized value resulting in false if the maximized value is also false (strictly less than v).
+=> the algo above can be generalized to multiple segments which all have to be greater or equal to v. But the 
+question still remains how we can maximize the size of exactly one segment
+
+Suppose we find the boundaries for m subarrays 
 
 Suppose we need to satisfy the second condition with one sum while trying to maximize the other sum so the idea is to maximize one sum 
 while making the other sum greater than or equal to v while being minimized.
@@ -318,5 +327,42 @@ while making the other sum greater than or equal to v while being minimized.
 
 Theorem 1 => algo only needs one iteration starting from left going to the right.
 
+v = 12, m = 1
+10 10 1 1 1 1
 
+
+What would Tourist do to solve this problem? Probably starts with trivial case where there are m+1 possible cuts that can be
+made and realizes that we can brute force all possible n^(m+1) states. If we cache this via DP we can reduce running time
+from exponential to O(nm) which is still too big. Therefore, some reduction via observation is needed here. He would
+consider cuts we don't have to make it the array. In other words, cuts which are redundant or would make the answer worse.
+Clearly if the sum of one segment becomes strictly smaller than v and that piece is going towards the m+1 subarrays, then
+we should not consider it. m+1 subarrays is annoying to work with here because all the segments are uniform except one.
+
+If the sum of one segment isn't at least v, then we should not consider it to go towards one of our m subarrays needed.
+Better solution: Consider all possible pairs of elements from 1 to n and make them Alice's segment. Check if all other
+segments form m subarrays such that their sum is greater than or equal to v. This algo can be computed in O(n^2).abort
+Now tourist would be asking himself what other redundancies exist here as clearly there has to be some to make the algo
+go from O(n^2) to either linear or O(nlogn). 
+
+Alice would take some prefix and then segment m subarrays
+Pick one subarray first and then alice picks some prefix 
+<=> This algorithm is equivalent to the O(n^2) algorithm above.
+
+Can't make transitions between the prefix and increasing it by one as you would be forced to shift all the subarrays to the 
+right accordingly. Equivalent algo above is to consider {l, r} cuts where the last boundary box for l and first boundary for 
+r determines ALice's segment. Then take the max across all possible pairs. Algorithm would similarly be O(n^2) as we would
+have to consider all possible cuts. 
+
+The algorithm abuses the fact that there is a O(1) transition between all possible states here. For example, consider making 
+one cut from the right from the right boundary box, we could store all those boundary points beforehand and use prefix sums
+to consider the sum between the boundary points. Making another cut form the right would have the left cut decrease by 1 and 
+increase the right bound to the left. If r > l for all, then answer does not exist as we cannot make m subarrays with at least
+v sum. However, if l <= r, then that means answer exists with at least one configuration. The answer is the max across these 
+segments. 
+
+Consider m subarrays:
+Consider m+1 subarrays:
+=> Not needed as it was solved above.
+
+** Tourist thinking helped me solve this problem.
 */
