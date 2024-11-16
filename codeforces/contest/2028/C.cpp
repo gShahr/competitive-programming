@@ -299,7 +299,44 @@ int32_t main() {
         cin >> n >> m >> v;
         vector<int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
-
+        vector<int> l, r; // inclusive points where boundary cuts are made
+        // l = {0}; // include left boundary as a cut
+        // r = {n-1}; // include right boundary as a cut
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += a[i];
+            if (sum >= v) {
+                l.push_back(i);
+                sum = 0;
+            }
+        }
+        sum = 0;
+        for (int i = n-1; i >= 0; i--) {
+            sum += a[i];
+            if (sum >= v) {
+                r.push_back(i);
+                sum = 0;
+            }
+        }
+        debug(l, r);
+        vector<int> cum(n+1, 0);
+        for (int i = 0; i < n; i++) cum[i+1] += cum[i] + a[i];
+        int ans = -1;
+        // consider all possible m cuts made
+        for (int i = 1; i < m; i++) {
+            int ll = i;
+            int rr = m-i;
+            ll--, rr--;
+            debug(cum[l[ll]+1], cum[r[rr]], cum);
+            if (ll >= l.size() || rr >= r.size()) continue;
+            else if (l[ll] > r[rr]) continue;
+            else ans = max(ans, cum[r[rr]] - cum[l[ll]+1]);
+        }
+        debug(ans);
+        if (l.size() >= m) ans = max(ans, cum[n] - cum[l[m-1]+1]);
+        if (r.size() >= m) ans = max(ans, cum[r[m-1]]);
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
@@ -364,5 +401,33 @@ Consider m subarrays:
 Consider m+1 subarrays:
 => Not needed as it was solved above.
 
-** Tourist thinking helped me solve this problem.
+** Tourist thinking helped me solve this problem.abort
+
+Struggling so much on the implementation for this problem unfortunately.
+=> Consider the indices such that they form the boundary cuts. Then they are mapped to the indices in the cumulative array.
+    The indices should then account for the sum between them. Normally when querying prefix arrays, we transform some
+    (l, r) both inclusive to pre[r+1] - pre[l] where the pre is 0-indexed array. We need r+1 to account for the fact
+    we want to include what is at pre[r]. In this case, we want to do the same but for (l+1, r-1) because the boundary
+    cuts represent the last element in each segment that is included. Therefore, we can make a simple transformation
+    using (l+1, r-1) => (x, y) => (x, y+1) => (l+1, r). 
+
+    I'm trolling this. The formula is actually [l, r) where the right side is inclusive but the left side is left out.
+    In the prefix, the sum on the leftmost one is cut out. Now subtracting both elements which are the same
+    is not consistent.
+=> Not working with subtracting both sides from each other. 
+
+=> Now consider both edge case where l = m and r = 0 and where l = 0 and r = m. In the case where l = m and r = 0,
+    then we want to query the m+1 where it is available. Since 0-indexed, query the mth element. Of course, check 
+    bounds as well as we can't query something that does not exist. Then l[m-1]+1 goes all the way to the end so
+    we want the sum of elements from (l[m-1]+1, n-1). 
+    => Transform this to pre sum so (l[m-1]+1, n-1) => [l[m-1], n-1) => l[m-1], n
+
+
+    In the other case, we want sum from (0, r[m-1]-1).
+    => Transform this to pre sum so (0, r[m-1]-1) => [-1, r[m-1]) => -1, r[m-1]+1
+    
+    => The first one is available as the nth element exists within the prefix and the first element is bounded 
+    between 0 and n-1 so it always exists in the prefix sum. The r[m-1] is also bounded in the prefix sum. The issue
+    is with the -1 as it should be moved to the 0. Can consider -1 as nothing so can remove it from query.
+
 */
