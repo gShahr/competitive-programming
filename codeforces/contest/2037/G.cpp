@@ -365,6 +365,26 @@ counted for each.
 
 Idea is to use inclusion-exclusion to keep track of things. This works because 2^n where n is the number of primes in one
 number is quite small - about at most 20 numbers. Therefore, can keep track of repeats for each pair of prime factors 
-which will be unique as a multiplication.
+which will be unique as a multiplication. The idea is that the subset of of prime factors for a particular combination
+will result in the number of repeats which is the total number of nodes that both factors pass through. 
+=> 2 factors will have solutions for {a}, {b}, and {a, b}. 
+=> 3 factors will have solutions for {a}, {b}, {c}, {a, b}, {a, c}, {b, c}, {a, b, c}
+
+Easy algo exists for O(n^2) time complexity as you would just need to count prefix of numbers. The problem boils
+down to a subproblem which solves it completely which is find number of paths in acyclic graph. Finding numbers
+with non zero gcd takes linear time and adding takes linear time in the DP so then we do this for every number
+to get a quadratic solution. Most obvious simplification is to have store it via prime factors but then
+the numbers would end of repeating when prime factors are shared.
+
+Solution using inclusion-exclusion for prime factors solution will take O(n * 2^20) as a rough approximation which is 
+still way too slow and even slower than the previous solution. Nevermind, this failed to realize that the primes
+are unique and makes a huge difference when so as the product of the first ten primes is > 10^9 which is insane. 
+I guess roughly double it would have doubling powers of 2 so in some ways it makes sense
+=> I was looking 10! instead of primes which would grow up to close to 30
+=> Here is OEIS link: https://oeis.org/A002110
+Therefore, true running time would be closer to O(n * 2^)
+
+6.67 * 10^9 / (23*29) => Going to be roughly 2^8 different states or each iteration in n.
+=> 2^8 * 2* 10^5 = 51200000 => roughly 5 * 10^7
 
 */ 
