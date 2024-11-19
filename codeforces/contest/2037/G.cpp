@@ -309,16 +309,7 @@ int32_t main() {
             d.push_back(j);
         }
         if (x > 1) d.push_back(x);
-        int sum = 0;
-        for (auto j: d) {
-            if (cnt.find(j) != cnt.end()) sum += (cnt[j].first + cnt[j].second) % mod;
-        }
-        if (i <= 0 || sum > 0) {
-            for (auto j: d) {
-                cnt[j] = {sum/2, max(sum/2, 1LL)};
-            }
-        }
-        ans = sum;
+        
     }
     cout << ans << endl;
     debug(ans);
@@ -386,5 +377,42 @@ Therefore, true running time would be closer to O(n * 2^)
 
 6.67 * 10^9 / (23*29) => Going to be roughly 2^8 different states or each iteration in n.
 => 2^8 * 2* 10^5 = 51200000 => roughly 5 * 10^7
+
+Optimized Algo: Go through each possible combination of unique primes and add them together.
+=> The idea is to find number of paths that go through each prime factor. So 2 and 3 would
+be problematic because previous paths which contain 2 and 3 := z (total paths) would
+be set to both 2 and 3. But since it will be counted both times, then z should be subtracted
+for 6.
+
+How does this generalize to 3 factors?: 
+Suppose we find number of paths that go through 2, 3, 5. Then our answer for number of paths is
+x + y + z. The next query for 2, 3, 5 will be 2(x+y+z) while the sum is 6(x+y+z). 
+
+x+y+z + x+y for a query for {2, 3} which can we calculated by summing up {2, 3} and subtracting z.
+
+=> Generalizes to 4 factors: x+y+z+w for all. Then it would be 2(x+y+z+w) - (z+w) - (z+w). 
+Value mapped to 6 ({2, 3}) would need to contain 2(z+w) = cnt_{2, 3} * left where cnt is cardinality
+of set while left is the leftover sum. 
+=> cnt{subset selected} * remaining sum
+
+Does this generalize across multiple nodes?
+=> 3 factors initially so it has x+y+z across all 3. Then we can add the same node element to get
+3*(x+y+z) 
+
+Problem with this method is that it is extremely hard to reason about or think for that matter. 
+
+query for {2, 3, 5}:
+x+y+z => sum for each prime factor
+x+y+z + x+y for {2, 3} => need to subtract z
+x+y+z + x for {2} => need to subtract y+z
+x+y+z + y for {3} => need to subtract x+z
+
+Figured out method while I was at gym. The idea is to have to functions, one to query and then one to update for all possible
+selections of prime factors. The query will use inclusion exclusion by subtracting out the even cardinality subsets 
+and add in the odd cardinality subsets. The update will add to all the possible subsets and sets. 
+
+Query part:
+Need all the sets information including the set itself and the intersection between itself and everything else.
+
 
 */ 
