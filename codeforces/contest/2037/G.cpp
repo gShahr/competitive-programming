@@ -291,25 +291,54 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+int mod = 998244353;
+
+void query(vector<int>&d, int index, map<int, int>& cnt, int num, int num_cnt, int& sum) {
+    if (index >= d.size()) {
+        if (num_cnt <= 0 || cnt.find(num) == cnt.end()) return;
+        else if (num_cnt & 1) sum += cnt[num];
+        else sum -= cnt[num];
+        sum = (sum + mod) % mod;
+    } else {
+        query(d, index + 1, cnt, num, num_cnt, sum);
+        query(d, index + 1, cnt, num * d[index], num_cnt + 1, sum);
+    }
+}
+
+void update(vector<int>&d, int index, map<int, int>& cnt, int num, int num_cnt, int sum) {
+    if (index >= d.size()) {
+        if (num_cnt <= 0) return;
+        cnt[num] += sum;
+        cnt[num] %= mod;
+    } else {
+        update(d, index + 1, cnt, num, num_cnt, sum);
+        update(d, index + 1, cnt, num * d[index], num_cnt + 1, sum);
+    }
+}
+
 int32_t main() {
     int n;
     cin >> n;
     vector<int> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
     int ans = 0;
-    int mod = 998244353;
-    map<int, pair<int, int>> cnt; // prime -> {old cnt, new cnt}
+    map<int, int> cnt; // num -> {cnt}
     for (int i = 0; i < n; i++) {
         int x = a[i];
         vector<int> d;
         for (int j = 2; j*j <= x; j++) {
             if (x % j == 0) {
                 while (x % j == 0) x /= j;
+                d.push_back(j);
             }
-            d.push_back(j);
         }
         if (x > 1) d.push_back(x);
-        
+        int sum = 0;
+        query(d, 0, cnt, 1, 0, sum);
+        if (i <= 0) sum = 1;
+        update(d, 0, cnt, 1, 0, sum);
+        debug(d, cnt, sum);
+        ans = sum;
     }
     cout << ans << endl;
     debug(ans);
@@ -414,5 +443,15 @@ and add in the odd cardinality subsets. The update will add to all the possible 
 Query part:
 Need all the sets information including the set itself and the intersection between itself and everything else.
 
+Update or query:
+
+Is the first step to query or to update the selection. The idea is to mirror what the O(n^2) dp is doing so the first step
+is to query for the number of paths that go through the current node and then update what it will be for the next node
+using that value. Base case is suppose we have a single node containing some subset of prime factors. Since there are no backedges
+to any previous nodes, the base case here instead of being 0 is 1 path. Then all the prime factors should be updated with that 
+value which should be 1. Then let us induct on this so suppose we have another node after. Querying the number of paths
+that goes through it supposing the value of the node is the same as the start node, then the answer would be 1. Then the update
+should add 1 everywhere such that the next query will provide 2 which is correct for the number of paths to get to that node
+and so forth and so on. 
 
 */ 
