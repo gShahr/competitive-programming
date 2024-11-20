@@ -454,4 +454,6 @@ that goes through it supposing the value of the node is the same as the start no
 should add 1 everywhere such that the next query will provide 2 which is correct for the number of paths to get to that node
 and so forth and so on. 
 
+Time complexity => O(n*(2^p(x) + sqrt(max(a_i)))) => roughly n * (2^8 + 10^3) => roughly 5 * 10^5 * (256 + 1000) => 6.2 * 10^8
+
 */ 
