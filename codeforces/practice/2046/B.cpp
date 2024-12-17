@@ -331,6 +331,15 @@ int32_t main() {
 
 /*
 
+Proof and original idea came while thinking about the problem while going to sleep. Fundamental observations involved that the answer
+should always be in increasing order as that would be lexigraphically better opposed to a different sequence and the second idea is that
+the answer should always be at most n since we can always adjust the order to get an increasing sequence by pushing the smallest elements
+back. Since they go in order, there won't be any inversions past the first iteration since we are putting them in order, the smallest 
+element pushed back will be the only one to create another set of inversions. Once the inversions are done, it is lexigraphically smallest.
+It can be seen that we only need to apply the operation once for an element because once it is pushed back, there should be no more inversions
+past the first element that is pushed back. If there are no inversions, then the string is in increasing order which is equivalent to
+lexigraphically smallest.
+
 The idea is find all current inversions and then try to find any more inversions after moving the smallest element to the back. Keep track
 of suffix minimums to find all the inversions in the first iteration so we can mark them. After they are marked, select the smallest inversion
 and apply another iteration to find any more elements that are strictly bigger than the smallest element inversion + 1 to find the rest of
@@ -341,5 +350,9 @@ the inversions.
 => 6 and 5 should be marked as inversions
 => smallest inversion is 5 and then we check if there are any elements in the prefix that are strictly greater than 6
 which there are not.
+
+No need to make suffix array n+1 similar to cumulative array because we don't need to query anything involving two indices and we don't
+need to query the nth / 0th element being infinity at all so we can leave it at n indices which is nice since it matches the indicies
+of the given array.
 
 */
