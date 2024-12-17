@@ -295,10 +295,51 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> suf(n, 1e9);
+        suf[n-1] = a[n-1];
+        for (int i = n-2; i >= 0; i--) suf[i] = min(suf[i+1], a[i]);
+        vector<bool> inv(n, false);
+        for (int i = 0; i < n; i++) {
+            if (a[i] > suf[i]) inv[i] = true;
+        }
+        int mn = 1e9;
+        for (int i = 0; i < n; i++) {
+            if (inv[i]) mn = min(mn, a[i]);
+        }
+        debug(inv);
+        for (int i = 0; i < n; i++) {
+            if (a[i] > mn+1) inv[i] = true;
+        }
+        vector<int> ans;
+        for (int i = 0; i < n; i++) {
+            if (!inv[i]) ans.push_back(a[i]);
+        }
+        vector<int> rest;
+        for (int i = 0; i < n; i++) {
+            if (inv[i]) rest.push_back(a[i]+1);
+        }
+        sort(rest.begin(), rest.end());
+        for (auto i: rest) ans.push_back(i);
+        for (auto i: ans) cout << i << " ";
+        debug(ans);
     }
 }
 
 /*
 
+The idea is find all current inversions and then try to find any more inversions after moving the smallest element to the back. Keep track
+of suffix minimums to find all the inversions in the first iteration so we can mark them. After they are marked, select the smallest inversion
+and apply another iteration to find any more elements that are strictly bigger than the smallest element inversion + 1 to find the rest of
+the inversions.
+
+3rd example case:
+1 2 3 6 5 4
+=> 6 and 5 should be marked as inversions
+=> smallest inversion is 5 and then we check if there are any elements in the prefix that are strictly greater than 6
+which there are not.
 
 */
