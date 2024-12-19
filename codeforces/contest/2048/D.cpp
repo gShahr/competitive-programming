@@ -289,8 +289,6 @@ namespace __DEBUG_UTIL__
 #endif
 #endif
 
-#define int long long int
-
 int32_t main() {
     int t;
     cin >> t;
@@ -311,14 +309,14 @@ int32_t main() {
         sort(c.begin(), c.end(), greater<int>());
         map<int, int> rank;
         for (int i = 0; i < c.size(); i++) {
-            // rank[c[i]] = number of a[i] greater or equal to c[i]
+            // rank[c[i]] = number of a[i] greater or equal to c[i] + 1
             int pos = lower_bound(a.begin(), a.end(), c[i]) - a.begin();
             // rank[c[i]] = n - 1 - pos + 1 = n - pos
             rank[c[i]] = n - pos + 1;
         }
         debug(rank);
         for (int i = 1; i <= m; i++) {
-            int curr = rank_1_cnt / i;
+            long long int curr = rank_1_cnt / i;
             for (int j = i - 1 - rank_1_cnt % i; j < c.size(); j += i) {
                 curr += rank[c[j]];
             }
@@ -356,6 +354,17 @@ example: 1 1 1 4 4 5, 0 1 1 1 8 9 9
 => 4 would give 0, 1, 1, 1 => position 3
 => n - 3 = 7 - 3 => 4 rated users
 
-Suppose that we another person with Kevin's rating.
+Suppose that we another person with Kevin's rating and we want to query that rating with lower bound on a. Then it would give us
+0 in the example in my head so when we subtract from n, we get 0+1 = 1 which is correct in this case. We want the number of elements
+in array a that are greater than or equal to x. In the case where Kevin's rating is the same, then we want to number of elements 
+greater than or equal to x unless x = Kevin's rating in which case we want the amount of elements strictly greater than x.
+This is wrong, the total would n which is 2 and the position we are on is 0 so the rank would be 3 but this is wrong as the
+rank should be 1 in this case.
+    Double double nevermind the above statement since I already split numbers <= kevin's rating so there's no need to split up
+the cases as none of the values in array c are problem ratings that match Kevin's rating as the ones that match kevin's rating
+are kept where he scores rank 1 in. As a result, the rest of these values are compared correctly.
+    Tricky case was where a[0] = a[1] and some b[i] for some i = a[0], then his rank would be calculated as 2 more than it should
+    be. However, this is a contradiction because there is no b[i] for some i = a[0] as we filter those problems out as they
+    give Kevin rank 1. Therefore, this case is never possible.
 
 */
