@@ -297,7 +297,22 @@ int32_t main() {
     while (t--) {
         int n, x, y;
         cin >> n >> x >> y;
-
+        vector<int> ans(n, -1);
+        ans[x-1] = 0;
+        ans[y-1] = 2;
+        bool special1 = false;
+        if (n % 2 == 0 && (y - x) % 2 == 0) special1 = true;
+        else if (n % 2 == 0) ans[y-1] = -1;
+        bool flip = !((x-1)&1);
+        for (int i = 0; i < n; i++) {
+            if (ans[i] == 2 && ! special1) continue;
+            else if (ans[i] == -1 && flip) ans[i] = 0;
+            else if (ans[i] == -1 && !flip) ans[i] = 1;
+            flip ^= true;
+        }
+        debug(ans);
+        for (auto x: ans) cout << x << ' ';
+        cout << endl;
     }
 }
 
@@ -420,4 +435,82 @@ example: 5 1 3
     => 2   2
 
 0 1 2 1
+
+Looking at test cases, we can always get an answer doing 0, 1, 2 and repeating this.
+We can look at all cases of n and all cases of where the dragons friends are split apart.
+Assume all is mod 3; Denote dragon friend as df
+=> n = 0
+    => df = 0
+        => 0 1 2 0 2 1
+        => ???
+    => df = 1
+        => Let df1 = 2 and df2 = 0 or vice versa in the period 0 1 2
+        => Can also let df1 = 0 and df2 = 1 or vice versa
+    => df = 2
+        => Let df1 = 2 and df2 = 1 or vice versa in the period 0 1 2
+=> n = 1
+    => df = 0
+    => df = 1
+    => df = 2
+=> n = 2
+    => df = 0
+    => df = 1
+    => df = 2
+
+7 3 6
+=> 1 0 2 1 0 1 0
+=> 0 1 2 0 1 0 1
+
+=> Observation: We don't actually need the pattern 0 1 2, we just need 0, 1 for regular sequence and then with the additional
+dragon friend, we can add a 2 and 1 to their position.
+
+6 3 6
+=> 1 0 0 ? 0 2
+
+=> n is odd => 0 1 strategy works while making df1 = 0 and df2 = 2
+=> n is even => make it odd by adding another 2 making df1 = 2 and df2 = 2 
+
+Suppose that we have some sequence and there is a 0 placed somewhere and we need to fill it in such that the zeros and ones don't
+touch each other. Then the distance between them needs always be 0 mod 2. So the place where we place the 0 or 1 needs to be the same.
+Suppose that we place the 0, then if the distance or in this case i is even, then it's fine and we can use it. Otherwise, start at 1 
+if the distance is odd.
+
+=> n is even => make it odd by adding another 2 making df1 = 0 and df2 = 2 
+=> 0 1 0 1 0 2
+
+Only case left is when even n and even dist(x, y): 
+? 0 ? 2
+In this case we can assign df1 = 0 and df2 = 2. We can assign ones around the 2. Then we have 4 values filled in when n is even.
+So we are left with an even amount of spaces left which lefts use the base case we observed before for even spaces.
+
+1 2 1 ? ? ?
+
+Same pattern can be applied by using 1 and 2 instead.
+
+Simplification: df1 = 0 and df2 = 2 works for all. It just needs to be changed whether or not n is even or odd. If it's even,
+it works fine but if it's odd, it needs to be modified to surround the 2 with ones.
+
+0 1 2 1
+
+1 0 1 2
+
+even n
+=> special case
+
+0 ? 2 ? => 0 1 2 1
+? 0 2 ? => 1 0 1 2
+
+0 1 ? ? ? ? => special case 1: (odd distance away)
+0 ? 2 ? ? ? => special case 2: (even distance away)
+
+odd n
+=> regular case works
+
+? ? ? ? 2 => ? ? ? 1 2 => 0 1 0 1 2
+? ? ? ? 2 => ? ? ? 0 2 => 1 0 1 0 2
+
+regular case: set 0 and 2 state and then fill in with zeroes and ones
+special case: surround the 2 with ones and then fill in with zeroes and ones
+
+Actually for the regular case, no need to fill in the zero as {1, 2} or {0, 2} both work so we can fill in just the 2.
 */
