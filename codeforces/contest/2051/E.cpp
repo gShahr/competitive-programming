@@ -289,7 +289,7 @@ namespace __DEBUG_UTIL__
 #endif
 #endif
 
-#define int long long int
+// #define int long long int
 
 int32_t main() {
     int t;
@@ -311,32 +311,34 @@ int32_t main() {
         }
         int ans = 0;
         for (int price: prices) {
+            vector<multiset<pair<int, int>>::iterator> void_elements;
             auto it = bucket1.upper_bound({price, price});
-            vector<pair<int, int>> void_elements;
-            it = bucket1.begin();
-            if (it != bucket1.end() && price > it->first && price <= it->second) bucket2.insert(*it);
-            if (it != bucket1.end() && price > it->first) void_elements.push_back(*it);
-            for (; it != bucket1.begin(); it--) {
-                if (it == bucket1.end()) continue;
+            while (true) {
+                if (it == bucket1.end()) {
+                    if (it != bucket1.begin()) it--;
+                    else break;
+                    continue;
+                }
+                debug(price, *it);
                 if (price > it->first && price <= it->second) bucket2.insert(*it);
-                if (price > it->first) void_elements.push_back(*it);
+                if (price > it->first) void_elements.push_back(it);
+                if (it == bucket1.begin()) break;
+                it--;
             }
-            debug(void_elements, bucket1, bucket2);
-            for (auto i: void_elements) bucket1.erase(bucket1.find(i));
-            debug(bucket1);
+            for (auto i: void_elements) bucket1.erase(i);
             void_elements.clear();
-            it = bucket2.begin();
-            if (it != bucket2.end() && price > it->second) void_elements.push_back(*it);
             it = bucket2.upper_bound({price, price});
-            for (; it != bucket2.begin(); it--) {
-                if (it == bucket2.end()) continue;
-                if (price > it->second) void_elements.push_back(*it);
+            while (true) {
+                if (it == bucket2.end()) {
+                    if (it != bucket2.begin()) it--;
+                    continue;
+                }
+                if (price > it->second) void_elements.push_back(it);
+                if (it == bucket2.begin()) break;
+                it--;
             }
-            debug(void_elements, bucket1, bucket2);
-            for (auto i: void_elements) bucket2.erase(bucket2.find(i));
-            debug(bucket2);
-            void_elements.clear();
-            // debug(price, bucket1, bucket2);
+            for (auto i: void_elements) bucket2.erase(i);
+            debug(price, bucket1, bucket2);
             int res = (bucket1.size() + bucket2.size()) * price;
             if (bucket2.size() <= k) ans = max(ans, res);
         }
@@ -390,5 +392,12 @@ and taking the upperbound and deleting elements accordingly.
 Actually we don't even need to keep a right bounds as we can use a set instead of a vector to keep track of things as we don't every require
 random access if we use pairs as we only care about each individual customer as each query will be independent. Bucket 2 size will
 represent the amount of negative reviews.
+
+Had to change from sets to multisets as we can get multiple people with the same price that we have to account for.
+
+It's giving me time limit exceeded now so I need to adjust it and calculate how lon git's taking. We iterate through z=2n times
+for each element as use it as a price range. We binary search on the ranges so each operation takes logz time. Each operation
+can at most go to bucket 1 then bucket 2 and then to nowhere. So we only process each element at most two times. Therefore,
+a rough estimate for time complexity is z(logz) + 2z = nlogn + 2n = 10^5(log10^5) + 2(10^5).
 
 */
