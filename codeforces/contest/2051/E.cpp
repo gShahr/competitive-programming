@@ -289,7 +289,7 @@ namespace __DEBUG_UTIL__
 #endif
 #endif
 
-// #define int long long int
+#define int long long int
 
 int32_t main() {
     int t;
@@ -305,39 +305,25 @@ int32_t main() {
             prices.insert(a[i]);
             prices.insert(b[i]);
         }
-        multiset<pair<int, int>> bucket1, bucket2;
+        multiset<pair<int, int>> bucket1;
+        multiset<int> bucket2;
         for (int i = 0; i < n; i++) {
             bucket1.insert({a[i], b[i]});
         }
         int ans = 0;
         for (int price: prices) {
-            vector<multiset<pair<int, int>>::iterator> void_elements;
-            auto it = bucket1.upper_bound({price, price});
-            while (true) {
-                if (it == bucket1.end()) {
-                    if (it != bucket1.begin()) it--;
-                    else break;
-                    continue;
-                }
-                debug(price, *it);
-                if (price > it->first && price <= it->second) bucket2.insert(*it);
-                if (price > it->first) void_elements.push_back(it);
-                if (it == bucket1.begin()) break;
-                it--;
+            auto it = bucket1.begin();
+            while (it != bucket1.end()) {
+                if (price > it->first) {
+                    if (price <= it->second) bucket2.insert(it->second);
+                    it = bucket1.erase(it);
+                } else break;
             }
-            for (auto i: void_elements) bucket1.erase(i);
-            void_elements.clear();
-            it = bucket2.upper_bound({price, price});
-            while (true) {
-                if (it == bucket2.end()) {
-                    if (it != bucket2.begin()) it--;
-                    continue;
-                }
-                if (price > it->second) void_elements.push_back(it);
-                if (it == bucket2.begin()) break;
-                it--;
+            auto it2 = bucket2.begin();
+            while (it2 != bucket2.end()) {
+                if (price > *it2) it2 = bucket2.erase(it2);
+                else break;
             }
-            for (auto i: void_elements) bucket2.erase(i);
             debug(price, bucket1, bucket2);
             int res = (bucket1.size() + bucket2.size()) * price;
             if (bucket2.size() <= k) ans = max(ans, res);
@@ -399,5 +385,21 @@ It's giving me time limit exceeded now so I need to adjust it and calculate how 
 for each element as use it as a price range. We binary search on the ranges so each operation takes logz time. Each operation
 can at most go to bucket 1 then bucket 2 and then to nowhere. So we only process each element at most two times. Therefore,
 a rough estimate for time complexity is z(logz) + 2z = nlogn + 2n = 10^5(log10^5) + 2(10^5).
+
+Example: {1, 4}, {2, 3}. Damn, I griefed this hard as the second bucket needs to be according to b values, not the a values
+which it's sorted by. So it would potentially be out of order, and as a result would not work though I don't think this is the case
+if it passed to test case 5. Assuming the logic is correct here, the issue is that it would iterate the entire thing resulting
+in O(n^2) worst complexity which means that I would have to change this to work accordingly. The problem then is how does this
+change for values that increase. 
+
+{1, 4}, {2, 3}, {2, 2} => I don't see how it would be able to see which values to remove by saying that the price is 4. It should
+remove the last two value but it will end up keeping it which is wrong in this scenario.
+
+Now this is giving me wrong answer which is even more confusing as I don't understand how it's not supposed to go in the other
+direction.
+
+Ah damn it was overflow error that was getting it. Logic was correct but needed to change to long long int. Forgot that the answer
+itself can be large because are multiplying the potential price with some number of elements. Rough estimate for max value is
+10^5 * 10^9 = 10^14 which is max value for vector a or vector b along with max value for n for one test case.
 
 */
