@@ -310,9 +310,9 @@ int32_t main() {
                     break;
                 }
             }
-            bool found = false;
-            for (auto i: a) if (i == q+1) found = true;
-            if (found) ans[q] = '1';
+            for (int i = 0; i < m; i++) {
+                if (a[i] == q+1) ans[i] = '1';
+            }
         }
         cout << ans << endl;
         debug(ans);
