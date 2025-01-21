@@ -324,5 +324,13 @@ int32_t main() {
 
 /*
 https://codeforces.com/problemset/problem/1808/B
+Reduce solving problem for 2D array down to 1D array. Then the idea is to sort the numbers and take the sum of all pairs from a1 to 
+the rest of the elements. This overlaps with all subsequent pairs minus the difference between the adjacent pairs of elements.
+Using this overlap, the problem for 1d array can be solved in inear time and expanded to the constraints of the problem,
+can be solved in n * m time. Suppose the sum is S as outlined in the sentence before, then the S for the next set of pairs
+going from left to right needs to account for the fact that the pairs going from a1 to the rest need to be erased. Since the values
+between them overlap, we can simply subtract the distance that is no longer used by taking diff(ai, ai-1) * (n - i) and subtracting
+so pairs from the first set are no counted towards the distances. We don't need to consider values of pairs going in reverse direction
+because those have already been covered.
 
 */
