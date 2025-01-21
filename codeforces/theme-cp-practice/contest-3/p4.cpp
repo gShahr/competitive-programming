@@ -295,9 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> tt(n, vector<int>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cin >> tt[i][j];
+        }
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            vector<int> curr;
+            for (int j = 0; j < n; j++) curr.push_back(tt[j][i]);
+            sort(curr.begin(), curr.end());
+            int val = 0;
+            for (int j = 0; j < n; j++) val += (curr[j] - curr[0]);
+            int sum = val;
+            for (int j = 1; j < n; j++) {
+                int rem = (curr[j] - curr[j-1]) * (n - j);
+                val -= rem;
+                sum += val;
+            }
+            debug(sum);
+            ans += sum;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1808/B
 
 */
