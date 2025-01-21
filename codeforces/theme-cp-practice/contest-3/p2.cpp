@@ -295,9 +295,39 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans;
+        set<int> used;
+        int i = 1;
+        while (ans.size() < n) {
+            int curr = i;
+            while (used.find(curr) == used.end() && curr <= n) {
+                ans.push_back(curr);
+                used.insert(curr);
+                curr *= 2;
+            }
+            i++;
+        }
+        debug(ans);
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1858/C
+
+1 2 4 3 6 4 8 5 10
+
+Maybe put consecutive powers together to maximize number of distinct elements. Nevermind, I'm actually griefing, it's not powers because then
+we miss something like 5 and 10 that are consecutive, the idea is to double the elements in order to maximize.
+
+Not able to prove but it seems to be the correct idea in order to maximize. Maybe put forth a greedy argument that shows we can't do better than 
+this. Let's set max at n/2 and try to go over this bounds. Suppose n is even. 
+Nevermind, I think the argument is actually quite simple, we maximize the unique gcd from the range 1 to n. For example, something like 10, we
+can't get gcd of 9 because the smallest value 9 needs to pair with is 2*9 = 18 which isn't part of the range. Therefore, 2x has to be less than
+or equal to have it's gcd be part of the range. Since n is the upperbound, then the natural conclusion is that there can form n/2 unique gcd 
+values since each pair needs to have x and 2x where 2x is bounded by n.
 
 */

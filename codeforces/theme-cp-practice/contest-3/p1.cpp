@@ -295,9 +295,37 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        set<int> ans;
+        if (n % 3 == 0 && n > 5) {
+            ans = {1, 4, n-5};
+        } else if (n % 3 == 1 && n > 3) {
+            ans = {1, 2, n-3};
+        } else if (n % 3 == 2 && n > 3) {
+            ans = {1, 2, n-3};
+        }
+        if (ans.size() < 3) cout << "NO" << endl;
+        else {
+            cout << "YES" << endl;
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        }
     }
 }
 
+// 12:56 Start
 /*
+https://codeforces.com/problemset/problem/1886/A
+
+12 => 1 1 10 => 
+x = 0 mod 3 => Then it has to be in a pattern of 2, 2, 2
+15 => 2 5 8
+
+x = 1 mod 3 => 1 1 2 => 1 2 ?
+
+x = 2 mod 3 => 1 2 2 => 1 2 5
+
+Looked at test cases for a quick peek and realized that 1, 1, 1 is better than 2, 2, 2 because it reduces it by 2 by being 5 instead of 7.
 
 */

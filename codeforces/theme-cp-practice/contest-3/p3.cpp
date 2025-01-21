@@ -291,13 +291,106 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+// taken from https://usaco.guide/problems/cses-1635-coin-combinations-i-unordered/solution
+int coin_change(int x, vector<int>& coins) {
+	vector<int> dp(x + 1);
+
+	dp[0] = 1;
+	for (int i = 1; i <= x; i++) {
+		for (int c : coins) {
+			if (i - c >= 0) { (dp[i] += dp[i - c]); }
+		}
+	}
+
+    return dp[x];
+}
+
+// taken from https://www.geeksforgeeks.org/coin-change-dp-7/
+int count(int sum, vector<int>& coins) {
+    int n = coins.size();
+    
+    // 2d dp array where n is the number of coin
+    // denominations and sum is the target sum
+    vector<vector<int> > dp(n + 1, vector<int>(sum + 1, 0));
+
+    // Represents the base case where the target sum is 0,
+    // and there is only one way to make change: by not
+    // selecting any coin
+    dp[0][0] = 1;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j <= sum; j++) {
+
+            // Add the number of ways to make change without
+            // using the current coin,
+            dp[i][j] += dp[i - 1][j];
+
+            if ((j - coins[i - 1]) >= 0) {
+
+                // Add the number of ways to make change
+                // using the current coin
+                dp[i][j] += dp[i][j - coins[i - 1]];
+            }
+        }
+    }
+    return dp[n][sum];
+}
+
+// taken from https://leetcode.com/problems/coin-change/solutions/778548/c-dp-solution-explained-100-time-100-space/
+int coinChange(int n, vector<int>& coins) {
+    // creating the base dp array, with first value set to 0
+    vector<int> dp(n+1, 0);
+    dp[0] = 0;
+    // populating our dp array
+    for (int i = 1; i <= n; i++) {
+        // setting dp[0] base value to 1, 0 for all the rest
+        dp[i] = INT_MAX;
+        for (int c: coins) {
+            if (i - c < 0) break;
+            // if it was a previously not reached cell, we do not add use it
+            if (dp[i - c] != INT_MAX) dp[i] = min(dp[i], 1 + dp[i - c]);
+        }
+    }
+    debug(dp);
+    return dp[n];
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> p1 = {0, 3}, p2 = {0, 6, 12, 18, 24}, p3 = {0, 10, 20};
+        int ans = INT_MAX;
+        for (int i = 0; i < p1.size(); i++) {
+            for (int j = 0; j < p2.size(); j++) {
+                for (int k = 0; k < p3.size(); k++) {
+                    int left = n - p1[i] - p2[j] - p3[k];
+                    if (left < 0) continue;
+                    int coins = i+j+k + left / 15 + left % 15;
+                    ans = min(ans, coins);
+                }
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1934/B
 
+
+Coins have common denominator of 30 so we can mod n by 30 and run standard algorithm for coin change.
+Can't believe such a simple counter example of 98 exists. Breaking it up into 30 chunks isn't the best way to go as it results
+in 9 coins instead of 8. Still can probably brute force this but instead of capping at n mod 30, maybe try moving the cap
+up higher to 1000 or something.
+
+1 => values: {1, 2, 4, 5, 7, 8} => Since 3 is there, we only need to check for values {1, 2}
+3 => redundant (because of 6) -> actually wrong but only one value needs to be checked for {3}
+6 => max 4 => {6, 12, 18, 24}
+10 => max 2 => {10, 20}
+15 => unbounded
+
+=> Solution is to brute force.
 */
