@@ -299,20 +299,14 @@ int32_t main() {
         cin >> n;
         vector<int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
-        sort(a.begin(), a.end());
-        set<int> diff;
-        if (n >= 3) diff.insert(abs(a[1] - a[2]));
-        for (int i = 0; i < n; i++) {
-            int d = abs(a[0] - a[i]);
-            if (d > 0) diff.insert(d);
-        }
-        int ans = a[0] + a[1];
-        for (auto d: diff) {
+        int ans = 1;
+        while (1) {
             set<int> curr;
             for (int i = 0; i < n; i++) {
-                curr.insert(a[i] % d);
+                curr.insert(a[i] % ans);
             }
-            if (curr.size() == 2) ans = d;
+            if (curr.size() == 2) break;
+            else ans *= 2;
         }
         debug(ans);
         cout << ans << endl;
@@ -361,8 +355,40 @@ even numbers in the array, then we have to find what to do.
 
 Example => 6, 8, 10, 64
 => 4 + 2, 8, 8 + 2, 64
+=> 6 is 110
+=> 8 is 1000
+=> 10 is 1010
 
 6, 10, 14
 => 4 + 2, 8 + 2, 8 + 6
 => diff = 4, 8
+
+Maybe it's possible to split it up into 2 groups where 1 group only has one element?
+
+1 5 7 15
+
+6x + r = (2*3)x + r = 2x + 3x + r
+10 16 22 24
+
+Odd case can be made into even case by subtracting one from everything. Skeptical this works and trying to find a better
+strategy. 
+
+=> 6 6 2
+
+1000 2000 7000 11000 16000
+=> 1000 5000 4000 5000
+
+Figured it out while sleeping. The idea is to use powers of 2. The base case is if we have evens and odds, then clearly it will produce 
+2 distinct values. Now assume we only have even numbers. Then there will eventually come to a point where all numbers are not divisible 
+by a power of 2. Starting off, all numbers mod 2 are 0, however, as soon as one number is not divisible by the next highest power of 2,
+it must always produce 2 distinct values since the only numbers that can be generated are either 0 or 2^(i-1). Since the numbers are 
+divisible are all divisible by 2^(i-1), when we take then mod 2^i, we can either factor out the extra factor of 2 perfectly or be left
+with an odd factor of 2^(i-1). Therefore, if the number of times 2^(i-1) it goes in is even, then it should be divisible by next highest
+power. Otherwise, the mod 2^i will result in 2^(i-1). 
+    Suppose all the numbers are odd, then we can subtract one from each of them and make it equal to the first case. The first case 
+    should be modified slightly as well as we are subtracting the remainder that is left and then adding it back in at the end.
+    
+    Whoops, we never subtract remainder from even numbers because we are going from smallest power of 2 to biggest power of 2
+    while maintaing divisbility of all the numbers in the array. Odd numbers can just go to even case by subtracting 1 from each
+    number and then adding it back in at the end - the answer will be equivalent.
 */
