@@ -295,9 +295,21 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int ans = 1;
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] == '?' && i > 0) ans *= 10;
+            else if (s[i] == '?' && i == 0) ans *= 9;
+        }
+        if (s[0] == '0') ans = 0;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
+// Started at 8:10 AM
 /*
+https://codeforces.com/problemset/problem/1821/A
 
 */

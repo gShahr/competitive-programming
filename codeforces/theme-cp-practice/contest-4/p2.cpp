@@ -291,13 +291,76 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+// taken from https://usaco.guide/gold/combo?lang=cpp
+/** @return nCk mod p using dynamic programming */
+int binomialSum(int n, int k, int mn, int p) {
+	// dp[i][j] stores iCj
+	vector<vector<int>> dp(n + 1, vector<int>(k + 1, 0));
+
+	// base cases described above
+	for (int i = 0; i <= n; i++) {
+		/*
+		 * i choose 0 is always 1 since there is exactly one way
+		 * to choose 0 elements from a set of i elements
+		 * (don't choose anything)
+		 */
+		dp[i][0] = 1;
+		/*
+		 * i choose i is always 1 since there is exactly one way
+		 * to choose i elements from a set of i elements
+		 * (choose every element in the set)
+		 */
+		if (i <= k) { dp[i][i] = 1; }
+	}
+
+	for (int i = 0; i <= n; i++) {
+		for (int j = 1; j <= min(i, k); j++) {
+			if (i != j) {  // skips over the base cases
+				// uses the recurrence relation above
+				dp[i][j] = (dp[i - 1][j - 1] + dp[i - 1][j]) % p;
+			}
+		}
+	}
+    int sum = 0;
+    for (int i = mn; i <= n; i++) sum += dp[n][i];
+    return sum;
+}
+
+int sum(int a, int b) {
+    return (b*(b+1))/2 - (a*(a-1))/2;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k, q;
+        cin >> n >> k >> q;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        a.push_back(INT_MAX);
+        int cnt = 0;
+        int ans = 0;
+        for (int i = 0; i <= n; i++) {
+            if (a[i] <= q) cnt++;
+            else {
+                if (cnt >= k) ans += sum(1, cnt-k+1);
+                cnt = 0;
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1840/C
+
+n choose K for all valid numbers for all values of k. Whoops - this is considering that the days are not consecutive. In the case 
+where it is consecutive, we should just scan from left to right.
+
+4 days, 2 days minimum,
+then we can split it up for each day
+2 days would be 4-2+1=3 => 1, 2; 2, 3; 3, 4 => Segment length - 
 
 */

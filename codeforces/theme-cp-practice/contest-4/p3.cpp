@@ -291,13 +291,54 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void dfs(vector<vector<int>> &adj, vector<bool>& visited, vector<int>& dp, int x) {
+    if (visited[x]) return;
+    visited[x] = true;
+    bool leaf = true;
+    for (auto &u : adj[x]) {
+        if (visited[u]) continue;
+        leaf = false;
+        dfs(adj, visited, dp, u);
+        dp[x] += dp[u];
+    }
+    if (leaf) dp[x] += 1;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> adj(n+1);
+        vector<int> dp(n+1, 0);
+        vector<bool> visited(n+1, false);
+        for (int i = 0; i < n-1; i++) {
+            int u, v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        dfs(adj, visited, dp, 1);
+        debug(dp);
+        int q;
+        cin >> q;
+        for (int i = 0; i < q; i++) {
+            int a, b;
+            cin >> a >> b;
+            int ans = dp[a] * dp[b];
+            debug(ans);
+            cout << ans << endl;
+        }
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1843/D
+
+Queries should produce two sets of vertices which then we should take the carestian product of to produce final answer. Since pairs
+are already ordered, the answer will be the size of the first set multiplied by the size of the second set. Since we only care about
+the size of the sets, we can discard with all other information. Now the only important thing to do is to find this value for each vertex
+which can just be computed via bottom up dp.
 
 */

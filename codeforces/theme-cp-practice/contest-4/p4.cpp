@@ -291,13 +291,69 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+int count(string& s, char c, int modd, vector<int>& fact, pair<int, int>& ans) {
+    int cnt = 0;
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] == c) cnt++;
+        else {
+            ans.first += max(0LL, cnt-1);
+            ans.second *= fact[cnt];
+            ans.second %= modd;
+            cnt = 0;
+        }
+    }
+    ans.first += max(0LL, cnt-1);
+    ans.second *= fact[cnt];
+    ans.second %= modd;
+    return cnt;
+}
+
 int32_t main() {
     int t;
     cin >> t;
+    int modd = 998244353;
+    vector<int> fact(2*1e5+1, 1);
+    for (int i = 1; i <= 2*1e5; i++) fact[i] = (fact[i-1] * (i)) % modd;
     while (t--) {
+        string s;
+        cin >> s;
+        pair<int, int> ans = {0, 1};
+        count(s, '0', modd, fact, ans);
+        count(s, '1', modd, fact, ans);
+        debug(ans);
+        cout << ans.first << ' ' << ans.second << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1879/C
+
+If there is a segment of zeros or ones, those need to be removed for all except one of them. So SL (segment length) which we
+can abbreviate as x, it will result in (x-1)! for the number of ways in which we can reomve x-1 elements. In the canonical
+case, it would be x!. Whoops, in this case we can start by picking x elements then all the way down to x-2 elements left 
+that we can pick so it's actually x! / 1!. Nevermind, was actually right since we only have 1 element left at the end
+and there is only one way to pick 1 element so it doesn't affect our answer. 
+
+So for instance, if we have 3 elements and we want to pick 2 of them, then we can select any of the 3 elements the first time
+and then any of the 2 elements the second time so in total there would be x! or 6 ways to select the items since the last
+element can only be chosen one way.
+
+One special case is if the length of the segment is 1, then we should skip it as we do not want to remove it. The number
+of total elements that we should sum up is going to be each segment minus 1 accumulated together.
+
+Since we have two independent events happening and want to figure out the total number of ways that they can be selectd, we
+should multiply them together. This can be inductively applied to x many different events so we should multiply all
+of those together.
+
+My logic here is wrong somehow for switching between ones and zeroes which is really annoying.
+
+Need to understand this counter example. So it's 0101. So it increments the 0 counter by 1 and then goes to the 1
+where it resets the flag to now expect ones instead. Ah ok, so the flag is being set to false but it's still 
+expecting a zero here. The way I've implemented the solution is so fucking cancer and can't even debug it.
+I've come up with a better way of implementing it but the flag thing is so weird.
+
+Ah ok the flag being changed is just wrong. In the case where it's going from 1 -> 0, it's fine, but it runs
+into the issue where if we go from 0 -> 1, then the flag needs to account for the fact that the ones now
+need to be counted.
 
 */
