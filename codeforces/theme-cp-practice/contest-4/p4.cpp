@@ -448,4 +448,9 @@ Example: 00111
 let k be the number of segments, then we end up with what we have below
 (len_i)! * (n-k)! / (len_i-1)! = len_i * (n-k)! for all i which is what they end up with in the official editorial.
 
+Editorial goes directly to answer by noticing that there are (n-k)! ways to order the elements we erase. Each segment
+has len_i-1 elements we want to choose from len_i which is len_i choose len_i-1 which is simply len_i. Was forgetting
+this fact when trying to think about the problem from this perspective in the fact we erase n-k elements but we have
+len_i choices for each segment.
+
 */
