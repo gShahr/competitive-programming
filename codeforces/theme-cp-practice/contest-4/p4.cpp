@@ -291,21 +291,63 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
-int count(string& s, char c, int modd, vector<int>& fact, pair<int, int>& ans) {
+// taken from https://www.geeksforgeeks.org/multiplicative-inverse-under-modulo-m/
+
+int gcdExtended(int a, int b, int* x, int* y);
+
+// Function to find modulo inverse of a
+int modInverse(int A, int M) {
+    int x, y;
+    int g = gcdExtended(A, M, &x, &y);
+    if (g != 1)
+        cout << "Inverse doesn't exist";
+    else {
+        int res = (x % M + M) % M;
+        return res;
+    }
+}
+
+// Function for extended Euclidean Algorithm
+int gcdExtended(int a, int b, int* x, int* y) {
+
+    // Base Case
+    if (a == 0) {
+        *x = 0, *y = 1;
+        return b;
+    }
+
+    // To store results of recursive call
+    int x1, y1;
+    int gcd = gcdExtended(b % a, a, &x1, &y1);
+
+    // Update x and y using results of recursive
+    // call
+    *x = y1 - (b / a) * x1;
+    *y = x1;
+
+    return gcd;
+}
+
+void count(string& s, char c, int modd, vector<int>& fact, pair<int, int>& ans, int& total) {
     int cnt = 0;
     for (int i = 0; i < s.length(); i++) {
         if (s[i] == c) cnt++;
         else {
-            ans.first += max(0LL, cnt-1);
+            if (cnt <= 0) continue;
+            total += cnt-1;
+            if (cnt > 1) ans.second = (ans.second * modInverse(fact[cnt-1], modd)) % modd;
+            ans.first += cnt-1;
             ans.second *= fact[cnt];
             ans.second %= modd;
             cnt = 0;
         }
     }
-    ans.first += max(0LL, cnt-1);
+    if (cnt <= 0) return;
+    total += cnt-1;
+    if (cnt > 1) ans.second = (ans.second * modInverse(fact[cnt-1], modd)) % modd;
+    ans.first += cnt-1;
     ans.second *= fact[cnt];
     ans.second %= modd;
-    return cnt;
 }
 
 int32_t main() {
@@ -318,8 +360,10 @@ int32_t main() {
         string s;
         cin >> s;
         pair<int, int> ans = {0, 1};
-        count(s, '0', modd, fact, ans);
-        count(s, '1', modd, fact, ans);
+        int total = 0;
+        count(s, '0', modd, fact, ans, total);
+        count(s, '1', modd, fact, ans, total);
+        ans.second = (ans.second * fact[total]) % modd;
         debug(ans);
         cout << ans.first << ' ' << ans.second << endl;
     }
@@ -355,5 +399,53 @@ I've come up with a better way of implementing it but the flag thing is so weird
 Ah ok the flag being changed is just wrong. In the case where it's going from 1 -> 0, it's fine, but it runs
 into the issue where if we go from 0 -> 1, then the flag needs to account for the fact that the ones now
 need to be counted.
+
+Not throwing a runtime error so I don't think the issue is with mod or anything to do logic wise. The initial
+assumption is flat out wrong I think. In the case where we have something like 0011, the answer according
+to my solution should be 4. 
+=> {1, 2}, {1, 3}, {2, 2}, {2, 3}
+Whoops, it needs to also include 4 more because I can do apply these operations in any order I want since
+it needs to account for the fact that I can do the second operations first and then the first operations.
+
+We can delete the extra 0 first or delete the extra 1 first or vice versa. 
+For something where we have 000111, we have 3! for ways to pick ordering for first group and 3! for the number 
+of ways to pick ordering for second group. If we do 3! * 3!, then for each ordering for the first group, we
+append the second group. The problem with this is that we want something for like 6! to account for the fact
+that we can mix opreations from the first and second group. Now the problem is that have blurred the lines
+of trying to clear only 2 elements from each group which is why I like 3! better because it shows that we
+have 3 elements to erease initially and then 2 and then we move onto the next group. To interlace these results,
+it doesn't seem possible without fully comitting to something like 6!. It seems to be that if we take 6! / (3! * 3!)
+then we get the answer but I am not able to prove. In the case where the answer was 8 for the example above,
+we would get 24 and then divide by 4 to get 6 which is no the answer.
+
+Relative positions
+=> {1, 2}, {1, 3}, {2, 2}, {2, 3}
+=> {3, 1}, {3, 2}, {4, 1}, {4, 2}
+
+Absolute positions
+=> {1, 3}, {1, 4}, {2, 3}, {2, 4}
+=> {3, 1}, {3, 2}, {4, 1}, {4, 2}
+=> 2! * 2! * 2 = 8
+
+Yeah so figured it out while taking a nap - the idea is that we don't want to take factorials of the entire thing
+because then it loses meaning - we want factorial of each individual group and then taking the number of ways
+to select from that group and multiply them together. For insstance, for something like 00111, we have 2! ways
+for the first group and 3! ways for the second group. There are 3!/(1! * 2!) ways to pick unique orderings 
+of which elements we remove when selecting a group. It's strange because the way of going about it is
+to pick some unique ordering and then appying all the ways to select from that group and the next
+and so forth and so on. Actually, nevermind, in the case where one ordering is selected for us, the
+number of choices will be 3! * 2! since if we choose the second group first which we eventually have to do,
+we will have  3 choices at our disposable and the second time around, we will have 2 choices, becoming 6
+unique choices. Therefore, to account for all the ways we can select the numbers, we should multiply by
+the number of unique ways of selecting from each group.
+
+As a result, the formula will be: some_segment_i! * sum(some_segment_i-1) / (some_segment_i-1)! for all i
+
+Example: 00111
+
+(2! * 3!) * (3! / (1! * 2!)) = 12 * 3 = 36
+
+let k be the number of segments, then we end up with what we have below
+(len_i)! * (n-k)! / (len_i-1)! = len_i * (n-k)! for all i which is what they end up with in the official editorial.
 
 */
