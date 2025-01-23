@@ -291,13 +291,56 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void count(vector<int> &a, map<int, int>& cnt) {
+    int n = a.size();
+    vector<vector<int>> split;
+    vector<int> curr = {a[0]};
+    for (int i = 1; i < n; i++) {
+        if (a[i] == curr.back()) {
+            curr.push_back(a[i]);
+        } else {
+            split.push_back(curr);
+            curr.clear();
+            curr.push_back(a[i]);
+        }
+    }
+    split.push_back(curr);
+    for (int i = 0; i < split.size(); i++) {
+        cnt[split[i][0]] = max(cnt[split[i][0]], (int)split[i].size());
+    }
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        map<int, int> cnt1, cnt2;
+        count(a, cnt1);
+        count(b, cnt2);
+        int ans = 0;
+        set<int> values;
+        for (auto i: a) values.insert(i);
+        for (auto i: b) values.insert(i);
+        for (auto i: values) {
+            ans = max(ans, cnt1[i] + cnt2[i]);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1831/B
+
+Need to count elements that are equal as consecutive elements. Doing it with a while loop inside for loop just seems confusing and ugly.
+Maybe if I split it up into different vectors and take the length of each vector would be better.
+
+Not sure what exactly I'm doing wrong to get the wrong answer.
+I'm griefing so hard - I forgot to add the values of b to the set...
 
 */

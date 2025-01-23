@@ -295,9 +295,85 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, x, y;
+        cin >> n >> x >> y;
+        vector<int> ans(n, -1);
+        x--, y--;
+        for (int i = y; i <= x; i++) ans[i] = 1;
+        for (int i = y-2; i >= 0; i -= 2) ans[i] = 1;
+        for (int i = x+2; i < n; i += 2) ans[i] = 1;
+        debug(ans);
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1990/B
+
+Easy case is where x is strictly less than y, but that is excluded from here. My first thought is to fill the entire prefix up to x with
+ones and then fill in the remaining suffix with a sum equal to or less than 0. The problem with this is that the suffix max will
+always be 1 which is not always want we want so we have to change this slightly. 
+
+Imagine we fill first x values with 1 and then the remaining values with -1. Then the prefix is satisifed but not the suffix as
+it will be 1. So to move it up to the correct value we have to set the first y-1 values to -1 so that the suffix can be satisfid.
+This is nice because it doesn't change the max value for prefix as the maximum and all subsequent maximums will be reduced by a 
+constant amount - this being the negative values present here.
+
+Since suffix takes the largest value here, then we just need to make the values past the suffix alternate between 0 and 1
+so that the sum becomes 0 instead of some negative value which will start with -1 and become the maximum potentially. 
+
+Ok, hard to think about two things at once as try to make the prefix work first and then the suffix. Makes the entire prefix
+ones to satisfy it and then move onto the suffix. If we make the suffix all ones, then the suffix would work independently, but
+both break when combining them so the first order of action would be trying to combine suffix with prefix so it doesn't break 
+the prefix. Well to do that I can simply make the suffix -1 and it would work. Potential solutions for suffix with changing the prefix
+from ones to negatives doesn't work because then it will be the new best suffix so we have to change the values in the suffix to
+account for the fact that. Ok this line of thinking is getting me nowhere as I have to go back and forth for what I think is 
+correct so the idea should be better presented.
+
+Imagine we alternate with ones and negative ones in the array. Then x will be the end and y will be the beginning. 
+
+-1 1 -1 1
+
+Nevermind, the suffix is actually going to be the last element as well as the prefix. Ok so what if we wanted to shift
+the prefix but not the suffix? Nevermind, the suffix in this is actually at 1 since it goes 1, 0, 1, 0. We can shift the 
+suffix to the right by 1 by changing it to:
+
+-1 -1 1 1
+
+This maintains the prefix to be the last element and makes the suffix at 3 instead of 2. 
+
+1 1 1 1 => x = 4, y = 1 
+-1 1 -1 1 => x = 4, y = 2
+-1 -1 1 1 => x = 4, y = 3
+x = 4, y = 4 {not possible; hence why it is banned from constraints}
+
+1 1 1 -1 => x = 3, y = 1
+-1 1 1 -1 => x = 3, y = 2
+
+1 1 1 1 1 => x = 5, y = 1
+-1 1 1 1 1 => x = 5, y = 2
+-1 -1 1 1 1 => x = 5, y = 3
+-1 -1 -1 1 1 => x = 5, y = 4
+
+1 1 1 1 -1 => x = 4, y = 1
+-1 1 1 1 -1 => x = 4, y = 2
+-1 -1 1 1 -1 => x = 4, y = 3
+
+-1 1 1 -1 -1 => x = 3, y = 2
+
+-1 -1 -1 1 1 1 => x = 6, y = 4
+
+-1 1 -1 -1 1 1 => x = 6, y = 5
+
+The pattern present here is to make all the values strictly past x negative 1 and the values strictly before y negative 1. 
+Since x > y, then the interval [x, y] will always be at least size 2, which means that we will have double twos there. The problem
+with the strategy outlined in the previous sentence is when we get something like x=6, y=5 where the negatives don't get superceded
+by the positive values so it fails to overtake for the prefix but works for the suffix so if we could cancel that out somehow then
+it would work. The idea is instead of negatives, to have alternating zeros and ones. We always want negatives ones on the outside
+so that we are not increasing the suffix until negatives are applied and the same thing for the prefix. Acually this doesn't matter
+as long as the previous value in the same direction is negative 1 so it negates the addition in the next step. From left to right,
+this could look like negative followed by postiive. 
+
 
 */

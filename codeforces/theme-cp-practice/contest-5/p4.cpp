@@ -299,5 +299,9 @@ int32_t main() {
 }
 
 /*
+https://codeforces.com/problemset/problem/1951/C
+
+First thought I have is splitting up the constant values. Ahh nevermind, it will actually produce different values because
+we will end up with something where we can buy x tickets at some price that hasn't changed or buy 1 ticket continuously. 
 
 */

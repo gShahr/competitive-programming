@@ -295,9 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> cnt;
+        for (auto i: a) cnt[i]++;
+        int ans = INT_MAX;
+        for (auto i: cnt) {
+            int res = n - i.second;
+            ans = min(ans, res);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
+// Started on 7:46 AM
 /*
+https://codeforces.com/problemset/problem/2031/A
 
 */
