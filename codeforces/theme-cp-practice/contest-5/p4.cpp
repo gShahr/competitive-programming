@@ -295,6 +295,21 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int ans = 0;
+        int tax = 0;
+        for (int i = 0; i < n; i++) {
+            int take = min(m, k);
+            k -= take;
+            ans += take * (a[i] + tax);
+            tax += take;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
@@ -303,5 +318,8 @@ https://codeforces.com/problemset/problem/1951/C
 
 First thought I have is splitting up the constant values. Ahh nevermind, it will actually produce different values because
 we will end up with something where we can buy x tickets at some price that hasn't changed or buy 1 ticket continuously. 
+
+The goal is to minimize the number of days we buy tickets while selecting the smallest prices to buy them at. Since this may 
+not satisfy the constraints, we have to keep picking days until we can reach k amount of tickets. 
 
 */
