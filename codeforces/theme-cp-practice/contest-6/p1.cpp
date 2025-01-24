@@ -299,12 +299,20 @@ int32_t main() {
         cin >> n;
         vector<int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
+        set<int> s;
         map<int, int> cnt;
-        for (auto i: a) cnt[i]++;
-        int ans = INT_MAX;
-        for (auto i: cnt) {
-            int res = n - i.second;
-            ans = min(ans, res);
+        for (auto i: a) {
+            s.insert(i);
+            cnt[i]++;
+        }
+        int ans = -1;
+        if (s.size() == 1 && s.find(0) != s.end()) ans = 1;
+        else if (s.size() == 2 && s.find(0) != s.end() && s.find(1) != s.end()) {
+            if (cnt[1] >= n / 2) ans = 0;
+            else ans = 2;
+        } else {
+            if (n - cnt[0] >= n / 2) ans = 0;
+            else ans = 1;
         }
         debug(ans);
         cout << ans << endl;
@@ -313,6 +321,29 @@ int32_t main() {
 
 // Started on 7:46 AM
 /*
-https://codeforces.com/problemset/problem/2031/A
+https://codeforces.com/problemset/problem/1806/B
+
+If we can interlace zeroes so that none of them are next to each other, then the mex will always be 0. Otherwise,
+I think that the answer will be either 1 or 2. 
+
+For example, if we have 0 0 0 0 0 1, then the mex would be 2. 
+If we threw in a 2, then we can make the mex 1 funnily enough. 
+
+Only 0 => mex = 1
+Only 0 and 1 => mex = 0 or mex = 2
+    => Not possible to have mex = 1 because it will always have that value in the transformed array.
+    => mex = 0 when 1's can sit inbetween the 0's. In other words if cnt_1 >= cnt_0 / 2
+    => mex = 2 otherwise
+Any => mex = 0 or mex = 1
+    => mex = 0 when any can sit inbetween the 0's. In other words if cnt_any >= cnt_0 / 2
+    => mex = 1 otherwise 
+
+1 0 0 0 2 0 3 0
+=> 0 0 0 0 0 1 2 3
+=> 0 1 0 2 0 3 0 0
+
+0 1 0 => 2 1
+0 1 0 1 => 2 2
+0 1 0 1 0 => 3 2
 
 */

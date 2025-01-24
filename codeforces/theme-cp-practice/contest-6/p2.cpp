@@ -291,43 +291,17 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
-void count(vector<int> &a, map<int, int>& cnt) {
-    int n = a.size();
-    vector<vector<int>> split;
-    vector<int> curr = {a[0]};
-    for (int i = 1; i < n; i++) {
-        if (a[i] == curr.back()) {
-            curr.push_back(a[i]);
-        } else {
-            split.push_back(curr);
-            curr.clear();
-            curr.push_back(a[i]);
-        }
-    }
-    split.push_back(curr);
-    for (int i = 0; i < split.size(); i++) {
-        cnt[split[i][0]] = max(cnt[split[i][0]], (int)split[i].size());
-    }
-}
-
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
         int n;
         cin >> n;
-        vector<int> a(n), b(n);
-        for (int i = 0; i < n; i++) cin >> a[i];
-        for (int i = 0; i < n; i++) cin >> b[i];
-        map<int, int> cnt1, cnt2;
-        count(a, cnt1);
-        count(b, cnt2);
-        int ans = 0;
-        set<int> values;
-        for (auto i: a) values.insert(i);
-        for (auto i: b) values.insert(i);
-        for (auto i: values) {
-            ans = max(ans, cnt1[i] + cnt2[i]);
+        int s = 1;
+        int ans = 1;
+        while (s < n) {
+            s = 2*s + 2;
+            ans++;
         }
         debug(ans);
         cout << ans << endl;
@@ -335,12 +309,33 @@ int32_t main() {
 }
 
 /*
-https://codeforces.com/problemset/problem/1831/B
+https://codeforces.com/problemset/problem/2040/B
 
-Need to count elements that are equal as consecutive elements. Doing it with a while loop inside for loop just seems confusing and ugly.
-Maybe if I split it up into different vectors and take the length of each vector would be better.
+I don't really understand why codeforces is so unreliable that it doesn't have any backups nor mirrors that work. Using virtual
+online judge to see problems but can't submit which sucks.
 
-Not sure what exactly I'm doing wrong to get the wrong answer.
-I'm griefing so hard - I forgot to add the values of b to the set...
+I can't for the life of me figure out how 20 is producing 4. I can only generate the answer if I am given 5 queries of the first type. 
+Maybe instead of doing poweres of twos, it breaks it into 5s or something. What's nice about doing first operations is that they don't necessarily
+need to be done inbetewen the second operations. We can simply just place the elements and then maximize the combinations by doing as many 
+second operations as possible. Imagine we place the elements at {1, 4, 16, 20}.
 
+Observation is that we always have to place the elements at the end, otherwise they will never fill the entire array with ones. 
+
+Yeah I'm not sure that is even possible. The correct answer should be 5 for something like that or else it doesn't work.
+
+I don't see how the answer for 4 is n=20, it just doesn't make any sense to me. I'm not sure how this is possible. The fact
+that I can't solve this is so fucking shameful. Why the fuck isn't the solution coming to me. How is it even possible to solve it for 
+20 ... am I blind or something? How is the answer for 20 not 5, it just doesn't make any sense.
+
+n = 20
+Hmm ok maybe if n=2, I only need 2 and if n=4, I only need 2 as well ... maybe this pattern continues. 
+
+Oops, you get an exta element so you can increas the right bounds by 1. So 1, 4, 9 would ony take 3 because the last
+operation needs at least 5 elements in which it has. 
+
+1 4 9 20
+
+Whoops, the actual progression should be 1 4 10 22
+
+where it's doing 2x + 2
 */
