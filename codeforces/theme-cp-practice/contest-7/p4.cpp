@@ -292,12 +292,40 @@ namespace __DEBUG_UTIL__
 #define int long long int
 
 int32_t main() {
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int ans = n + (n - n/2 + 2) / 3;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/2038/L
+
+Possible combinations:
+
+3 x 18
+2 x 21 => redundant
+2 x 25
+2 x 18, 1 x 21
+1 x 18, 2 x 21
+1 x 18, 1 x 25
+1 x 21, 1 x 25
+
+3 x 18
+2 x 25
+2 x 18, 1 x 21
+1 x 18, 2 x 21
+1 x 18, 1 x 25
+1 x 21, 1 x 25
+
+2 x 25
+2 x 21, 1 x 18
+3 x 18
+=> For even numbers, I think this is the best we can do.
 
 */
