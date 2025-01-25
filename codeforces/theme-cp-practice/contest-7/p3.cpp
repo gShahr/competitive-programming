@@ -295,9 +295,37 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, q;
+        cin >> n >> q;
+        string s1, s2;
+        cin >> s1 >> s2;
+        int MX = 26;
+        vector<vector<int>> cum1(MX, vector<int>(n+1)), cum2(MX, vector<int>(n+1));
+        for (int i = 0; i < MX; i++) {
+            char c = 'a' + i;
+            cum1[i][0] = 0;
+            cum2[i][0] = 0;
+            for (int j = 1; j <= n; j++) {
+                cum1[i][j] = cum1[i][j-1] + (s1[j-1] == c);
+                cum2[i][j] = cum2[i][j-1] + (s2[j-1] == c);
+            }
+        }
+        debug(cum1);
+        for (int i = 0; i < q; i++) {
+            int l, r;
+            cin >> l >> r;
+            int diff = 0;
+            for (int j = 0; j < MX; j++) {
+                diff += abs((cum1[j][r] - cum1[j][l-1]) - (cum2[j][r] - cum2[j][l-1]));
+            }
+            int ans = diff / 2;
+            debug(ans);
+            cout << ans << endl;
+        }
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1996/C
 
 */

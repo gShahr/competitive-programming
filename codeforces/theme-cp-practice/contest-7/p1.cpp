@@ -292,13 +292,30 @@ namespace __DEBUG_UTIL__
 #define int long long int
 
 int32_t main() {
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int p1 = 0;
+        int p2 = INT_MAX;
+        for (int i = 0; i < n/2; i++) {
+            p1 += abs(a[i] + a[n-1-i]);
+        }
+        for (auto i: a) p2 = min(p2, abs(i));
+        int ans = p2;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 // Startd 8:13 AM
 /*
+https://codeforces.com/problemset/problem/1866/A
+
+Nevermind, it's multiplying it the entire way around so the only way to do that if there is a 0 in the mix.
 
 */

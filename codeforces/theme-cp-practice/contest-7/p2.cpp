@@ -295,9 +295,49 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int l, r;
+        cin >> l >> r;
+        int L, R;
+        cin >> L >> R;
+        set<pair<int, int>> ans;
+        for (long long i = l; i <= r; i++) {
+            int room = i+1;
+            if (room >= L && room <= R) ans.insert({i, room});
+            room = i-1;
+            if (room >= L && room <= R) ans.insert({room, i});
+        }
+        debug(ans);
+        cout << max(1uLL, ans.size()) << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/2004/B
+
+Basically need to block their overlap. 
+
+Example
+4 5
+5 9
+=> Need to block doors [4, 5] and [5, 6]
+
+Simulate using that door by extending 1 in either direction to the left or the right.
+
+Example:
+4 5
+2 5
+=> Only need 2 doors blocked, namely: [3, 4] and [4, 5]
+
+Example:
+1 3 
+1 1
+
+Ah I'm griefing - the test cases are so troll. Didn't read the top statement clearly enough to where it stated
+that x is reachable from y only if all the doors are unlocked which now that I'm thinking about shouldn't matter 
+on the answer since we are only moving 1 door at a time. Holy - the same statement ignored is brutal - didn't 
+even account for the fact that if the segments are disjoint, then it doesn't even matter as I can reach the other one
+by not blocking - I think this is the only case where it matters.
+
+Kind of cheated a bit by looking at test cases which I should stop doing and think more critically about the problem.
 
 */
