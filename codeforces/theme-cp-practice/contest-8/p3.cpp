@@ -295,9 +295,50 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<int> a(n), b(m);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < m; i++) cin >> b[i];
+        int mn = 0;
+        for (int i = 0; i < n; i++) {
+            mn ^= a[i];
+        }
+        int ev = 0;
+        for (auto i: b) ev |= i;
+        int mx = 0;
+        for (int i = 0; i < n; i++) {
+            int c = a[i] | ev;
+            mx ^= c;
+        }
+        if (mn > mx) swap(mn, mx);
+        debug(mn, mx);
+        cout << mn << ' ' << mx << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1870/B
+
+Suppose n is even, then we should apply the entire b to the array because the bits will get cancelled out if they don't get used, otherwise
+it's always beneficial because it will remove the differences between bits if some number has a bit in a but another one doesn't so it
+will equilize the position. No extra cost since it's even so we should always apply.
+
+Taking the bitwise or of b one bit at a time for all is the same as taking the bitwise or of all the bits in b and then applying it to
+a. One because we only care about the entire bitwise or instead of a subset so we can apply it using one int instead of using two
+nested for loops. 
+
+In other words, we do the following below:
+a_i | b_1 | b_2 | b_3 | b_4 ... | b_n <=> a_i | b where b = b|1 | b|2 | b|3 | b|4 ... | b|n
+where we factor the right hand side in one operation because we can group them together since they are bitwise or.
+
+The min will be applying all the bitwise or operations. 
+The max will be leaving it alone since applying b operations will make it less than or equal to bitwise xor of a left untouched.
+
+When n is odd, then things get a bit tricky because applying the b operations now could either increase of decrease the answer. Ok,
+nevermind. If b_i has a bit in common with all the numbers in a, then it's going to increase the answer. On the other hand, if it
+doesn't have any bits in common with a, then it's still going to increase the answer since the xor of the even amount left
+will go to 0 and all that will be left is the uncommon bit in b_i which will increase the max value by some amount. Therefore,
+min in this case is applying no operations and max is applying all possible operations.
 
 */

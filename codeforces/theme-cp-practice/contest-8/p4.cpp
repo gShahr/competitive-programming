@@ -295,9 +295,57 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int a, b, r;
+        cin >> a >> b >> r;
+        if (a > b) swap(a, b);
+        string ba = bitset<64>(a).to_string();
+        string bb = bitset<64>(b).to_string();
+        debug(ba, bb);
+        int x = 0;
+        bool flag = false;
+        for (int i = 0; i < 64; i++) {
+            if (!flag && bb[i] == '1' && ba[i] != bb[i]) {
+                flag = true;
+                continue;
+            }
+            if (!flag) continue;
+            if (ba[i] == '0' && bb[i] == '1') {
+                int add = powl(2LL, 63-i);
+                if (x + add <= r) x += add;
+            }
+        }
+        int ans = abs((a ^ x) - (b ^ x));
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1918/C
+
+Since there is an absolute value, we want to minimize distance between (a xor x) and (b xor x).
+We want to reduce the bits that are different among a and b as much as possible. Worth noting that
+additonal bits which have ones in them will not affect the answer because the differnce will be 0 after
+xoring with their respective numbers and then subtracting from one another. However, we will not
+always be able to do this because the restriction of r to limit max value of x. Therefore, we should
+try to fix max bits between a and b to reduce the maximum possible difference for each increase in x.
+
+Algo will involve finding the highest bit that is less than or equal to r where it is different in
+both a and b.
+
+Example 9 6 10:
+1001
+0110
+
+1011
+1111
+
+Whoops the operatin is actually switching the bits from one to the other so the easiest strategy I can come up with is to swap
+the lower bits from the max number to the min number to reduce their difference. 
+
+Simple counterexample:
+
+1111 (15)
+0100 (8)
 
 */

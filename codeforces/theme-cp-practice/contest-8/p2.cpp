@@ -295,9 +295,36 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x, y;
+        cin >> x >> y;
+        string bx = bitset<32>(x).to_string();
+        string by = bitset<32>(y).to_string();
+        debug(bx, by);
+        int ans = 1;
+        for (int i = 31; i >= 0; i--) {
+            if (bx[i] != by[i]) break;
+            else ans *= 2;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1979/B
 
+Wherever the bits account for the missing bit.
+
+12 4
+1100
+0100
+=> From [8, 15] = 8 places where it is satisfied
+
+// AI generated
+// The decimal numbers 37 and 57 in binary are 100101 and 111001.
+=> answer is 4 for the example above
+
+// It seems that the lowest binary bit not in common is the answer rasied to the second power which makes sense.
+
+// This was helpful for bitset: https://stackoverflow.com/questions/22746429/c-decimal-to-binary-converting
 */

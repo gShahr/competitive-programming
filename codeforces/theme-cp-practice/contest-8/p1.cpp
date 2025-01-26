@@ -291,13 +291,58 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(string& a) {
+    int n = a.size();
+    stack<char> curr;
+    bool ok = true;
+    for (int i = 0; i < n; i++) {
+        if (a[i] == '(') curr.push(a[i]);
+        else {
+            if (curr.empty()) {
+                ok = false;
+                break;
+            } else curr.pop();
+        }
+    }
+    if (!curr.empty()) ok = false;
+    return ok;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string a;
+        cin >> a;
+        int n = a.size();
+        map<int, char> mp;
+        mp[0] = '(';
+        mp[1] = ')';
+        bool ok = false;
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                for (int k = 0; k < 2; k++) {
+                    string curr;
+                    for (int l = 0; l < n; l++) {
+                        if (a[l] == 'A') curr += mp[i];
+                        else if (a[l] == 'B') curr += mp[j];
+                        else curr += mp[k];
+                    }
+                    ok |= check(curr);
+                }
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
+// Started 8:37 AM
 /*
+https://codeforces.com/problemset/problem/1494/A
+
+What happens if we get something like AABBCCCC
+
+Ah ok, all occurances of the character with only one bracket so we just brute force it.
 
 */
