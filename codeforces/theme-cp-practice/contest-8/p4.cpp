@@ -348,4 +348,9 @@ Simple counterexample:
 1111 (15)
 0100 (8)
 
+Whoops - need to skip highest bits which are the same. Otherwise, it doesn't work. Goal is to minimize the difference from
+highest bit to lowest bit. If we can move over highset bit, then we can move everything else over so that should be the goal
+after the highest bit which are different. If they are the same, then the bits just cancel out (otherwords difference is 0) so
+we don't care about it and skip it.
+
 */
