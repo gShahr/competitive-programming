@@ -301,8 +301,8 @@ int32_t main() {
         for (int i = 1; i < n; i++) {
             if (n % i == 0) d = i;
         }
-        debug(n, k, d);
-        pair<int, int> range = {d * (n/(2*d)) + 1, d * (n/(2*d)) + d};
+        int x = (d/2) * (n/(2*d) + 1) + n/(2*d);
+        pair<int, int> range = {1 + x, n - x};
         debug(range);
         if (k < range.first || k > range.second) cout << -1 << endl;
         else {
@@ -312,10 +312,16 @@ int32_t main() {
                 ans.push_back(s);
                 s += d;
             }
-            debug(ans);
-            int m = n/d;
-            if (k <= (n+1)/2) ans[m/2] -= ((n+1)/2 - k);
-            else ans[m/2+1] = (n+1)/2;
+            int med = (n+1)/2;
+            if (k < med) {
+                int m = n/d;
+                if (k <= (n+1)/2) ans[m/2] -= ((n+1)/2 - k);
+            } else {
+                for (int i = 0; i < (k-med)/2; i++) {
+                    int ind = n/(2*d) + 1 + i;
+                    ans[ind] = ans[ind-1] + 2;
+                }
+            }
             debug(ans);
             cout << ans.size() << endl;
             for (int i = 0; i < ans.size(); i++) cout << ans[i] << ' ';
@@ -444,4 +450,42 @@ m3 = 13
 
 Why doesn't something like 2:13 
 
+*/
+
+/*
+
+n = 25, k = 17
+range = (9, 17)
+
+1 2 3 4 5
+6 7 8 9 10
+11 12 17 21 22
+13 14 18 19 20
+15 16 23 24 25
+
+3
+3
+2
+1+8, 25-8
+=> x = (d/2) * (n/(2*d) + 1) + n/(2*d)
+=> range = [1+x, n-x]
+
+test: 15
+=> x = 2 * 2 + 1
+=> range = [6, 10]
+
+1, 2, 3, 4, 5
+6, 7, 10, 11, 12
+8, 9, 13, 14, 15
+
+=> +d, +n/2d
+
+1 2 3 4 5
+6 10 11 12 13
+7 8 9 14 15
+16 17 18 19 20
+21 22 23 24 25
+
+Nice. Ok I misread the problem you are given a permutation from 1 to n in order and supposed to split that up into strictly subarrays. Wait,
+there median can only be (n+1)/2 in this case because you have to keep it in order which means you can always make it just be 1. 
 */
