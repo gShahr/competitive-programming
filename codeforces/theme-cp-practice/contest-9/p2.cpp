@@ -297,31 +297,12 @@ int32_t main() {
     while (t--) {
         int n, k;
         cin >> n >> k;
-        int d = 1;
-        for (int i = 1; i < n; i++) {
-            if (n % i == 0) d = i;
-        }
-        int x = (d/2) * (n/(2*d) + 1) + n/(2*d);
-        pair<int, int> range = {1 + x, n - x};
-        debug(range);
-        if (k < range.first || k > range.second) cout << -1 << endl;
+        int med = (n+1)/2;
+        if ((k == 1 || k == n) && n != 1) cout << -1 << endl;
         else {
-            vector<int> ans;
-            int s = 1;
-            for (int i = 0; i < n/d; i++) {
-                ans.push_back(s);
-                s += d;
-            }
-            int med = (n+1)/2;
-            if (k < med) {
-                int m = n/d;
-                if (k <= (n+1)/2) ans[m/2] -= ((n+1)/2 - k);
-            } else {
-                for (int i = 0; i < (k-med)/2; i++) {
-                    int ind = n/(2*d) + 1 + i;
-                    ans[ind] = ans[ind-1] + 2;
-                }
-            }
+            vector<int> ans = {1, k, k+1};
+            if (n == 1) ans = {1};
+            else if (k&1) ans = {1, k-1, k+2};
             debug(ans);
             cout << ans.size() << endl;
             for (int i = 0; i < ans.size(); i++) cout << ans[i] << ' ';
@@ -487,5 +468,14 @@ test: 15
 21 22 23 24 25
 
 Nice. Ok I misread the problem you are given a permutation from 1 to n in order and supposed to split that up into strictly subarrays. Wait,
-there median can only be (n+1)/2 in this case because you have to keep it in order which means you can always make it just be 1. 
+there median can only be (n+1)/2 in this case because you have to keep it in order which means you can always make it just be 1. Oh my fucking
+god, I thought m had to divide n but it doesn't have to!
+
+Ok so two things I got wrong about this problem. 1 that we can choose any initial ordering for the array and then split it up into
+subarrays. 2 that m had to divide n. Glad to know I am an expert at not fully understanding problem statements.
+
+So any number should be possible except for the ends at 1 and n. Otherwise, we can always split it up into 3 groups where group 1
+is 1, group 3 is n, and group 2 is everything else. Otherwise, everything else should be possible because we can go from 2 to n-1.
+
+Algo: Just put all the numbers from 1 to k-1 in group 1. k by itself in group 2 and k+1 to n in group 3.
 */
