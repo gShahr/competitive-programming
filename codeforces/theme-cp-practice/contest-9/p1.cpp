@@ -291,13 +291,40 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool consonant(char c) {
+    return c == 'b' || c == 'c' || c == 'd';
+ }
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        string ans;
+        int cnt = 0;
+        for (int i = 0; i < n; i += 2) {
+            ans.push_back(a[i]);
+            ans.push_back(a[i+1]);
+            cnt += 2;
+            if (i+3 < n && consonant(a[i+2]) && consonant(a[i+3]) || (i+2 < n && i+3 >= n)) {
+                ans.push_back(a[i+2]);
+                cnt++;
+                i++;
+            }
+            if (cnt < a.size()) ans.push_back('.');
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
+// started 8:13 AM
 /*
+https://codeforces.com/problemset/problem/1915/D
+
+How to differentiate between CV and CVC? If next two charactes are C's, then it must be a consonant, otherwise a vowel.
 
 */
