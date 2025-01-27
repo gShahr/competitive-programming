@@ -295,9 +295,153 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        int d = 1;
+        for (int i = 1; i < n; i++) {
+            if (n % i == 0) d = i;
+        }
+        debug(n, k, d);
+        pair<int, int> range = {d * (n/(2*d)) + 1, d * (n/(2*d)) + d};
+        debug(range);
+        if (k < range.first || k > range.second) cout << -1 << endl;
+        else {
+            vector<int> ans;
+            int s = 1;
+            for (int i = 0; i < n/d; i++) {
+                ans.push_back(s);
+                s += d;
+            }
+            debug(ans);
+            int m = n/d;
+            if (k <= (n+1)/2) ans[m/2] -= ((n+1)/2 - k);
+            else ans[m/2+1] = (n+1)/2;
+            debug(ans);
+            cout << ans.size() << endl;
+            for (int i = 0; i < ans.size(); i++) cout << ans[i] << ' ';
+            cout << endl;
+        }
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/2032/B
+
+Any n => can split into (n+1)/2 to get that median which is nice.
+
+n = 15, k = ?
+m = 3
+1, 2, 3, 4, 5
+6, 7, 8, 9, 10
+11, 12, 13, 14, 15
+=> [3, 8, 13] => 8
+
+1 2 4 5 6
+3 7 8 9 10
+11 12 13 14 15
+=> [4, 8, 13] => 8
+
+1 2 4 5 8
+3 6 7 9 10
+11 12 13 14 15
+=> [4, 7, 13] => 7
+
+Can generate [6, 7, 8, 9, 10]
+
+1, 2, 6, 7, 8
+3, 4, 5, 9, 10
+11, 12, 13, 14, 15
+=> [5, 6, 13] => 6
+
+1, 2, 3, 4, 5
+6, 7, 9, 10, 11
+8, 12, 13, 14, 15
+=> [3, 9, 13] => 9
+
+1, 2, 3, 4, 5
+6, 7, 8, 9, 10
+11, 12, 13, 14, 15
+=> [3, 8, 13] => 8
+
+1, 2, 3, 4, 11
+12, 13, 8, 9, 10
+5, 6, 7, 14, 15
+=> [3, 7, 10] => 7
+
+1, 2, 3, 4, 5
+6, 7, 8, 9, 10
+11, 12, 13, 14, 15
+=> [3, 8, 13] => 8
+
+1, 2, 3, 4, 5
+6, 7, 11, 12, 13
+8, 9, 10, 14, 15
+=> [3, 9, 13] => 9
+
+Problem with trying to get 5 is that the old median is ripped out making it larger and basically subsituting the 5 in for the position
+the 3 was taking in the final median.
+
+Valid range is [d * n/2d + 1, d * n/2d + d]
+
+1 4 11 => [6]
+1 5 11 => [7]
+1 6 11 => [8]
+1 6 8 => [9, 10]
+
+1, 2, 3, 4, 5
+, , 6, 9, 10
+11, 12, 13, 14, 15
+=> [3, 8, 13] => 8
+
+If going downwards from x to some x-d, decrease middle element by x-d.
+So it's standard answer, ans[d/2] -= ((n+1)/2 - k).
+Otherwise, it goes up so set ans[d/2+1] = ans[d/2].
+
+n = 9, k = 6
+
+1 2 5
+3 4 6
+7 8 9
+
+If I have a number like 9, what other things can I get from it besides 4, 5, 6?
+
+Something like 21, then
+
+m1 = 6 => 1 2 6 
+m2 = 7 => 3 4 7
+m3 = 9 => 5 8 9
+
+We don't care about the numbers larger than this since we don't have to provide them so we should just focus on the smallest elements
+possibl and construct from that.
+
+m1 = 1 2 4 6 7
+m2 = 3 4 11
+m3 = 5 6 12
+
+n = 15, k = ?
+1, 2, 3, 4, 5
+6, 7, 8, 9, 10
+11, 12, 13, 14, 15
+
+1 2 3 4 5
+6 7 8 9 10
+11 12 13 14 15
+=> 
+m1 = 3
+m2 = 8
+m3 = 13
+=> {1, 6, 11}
+
+1 2 3 11 12
+4 7 8 10 13
+5 6 9 14 15
+=> median = 8
+
+1 2 3 11 12
+4 8 9 10 13
+6 5 7 14 15
+=> median = 9
+
+Why doesn't something like 2:13 
 
 */
