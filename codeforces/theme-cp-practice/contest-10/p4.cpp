@@ -295,9 +295,80 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> b;
+        for (auto i: a) b[i]++;
+        vector<int> ans(8, -1);
+        bool ok = true;
+        debug(b);
+        for (auto i: b) {
+            if (i.second >= 4) {
+                if (ans[0] == -1) {
+                    ans[0] = i.first;
+                    ans[1] = i.first;
+                    ans[4] = i.first;
+                    ans[7] = i.first;
+                } else {
+                    ans[2] = i.first;
+                    ans[3] = i.first;
+                    ans[5] = i.first;
+                    ans[6] = i.first;
+                }
+            } else if (i.second >= 2) {
+                if (ans[0] == -1) {
+                    ans[0] = i.first;
+                    ans[4] = i.first;
+                } else if (ans[1] == -1) {
+                    ans[1] = i.first;
+                    ans[7] = i.first;
+                } else if (ans[2] == -1) {
+                    ans[2] = i.first;
+                    ans[5] = i.first;
+                } else {
+                    ans[3] = i.first;
+                    ans[6] = i.first;
+                }
+            }
+        }
+        for (auto i: ans) {
+            if (i == -1) ok = false;
+        }
+        debug(ans);
+        if (ok) {
+            cout << "YES" << endl;
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        } else cout << "NO" << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/2038/C
+
+Only want coordiantes with frequency greater or equal to 2, otherwise we can't use
+them. Then take leftmost downmost point and then rightmost upmost point to define
+the two opposite corners of the rectangle.
+
+Once those two points are defined, then the rest of the points are implied. 
+Therefore, we only care about the choice of 4 unique points - rest are filled in.
+
+(x1, y1) => left bottom corner
+(x2, y2) => right upper corner
+
+(x1, y2) => left upper corner
+(x2, y1) => right bottom corner
+
+If we can pick 4 elements for first two corners, we always do it. 
+
+4 elements picked => x1 y1 x3 y4
+=> x1 = x1 = x3
+=> y1 = y1 = y4
+2 elements picked => x1 x3
+=> x1 = x1 = x3
+2 elements picked => y1 y3
+=> y1 = y1 = y3
 
 */
