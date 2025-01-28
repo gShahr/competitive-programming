@@ -295,9 +295,47 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> prev;
+        for (auto i: a) prev[i] = -1;
+        map<int, vector<int>> gaps;
+        for (int i = 0; i < n; i++) {
+            if (prev.find(a[i]) != prev.end()) {
+                int gp = i - prev[a[i]];
+                gaps[a[i]].push_back(gp-1);
+            }
+            prev[a[i]] = i;
+        }
+        for (auto i: prev) {
+            int gp = n - i.second;
+            gaps[i.first].push_back(gp-1);
+        }
+        for (auto &i: gaps) sort(i.second.begin(), i.second.end());
+        int ans = INT_MAX;
+        for (auto i: gaps) {
+            int best = max(gaps[i.first][gaps[i.first].size() - 1] / 2, gaps[i.first][gaps[i.first].size() - 2]);
+            ans = min(ans, best);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1848/B
+
+Find maximum step needed for each color separately. Then take its max and divide
+by 2 and subtract 1. Actually just divide by 2. 3 would go to 1 step needed
+while 4 would still require 2 steps. 
+
+Need to subtract 1 from gp to account for number of pieces in between the two
+planks of the same color since that is what we care about.
+
+Need to add gaps in for left starting at 0 and right ending at n-1.
+
+Need to store the second largest gap 
 
 */

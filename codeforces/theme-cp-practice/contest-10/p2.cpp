@@ -295,9 +295,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> a(n, vector<int>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cin >> a[i][j];
+        }
+        for (int i = 0; i < n; i++) {
+            sort(a[i].begin(), a[i].end());
+        }
+        debug(a);
+        vector<pair<int, int>> b;
+        for (int i = 0; i < n; i++) b.emplace_back(a[i][0], i);
+        sort(b.begin(), b.end());
+        int mn = b[n-1].first;
+        bool ok = true;
+        for (int j = 1; j < m; j++) {
+            for (int i = 0; i < n; i++) {
+                int val = a[b[i].second][j];
+                debug(val, mn);
+                ok &= (val > mn);
+                mn = val;
+            }
+        }
+        debug(b);
+        if (ok) {
+            for (auto i: b) cout << i.second+1 << ' ';
+            cout << endl;
+        } else cout << -1 << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/2060/B
 
 */

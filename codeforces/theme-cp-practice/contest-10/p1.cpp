@@ -295,9 +295,32 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        a.insert(a.begin(), a[0]);
+        a.push_back(100LL*INT_MAX);
+        int ans = 0;
+        int cnt = 0;
+        for (int i = 1; i < a.size(); i++) {
+            if (a[i] - a[i-1] <= k) {
+                cnt++;
+            } else {
+                ans = max(ans, cnt);
+                cnt = 1;
+            }
+            debug(a, i, cnt);
+        }
+        ans = n - ans;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
+// Started 8:38 AM
 /*
+https://codeforces.com/problemset/problem/1850/D
 
 */
