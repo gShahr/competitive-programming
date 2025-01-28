@@ -302,41 +302,42 @@ int32_t main() {
         map<int, int> b;
         for (auto i: a) b[i]++;
         vector<int> ans(8, -1);
+        int x1 = INT_MAX, y1 = INT_MAX, x2 = INT_MAX, y2 = INT_MAX;        
         bool ok = true;
-        debug(b);
-        for (auto i: b) {
-            if (i.second >= 4) {
-                if (ans[0] == -1) {
-                    ans[0] = i.first;
-                    ans[1] = i.first;
-                    ans[4] = i.first;
-                    ans[7] = i.first;
-                } else {
-                    ans[2] = i.first;
-                    ans[3] = i.first;
-                    ans[5] = i.first;
-                    ans[6] = i.first;
-                }
-            } else if (i.second >= 2) {
-                if (ans[0] == -1) {
-                    ans[0] = i.first;
-                    ans[4] = i.first;
-                } else if (ans[1] == -1) {
-                    ans[1] = i.first;
-                    ans[7] = i.first;
-                } else if (ans[2] == -1) {
-                    ans[2] = i.first;
-                    ans[5] = i.first;
-                } else {
-                    ans[3] = i.first;
-                    ans[6] = i.first;
-                }
+        for (auto &i: b) {
+            if (i.second >= 2) {
+                x1 = i.first;
+                i.second -= 2;
+                break;
             }
         }
-        for (auto i: ans) {
-            if (i == -1) ok = false;
+        for (auto &i: b) {
+            if (i.second >= 2) {
+                y1 = i.first;
+                i.second -= 2;
+                break;
+            }
         }
+        for (auto it = b.rbegin(); it != b.rend(); it++) {
+            if (it->second >= 2) {
+                x2 = it->first;
+                b[it->first] -= 2;
+                break;
+            }
+        }
+        for (auto it = b.rbegin(); it != b.rend(); it++) {
+            if (it->second >= 2) {
+                y2 = it->first;
+                b[it->first] -= 2;
+                break;
+            }
+        }
+        int v1 = (x2-x1)*(y2-y1);
+        int v2 = abs(x2-y1)*abs(x1-y2);
+        if (v2 > v1) swap(x2, y2);
+        ans = {x1, y1, x1, y2, x2, y1, x2, y2};
         debug(ans);
+        for (auto i: ans) ok &= (i != INT_MAX);
         if (ok) {
             cout << "YES" << endl;
             for (auto i: ans) cout << i << ' ';
