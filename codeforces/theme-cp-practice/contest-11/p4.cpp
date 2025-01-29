@@ -307,19 +307,43 @@ int findProductSum(vector<int>& A, int N)
 }
 
 // taken from https://www.geeksforgeeks.org/multiplicative-inverse-under-modulo-m/
+int gcdExtended(int a, int b, int* x, int* y);
+
+// Function to find modulo inverse of a
 int modInverse(int A, int M) {
-  
-      if(gcd(A, M) > 1){
-          
-          // modulo inverse does not exist
-          return -1;
+    int x, y;
+    int g = gcdExtended(A, M, &x, &y);
+    if (g != 1)
+        cout << "Inverse doesn't exist";
+    else {
+
+        // m is added to handle negative x
+        int res = (x % M + M) % M;
+        return res;
     }
-    for (int X = 1; X < M; X++)
-        if (((A % M) * (X % M)) % M == 1)
-            return X;
 }
 
+// Function for extended Euclidean Algorithm
+int gcdExtended(int a, int b, int* x, int* y)
+{
 
+    // Base Case
+    if (a == 0) {
+        *x = 0, *y = 1;
+        return b;
+    }
+
+    // To store results of recursive call
+    int x1, y1;
+    int gcd = gcdExtended(b % a, a, &x1, &y1);
+
+    // Update x and y using results of recursive
+    // call
+    *x = y1 - (b / a) * x1;
+    *y = x1;
+
+    return gcd;
+}
 
 int32_t main() {
     int t;
@@ -330,10 +354,10 @@ int32_t main() {
         vector<int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
         int sum = findProductSum(a, n);
-        int pairs = (n*(n+1))/2;
+        int pairs = (n*(n-1))/2;
         int modd = 1e9+7;
         debug(sum, pairs);
-        int ans = sum * modInverse(pairs, modd);
+        int ans = sum * modInverse(pairs, modd) % modd;
         debug(ans);
         cout << ans << endl;
     }
