@@ -295,9 +295,36 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        int m = 0;
+        int z = 1;
+        for (int i = 0; i < k; i++) {
+            m += z;
+            z *= 2;
+            if (m > n) break;
+        }
+        int ans = n+1;
+        if (m <= n) ans = m+1;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1840/B
 
+If n is 111 in binary, then the answer would be 3C3 + 3C2 + 3C1.
+Ah ok nevermind, something like 10 could still take something at 4
+even though it doesn't have it in binary.
+
+Example 10 2:
+1 2
+
+Example 179 180
+=> 1 2 4 8 16 32 64 128
+
+Ahh the answer is just going to n because all binary numbers less than or
+equal are accounted for it. If k is smaller, then we take the binary number
+with i-1 ones. The answer is this plus one to account for the empty set.
 */

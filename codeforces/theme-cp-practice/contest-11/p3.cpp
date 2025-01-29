@@ -291,13 +291,79 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool is_prime(int x) {
+    bool ok = true;
+    for (int i = 2; i*i <= x; i++) {
+        if (x % i == 0) ok = false;
+    }
+    return ok;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int pp = 1;
+        int MX = 20;
+        for (int i = 2; i <= MX; i++) {
+            int x = i;
+            if (is_prime(x)) {
+                while (x <= MX) {
+                    pp *= i;
+                    x *= i;
+                }
+            }
+        }
+        vector<int> ans(n);
+        for (int i = 0; i < n; i++) ans[i] = pp / a[i];
+        int sum = accumulate(ans.begin(), ans.end(), 0LL);
+        if (sum < pp) {
+            debug(ans);
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        } else cout << -1 << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1979/C
 
+Try to get common denominators?
+
+Example: 3 2 7
+=> 2 * 3 * 7 = 42
+
+3 * 14
+2 * 21
+7 * 6
+
+x y z
+
+x * (y+z)
+y * (x+z)
+z * (x+y)
+
+2x + 2y + 2z = 2(x+y+z) <= xy + xz
+
+x * y
+y * x
+x + y <= xy
+
+2 => 21
+3 => 14
+7 => 6
+
+(x*y*z)/x = yz
+(x*y*z)/y = xz
+(x*y*z)/z = xy
+yz+xz+xy <= xyz
+
+xz <= xyz - yz - xy = y(xz - z - x)
+xz <= y(xz - z - x)
+
+xz - z - x >= 0
 */

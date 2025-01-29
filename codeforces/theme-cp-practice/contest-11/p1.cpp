@@ -295,9 +295,32 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        map<char, int> freq;
+        for (auto i: a) freq[i]++;
+        vector<pair<int, char>> pp;
+        for (auto i: freq) {
+            pp.emplace_back(i.second, i.first);
+        }
+        sort(pp.begin(), pp.end());
+        debug(pp, a);
+        for (int i = 0; i < n; i++) {
+            if (pp.size() >= 2 && a[i] == pp[0].second) {
+                a[i] = pp[(int)pp.size()-1].second;
+                break;
+            }
+        }
+        debug(a);
+        cout << a << endl;
     }
 }
 
+// started 9:40 AM
 /*
+https://codeforces.com/problemset/problem/2047/B
+Make lowest occuring character into highest occuring character.
 
 */
