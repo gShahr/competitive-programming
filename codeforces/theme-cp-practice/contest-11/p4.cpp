@@ -291,13 +291,61 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+// taken from https://www.geeksforgeeks.org/sum-product-pairs-array-elements/
+int findProductSum(vector<int>& A, int N) 
+{ 
+    long long ans = 0; 
+    long long sum = 0; 
+    long long Mod = 1000000007; 
+    for (int i = 0; i < N; i++) { 
+        ans += (sum * A[i]) % Mod; 
+        ans %= Mod; 
+        sum += A[i]; 
+        sum %= Mod; 
+    } 
+    return ans; 
+}
+
+// taken from https://www.geeksforgeeks.org/multiplicative-inverse-under-modulo-m/
+int modInverse(int A, int M) {
+  
+      if(gcd(A, M) > 1){
+          
+          // modulo inverse does not exist
+          return -1;
+    }
+    for (int X = 1; X < M; X++)
+        if (((A % M) * (X % M)) % M == 1)
+            return X;
+}
+
+
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int sum = findProductSum(a, n);
+        int pairs = (n*(n+1))/2;
+        int modd = 1e9+7;
+        debug(sum, pairs);
+        int ans = sum * modInverse(pairs, modd);
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/2008/F
+
+Example 1 2 3 4 5
+2, 3, 4, 5
+6, 8, 10
+12, 15
+20
 
 */
