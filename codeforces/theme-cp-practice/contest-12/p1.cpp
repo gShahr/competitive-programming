@@ -295,9 +295,33 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, f, a, b;
+        cin >> n >> f >> a >> b;
+        vector<int> m(n);
+        for (int i = 0; i < n; i++) cin >> m[i];
+        m.insert(m.begin(), 0LL);
+        bool ok = true;
+        for (int i = 1; i < m.size(); i++) {
+            int v1 = (m[i] - m[i-1]) * a;
+            int v2 = b;
+            int res = min(v1, v2);
+            f -= res;
+        }
+        if (f <= 0) ok = false;
+        debug(f, ok);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
+// Started 9:11
 /*
+Used AI for syntax checker; accidently named variable a for an int and then using
+it agian for vector naming.
+
+Ahh I'm super grieing. I thought my solution was failing before because I didn't
+subtract a_i 4 times for the first example but it's actually because I had f < 0
+instead of f <= 0. I looked at testcase and they were only subtracting 3
+ahahaha.
 
 */

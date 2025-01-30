@@ -295,9 +295,51 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int n = s.size();
+        int m = 0;
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '1') {
+                cnt++;
+            } else {
+                m = max(m, cnt);
+                cnt = 0;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '1') {
+                cnt++;
+            } else {
+                m = max(m, cnt);
+                cnt = 0;
+            }
+        }
+        m = min(n, max(m, cnt));
+        int ans = 0;
+        for (int i = 0; i <= m; i++) {
+            int v1 = (m-i)*(1+i);
+            ans = max(ans, v1);
+        }
+        if (m == n) ans = n*n;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1820/B
+
+Sort the string, then there is guaranteed to be a pattern where it's
+m, m-1, m-2, m-3, etc.
+
+m*1, (m-1)*2, (m-3)*3
+
+We take the 2 numbers with the smallest differnce between them and multiply 
+them.
+
+Ah ok - they have to be the largest stream of consecutive ones, otherwise if
+a zero divides them, then we can't use it for the area.
 
 */

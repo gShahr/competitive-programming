@@ -295,9 +295,68 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        if (n % 2 == 0) cout << "NO" << endl;
+        else {
+            cout << "YES" << endl;
+            vector<pair<int, int>> ans;
+            int l = (2*n+1) - n/2;
+            int r = l + n-1;
+            pair<int, int> s = {1, l-1};
+            while (s.first + s.second <= r) {
+                ans.push_back(s);
+                s.first++;
+                s.second++;
+            }
+            s.second = l+1-s.first;
+            while (s.first + s.second <= r) {
+                ans.push_back(s);
+                s.first++;
+                s.second++;
+            }
+            for (auto i: ans) cout << i.first << ' ' << i.second << endl;
+            cout << endl;
+        }
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1788/C
+
+Example 2:
+1, 2, 3, 4
+=> {4, 6}
+
+Example 3:
+1, 2, 3, 4, 5, 6
+=> {6, 8, 7}
+=> {1+5, 2+6, 3+4}
+=> 1 5 2 6 3 4
+=> {3+3, 3+4, 3+5}
+=> {1+5, 2+6, 3+4}
+=> {7, 6, 8}
+
+Hypothesis => even numbers don't work; odd numbers always work.
+
+Example 5
+1 2 3 4 5 6 7 8 9 10
+=> {11, 10, 12}
+Maybe try from [7, 12]
+=> {1+6, 3+5, 2+7, 2+9}
+=> {1+7, 2+8, 3+6}
+= {8, 10, 9}
+Maybe try from [10, 14]
+=> {10+4, 6+7, 9+3, 8+2, 5+1}
+=> {10+1, 6+2, 9+3, 8+5, 7+4}
+Maybe try from [9, 13]
+=> {1+8, 2+9, 3+10, 4+6, 5+7}
+=> {9, 11, 13, 10, 12}
+
+Example 6
+=> {1+11, 2+12, 3+9, 4+10}
+Maybe try generating all even values first and then odds
+Maybe try from [9, 13]
+
 
 */
