@@ -295,9 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1967/A
 
+1 2 3 4 3 2 1 2 3 4
+
+Max val for min length:
+n => 1
+2n-1 = xn - (x-1) = xn - x + 1 => 2
+3n-2 => 3
+4n-3 => 4
 */
