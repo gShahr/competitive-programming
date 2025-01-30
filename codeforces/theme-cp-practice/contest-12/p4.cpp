@@ -299,7 +299,28 @@ int32_t main() {
         cin >> n >> k;
         vector<int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
-
+        sort(a.begin(), a.end());
+        int mn = a[0];
+        int x = 0;
+        int kk = k;
+        for (int i = 1; i < n; i++) {
+            int d = a[i] - a[i-1];
+            int take = min(kk / i * i, i * d);
+            kk -= take;
+            mn += (take/i);
+        }
+        mn += (kk / n);
+        kk %= n;
+        kk = k;
+        for (int i = 0; i < n; i++) {
+            kk -= max(0LL, (mn - a[i]));
+            if (a[i] > mn) x++;
+        }
+        x = min(n-1, x+kk);
+        debug(mn, x);
+        int ans = n * (mn - 1) + x + 1;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
@@ -313,4 +334,12 @@ n => 1
 2n-1 = xn - (x-1) = xn - x + 1 => 2
 3n-2 => 3
 4n-3 => 4
+
+1 20 25 30
+20 20 25 30
+
+n=4, mn=2, x=extra
+1 2 3 4 1 2 3 4
+=> ans = n * mn - n + 1 + x = n * (mn - 1) + x + 1
+
 */
