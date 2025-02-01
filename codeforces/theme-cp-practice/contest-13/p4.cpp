@@ -291,13 +291,78 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+int dfs(vector<vector<int>>& dp, int i, bool me) {
+    int add = 0;
+    if (me) {
+        if (dp[0][i] != -1) return dp[0][i];
+    } else {
+        if (dp[1][i] != -1) return dp[1][i];
+    }
+    if (!me) {
+        if (i+1 < dp[1].size() && dp[1][i+1] == 1) add++;
+        if (i+2 < dp[1].size() && dp[1][i+2] == 1) add++;
+    }
+    if (i+1 < dp[0].size()) dfs(dp, i+1, !me);
+    if (i+2 < dp[1].size()) dfs(dp, i+2, me);
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        // vector<vector<int>> dp(2, vector<int>(n, -1));
+        // dfs(dp, 0, false);
+        int ans = 0;
+        bool myTurn = false;
+        for (int i = 0; i < n; i++) {
+            if (i+1 < n && a[i] == 0 && a[i+1] == 0) {
+                while (i+1 < n && a[i+1] == 0) i++;
+                myTurn = true;
+            } else if (myTurn) {
+                if (i+1 < n && a[i] == 1 && a[i+1] == 0);
+                else i++;
+                myTurn = false;
+            } else {
+                if (a[i] == 1) ans++;
+                if (i+2 < n && a[i] == 1 && a[i+1] == 0 && a[i+2] == 1) i++;
+                myTurn = true;
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1418/C
+
+Friens turn => A
+My turn => B
+My turn:
+0 0 => Skip
+1 0 => Take only one.
+0 1 => Take both zero and one.
+1 1 => Take both ones.
+Friend's turn:
+0 0 => 
+0 1 =? Take only zero.
+1 0 1 => Take both one and zero.
+1 0 0 => Take only one.
+1 1 => Take only one.
+
+0 0 0 1 1
+
+0 0 1 1
+
+Two or more zeroes can be skipped and make the next index start at B. Even 
+zeroes can just alternate by one move, one move until it gets down to 2 values
+which we can just swoop with one A action. In the case where it's odd, we alternate
+when we get down to the exactly 3 values and then alternate moves to go A, B, A
+which ends up with B on the new index.
+
 
 */
