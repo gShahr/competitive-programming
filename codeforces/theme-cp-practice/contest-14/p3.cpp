@@ -295,9 +295,57 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int r = 1;
+        int cost = 0;
+        int inc = 1;
+        while (r <= 1e9) {
+            // debug(n, m, r, cost);
+            if ((m >= cost + inc) && ((n & r) == 0)) {
+                cost += inc;
+                m -= cost;
+                n += r;
+                inc *= 2;
+            }
+            r *= 2;
+        }
+        debug(n);
+        cout << n << endl;
+        // n = 1145;
+        // m = 50;
+        // int p = 100;
+        // vector<int> a(n+p+1);
+        // for (int i = 0; i <= n+p; i++) a[i] = i;
+        // for (int i = 0; i < m; i++) {
+        //     vector<int> next;
+        //     for (int j = 0; j <= n+p; j++) {
+        //         int v1;
+        //         if (n <= 0) v1 = a[j];
+        //         else if (j == 0) v1 = a[j] | a[j+1];
+        //         else if (j == n+p) v1 = a[j-1] | a[j];
+        //         else v1 = a[j-1] | a[j] | a[j+1];
+        //         next.push_back(v1);
+        //     }
+        //     // debug(next);
+        //     debug(next[n-3], next[n-2], next[n-1], next[n], next[n+1]);
+        //     a = next;
+        // }
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1981/B
+
+0 1 2 3 4 5 6 7 8 9 10 11 12
+=> 1 3 3 7 7 7 15 15 
+
+Ah we only care for the last value. Looking at the pattern, it seems that it 
+converges to a number that is made up of all its bits having all ones after
+x rounds. Otherwise it just stays the value of a_n for the 0th round or
+a_{n-1} | a_n for the first rounds to  the xth rounds.
+
+Ok really tricky but I think after each round, it gets one missing bit added in.
+
 
 */
