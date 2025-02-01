@@ -295,9 +295,55 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans;
+        for (int i = 1; i < n; i++) ans.push_back(i);
+        int r = 1;
+        int m = n-1;
+        while (m >>= 1) r *= 2;
+        debug(r);
+        for (int i = 0; i < n-1; i++) {
+            if (ans[i] == r) {
+                ans.insert(ans.begin()+i, 0);
+                break;
+            }
+        }
+        debug(ans);
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
+// Started 10:00 AM
 /*
+https://codeforces.com/problemset/problem/1632/B
+
+Idea is to get rid of as mamy bits as possible
+
+Example 10:
+0100
+0110
+0011
+0010
+0000
+1000
+1001
+0001
+0111
+0101
+
+1 2 3 4 5 6 7 0 8 9 => works as possible sequence
+
+Hypothesis: Highest bit in n is always the construction cost => not true for
+first example though but true for all the rest. Ah but for n-1 it is true.
+Ah, it would't have even included n because it's a permutation from 0 to n-1.
+
+Ah ok, proof is quite simply going to be that there is at least one spot that
+doesn't contain that bit, so it is always going to act as a lowerbound for 
+the answer.
+
+Example 16:
+1 2 3 4 5 6 7 0 8 9 10 11 12 13 14 15
 
 */

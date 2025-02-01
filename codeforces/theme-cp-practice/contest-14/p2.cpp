@@ -295,9 +295,31 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> c(n);
+        for (int i = 0; i < n; i++) cin >> c[i];
+        sort(c.begin(), c.end());
+        bool ok = true;
+        int sum = 1;
+        if (c[0] != 1) ok = false;
+        for (int i = 1; i < n; i++) {
+            debug(c[i], sum);
+            if (c[i] <= sum);
+            else ok = false;
+            sum += c[i]; 
+        }
+        debug(ok);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1807/G2
+
+1 2 3 6
+
+Can prove solution via induction.
 
 */
