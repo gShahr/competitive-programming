@@ -298,39 +298,19 @@ int32_t main() {
         int n, m;
         cin >> n >> m;
         int r = 1;
-        int cost = 0;
-        int inc = 1;
-        while (r <= 1e9) {
-            // debug(n, m, r, cost);
-            if ((m >= cost + inc) && ((n & r) == 0)) {
-                cost += inc;
-                m -= cost;
-                n += r;
-                inc *= 2;
-            }
-            r *= 2;
+        int curr = 0;
+        int ans = n;
+        int mx = 1e12;
+        while (r <= mx) {
+            if ((r&n) == 0) {
+                int cost = r-curr;
+                if (r <= n) cost = min(cost, curr+1);
+                if (m >= cost) ans |= r;
+            } else curr += r;
+            r <<= 1;
         }
-        debug(n);
-        cout << n << endl;
-        // n = 1145;
-        // m = 50;
-        // int p = 100;
-        // vector<int> a(n+p+1);
-        // for (int i = 0; i <= n+p; i++) a[i] = i;
-        // for (int i = 0; i < m; i++) {
-        //     vector<int> next;
-        //     for (int j = 0; j <= n+p; j++) {
-        //         int v1;
-        //         if (n <= 0) v1 = a[j];
-        //         else if (j == 0) v1 = a[j] | a[j+1];
-        //         else if (j == n+p) v1 = a[j-1] | a[j];
-        //         else v1 = a[j-1] | a[j] | a[j+1];
-        //         next.push_back(v1);
-        //     }
-        //     // debug(next);
-        //     debug(next[n-3], next[n-2], next[n-1], next[n], next[n+1]);
-        //     a = next;
-        // }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
@@ -346,6 +326,16 @@ x rounds. Otherwise it just stays the value of a_n for the 0th round or
 a_{n-1} | a_n for the first rounds to  the xth rounds.
 
 Ok really tricky but I think after each round, it gets one missing bit added in.
+
+1145 = 0b10001111001 (used google search for this)
+=> let's say I wanted 10000000 
+01111001
+
+We want 100
+and we have 11000
+10100
+
+6 7 8 9 10
 
 
 */
