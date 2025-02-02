@@ -295,9 +295,83 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans = {n / 2, n - n / 2};
+        int mod = 10;
+        pair<int, int> prev;
+        while (mod <= 1e9) {
+            if ((ans[0]-prev.first) % mod == 9*mod/10 && (ans[1]-prev.second) % mod == 0) {
+                ans[0] += 5 * (mod/10);
+                ans[1] -= 5 * (mod/10);
+            }
+            if ((ans[0]-prev.first) % mod == 0 && (ans[1]-prev.second) % mod == 9*mod/10) {
+                ans[0] -= 5 * (mod/10);
+                ans[1] += 5 * (mod/10);
+            }
+            prev = {ans[0] % mod, ans[1] % mod};
+            debug(ans);
+            mod *= 10;
+        }
+        debug(ans);
+        cout << ans[0] << ' ' << ans[1] << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1788/B
+
+General idea: Divide by 2 for first number and then subtract that from n to get
+the second number. However, it doesn't work for something like 19
+
+Example 19
+=> 9 10
+=> 4 5 5 5
+
+201
+=> 100 101
+
+219
+=> 109 110
+=> 114 105
+=> 154 55
+
+219
+=> 113 106
+
+295
+=> 147 148
+
+=> Every combination works except for {9, 0}
+=> Add 5 and subtract 5
+
+999
+=> 499 500
+=> 504 495
+=> 554 445
+
+=> 499 500
+=> 504 495
+=> 544 455
+
+=> 549 450
+=> 554 446
+
+=> 445 554 (differs by 109)
+
+999
+=> 400 500, 50 40, 4 5
+=> 454, 545
+
+=> 499 500
+=> 504 495
+=> 454 545 (-1, +5, +0) (+1, -5, +0)
+
++5, -5
++40, -40
+
++5 -5
++50 -50
+
 
 */

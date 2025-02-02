@@ -295,9 +295,47 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> a;
+        set<int> values;
+        for (int i = 0; i < n; i++) {
+            int x;
+            cin >> x;
+            vector<int> curr(x);
+            for (int j = 0; j < x; j++) {
+                cin >> curr[j];
+                values.insert(curr[j]);
+            }
+            a.push_back(curr);
+        }
+        debug(a);
+        int mx = 50;
+        int ans = 0;
+        for (auto i: values) {
+            set<int> curr;
+            for (int j = 0; j < n; j++) {
+                bool ok = true;
+                for (int k = 0; k < a[j].size(); k++) {
+                    if (a[j][k] == i) ok = false;
+                }
+                if (ok) {
+                    for (auto k: a[j]) curr.insert(k);
+                }
+            }
+            debug(i, curr);
+            ans = max(ans, (int)curr.size());
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1882/B
+
+Max time limit around t * n^2 * logn.
+Main algo: t * n * k * logk =~ 7.5 * 10^7
+Nevermind main algo is actually: t * a_max * n * k =~ 1.25 * 10^7
 
 */

@@ -295,9 +295,43 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> grid(n, vector<int>(n));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) cin >> grid[i][j];
+        }
+        debug(grid);
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            int c1 = 0;
+            int c2 = 0;
+            int k = 0;
+            for (int j = n-1; j >= n-1-i; j--) {
+                if (grid[i-k][j] < 0) c1 = max(c1, abs(grid[i-k][j]));
+                if (grid[j][i-k] < 0) c2 = max(c2, abs(grid[j][i-k]));
+                k++;
+            }
+            if (i == n-1) ans += c1;
+            else ans += c1 + c2;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
+// Started 7:21 AM
 /*
+https://codeforces.com/problemset/problem/2033/B
+
+Go through each right diagonal in the matrix and add the max negative number
+taking its absolute value and adding it to the answer.
+
+0 n
+0 1, 1 n
+0 0, 1 1, 2, n
+
+1 0, 2, 1
+2 0
 
 */
