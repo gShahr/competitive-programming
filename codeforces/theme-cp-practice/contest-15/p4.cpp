@@ -295,9 +295,48 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string s;
+        cin >> s;
+        int ans = 0;
+        int k = 0;
+        for (int i = n-1; i >= 0; i--) {
+            if (s[i] == '1') {
+                if (k == i) {
+                    ans += k+1;
+                    break;
+                } else if (i >= 1 && s[i-1] == '1') {
+                    ans += k+1;
+                    k++;
+                } else {
+                    int res = 0;
+                    int j = i;
+                    while (j-1 >= 0 && s[j-1] == '0') {
+                        j--;
+                        res += j+1;
+                    }
+                    ans += res;
+                    i = j;
+                }
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/2026/C
+
+Observation 1:
+00001 => Forced to purchase all these items for as many consecutive zeroes to 
+the right because we can purchase it on no other day.
+
+Observation 2:
+The second case is if we have 11 substring present which means previous day
+we can purchase some number of elements. So for this one, we should purchase
+only 2 items where x is the most expensive item on the second index of the
+current 1 and then a cheapest item.
 
 */
