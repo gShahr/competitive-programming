@@ -295,9 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        string a;
+        cin >> a;
+        map<char, int> cnt;
+        for (auto i: a) cnt[i]++;
+        for (auto i: cnt) {
+            if (i.second&1) k--;
+        }
+        if (k >= -1) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
+// Started 7:29 AM
 /*
+https://codeforces.com/problemset/problem/1883/B
+
+at most one odd character, rest have to be even
 
 */

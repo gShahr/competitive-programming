@@ -291,13 +291,94 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool guess(string& x) {
+    cout << '?' << ' ' << x << endl;
+    bool ok;
+    cin >> ok;
+    return ok;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string ans;
+        bool l = false;
+        while (ans.size() < n) {
+            if (!l) {
+                string c1, c2;
+                c1 += '1';
+                c2 += '0';
+                c1 += ans;
+                c2 += ans;
+                if (guess(c1)) {
+                    ans = c1;
+                } else if (ans.empty()) {
+                    ans = c2;
+                } else if (guess(c2)) {
+                    ans = c2;
+                } else {
+                    l = true;
+                }
+            } else {
+                string c1, c2;
+                c1 += ans;
+                c2 += ans;
+                c1 += '1';
+                c2 += '0';
+                if (guess(c1)) {
+                    ans = c1;
+                } else if (c2.size() <= n) {
+                    ans = c2;
+                } else {
+                    break;
+                }
+            }
+        }
+        cout << '!' << ' ' << ans << endl;
+        debug(ans);
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/2013/C
+
+2^n possible choices to make for something like this. 
+
+Example 1110010:
+
+3 choices for 1 => 11, 01, 10
+3 choices for 0 => 00, 01, 10
+
+If we know that 111 is a substring, then we have to test 0111 and 1110.
+If one of those is a substring, then we continue along, otherwise, we know 
+that it has to be 1111 as the substring.
+
+Main algo:
+Guess 0. If none, then its all ones. Otherwise, we know that 0 exists
+somewhere in the string. So we can check if 10 or 01 is in the string by
+surronding it with opposite characters on the adjacent ends. If we take
+010 as an example, the answer would be true. It's kind of annoying since
+both substrings would yield yes but I don't that really matters in that
+case since we can just take either of them. So then we are left with 
+10 which we have to now check with 010 and 101. We keep doing this until
+the entire string matches.
+
+Damn my current solution takes at most 2n + 2 operations. The case where it
+fails or at least one of the cases where it fails is when it guesses an initial
+operaiton that isn't present and then continues to guess 2n operations
+to fill everything in. We can reduce it by 1 either of two ways.
+
+Ok so for the right hand operations we only need 1 operation to guess what
+the righthand side is becaue we already know that our substring fits flush
+on the left hand side. Therefore, we can just check against the size of the
+total number of characters needed, namely n. So now that max I believe
+would be 2n + 1 which is 1 too many characters.
+
+(n-1)*2 + 2 + 1 = 2n-2+2+1 = 2n+1
+(n-2)*2 + 2 + 2 = 2n-4+4 = 2n
+(n-3)*2 + 2 + 3 = 2n - 6 + 2 + 3 = 2n-1 <= 2n
 
 */

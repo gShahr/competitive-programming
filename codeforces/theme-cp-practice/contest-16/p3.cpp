@@ -295,9 +295,73 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string a;
+        cin >> a;
+        int n = a.size();
+        int ans = INT_MAX;
+        bool ok = true;
+        for (auto i: a) {
+            if (i != a[0]) ok = false;
+        }
+        if (ok) {
+            cout << 0 << endl;
+            continue;
+        }
+        for (int i = 'a'; i <= 'z'; i++) {
+            int mx = 0;
+            int cnt = 0;
+            for (int j = 0; j < n; j++) {
+                if (a[j] == i) {
+                    mx = max(mx, cnt);
+                    cnt = 0;
+                } else cnt++;
+            }
+            mx = max(mx, cnt);
+            int res = log2(mx);
+            ans = min(ans, res+1);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1821/C
+
+Example: codeforces
+Converge on e
+=> eoce
+=> eoe
+=> ee
+
+16 => 8 => 4 => 2 => 1 => 5 operations
+10 => 4 operations
+8 => 4 operations
+7 => 3 operations
+6 => 3 operations
+5 => 3 operations
+4 => 3 operations
+3 => 2 operations
+2 => 2 operations
+
+Hypothesis: floor(log_2(n))
+=> Can prove inductively. Kind of difficult to prove in my head if it's not 
+only powers of twos we are looking at. It can probably be proved with induction
+with a bit more casework to handle non-powers of twos as well. 
+
+Can use direct proof for powers of twos because they produce the same values
+each time but not really useful for odds and induction seems to be better
+use case for it. 
+
+Let's say I use strong induction for all the values between 4 and 7. Then I will
+look at values between 9 and 15 inclusive and can see that removing the most
+amount of characters will result in me getting somewhere between 4 and 8.
+From the inductive hypothesis, I know that all the numbers from 4 to 7 inclusive
+take the same amount of operations. Therefore the operations for 9 to 15
+inclusive take one plus the amount of operations it takes for 4. Actually
+can include 8 in there as well to make it symmetric. Bounded by 8/2 and 16/2.
+Actually, neveremind can't include 16 because it will go to 8 instead of the ones
+smaller than it so the bound is from the power of 2 to the next highest 
+power of 2 minus 1.
 
 */

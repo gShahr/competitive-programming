@@ -295,9 +295,62 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        set<char> visited;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (visited.find(a[i]) != visited.end()) continue;
+            visited.insert(a[i]);
+            ans += n-i;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1917/B
+
+If the first two characters are the same, then applying either operation produces
+the same result. 
+
+Example: ababa
+=> baba, aaba
+
+Example: abc
+=> bc, ac
+=> b, c, a, c
+
+Example: abcd
+=> bcd, acd
+=> cd, bd, ad
+=> a, b, c, d
+=> 11 total
+
+We have to find upperbound approximation since then we can just brute force it.
+2^n possible choices here because at each step we can remove either the first
+character or the second character.
+
+abcd
+=> acd => cd
+=> bcd => cd
+
+abcde
+=> bcde => cde => ce (1, 1, 2)
+=> acde => cde => de (2, 1, 1)
+
+(1, 2) same as (2, 1)
+
+Example ababa
+=> ababa, aaba, aba, aa, a
+=> baba, bba, ba, b
+=> aba, aa, a // can ignore
+=> ba, b // can ignore
+=> a // can ignore
+
+=> Upperbound of n^2 total choices.
 
 */
