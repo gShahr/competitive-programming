@@ -291,13 +291,38 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(vector<int>& a, int c, int w) {
+    int sum = 0;
+    for (auto i: a) {
+        sum += (i+2*w) * (i+2*w);
+    }
+    return sum <= c;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, c;
+        cin >> n >> c;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int w = 0;
+        for (int b = 1e7; b >= 1; b /= 2) {
+            while (check(a, c, w+b)) w += b; 
+        }
+        debug(w);
+        cout << w << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1850/E
+
+c = (a1+2w)^2 + (a2+2w)^2 + ... (an+2w)^2
+=> Distributing the 2 we get a1^2 + 2w^2 + 4w * a1
+so in the end we get some kind of quadratic
+
+Since it's monotonic, we can also do binary search on this.
 
 */

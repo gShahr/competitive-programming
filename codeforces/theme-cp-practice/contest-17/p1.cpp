@@ -295,9 +295,37 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        if (n == 1 ||  n == 3) cout << -1 << endl;
+        else {
+            string ans;
+            if (n % 2 == 0) ans = "66";
+            else ans = "36366";
+            string rem;
+            for (int i = ans.size(); i < n; i++) rem += '3';
+            ans = rem + ans;
+            debug(ans);
+            cout << ans << endl;
+        }
     }
 }
 
+// Started 7:38 AM
 /*
+https://codeforces.com/problemset/problem/2035/B
+
+33 * gcd(66, 33) = 66
+lcm(33, 66) = 66 so only need multiples of 66 to satisfy both conditions.
+
+330 mod 66 = 0 so if I add this to anything, it will work as long as the 
+subsequent number contains only 3s and 6s. 
+
+The key idea being the fact once the answer is at least size 2 (either it is even) 
+or of size 5 (size odd), we can use it. Size 3 doesn't work so we have to go
+up to 5 and then we can add 330 to it where the 0 gets cancelled out. It's
+provided in the test case already which is nice so no need to find base case.
+Also provided for the even case since we can just add 330 to it as well to maintain
+the parity.
 
 */
