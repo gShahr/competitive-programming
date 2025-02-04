@@ -295,9 +295,112 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<string> a(2);
+        for (int i = 0; i < 2; i++) cin >> a[i];
+        string smallest;
+        int ways = 0;
+        int zo = -1, oz = -1;
+        debug(a);
+        for (int i = 0; i+1 < n; i++) {
+            if (a[1][i] == '0' && a[0][i+1] == '1') {
+                zo = i;
+                break;
+            }
+        }
+        int bounds = zo;
+        if (bounds == -1) bounds = n;
+        for (int i = 0; i < bounds; i++) {
+            if (a[1][i] == '1' && a[0][i+1] == '0') {
+                oz = i+1;
+            }
+        }
+        debug(zo, oz);
+        if (zo == -1 && oz == -1) {
+            ways = n;
+            for (int i = 0; i <= n; i++) smallest += '0';
+        } else if (oz == -1) {
+            ways = zo+1;
+            smallest = a[1];
+        } else if (zo == -1) {
+            ways = n-oz;
+            smallest = a[0];
+        } else {
+            ways = max(1LL, zo - oz + 1);
+            for (int i = 0; i <= zo; i++) smallest += a[0][i];
+            for (int i = zo; i < n; i++) smallest += a[1][i];
+            if (smallest.back() != a[1][n-1]) {
+                smallest.pop_back();
+                smallest += a[1][n-1];
+            } 
+        }
+        debug(smallest, ways);
+        cout << smallest << endl << ways << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1937/B
+
+Would go searching for the closest zero which could either be on the top layer
+or on the bottom layer. If on the top layer, then always need to go 
+in this direction. If on the bottom layer, then are i possible ways to get
+there since everywhere would be ones, all their paths would be the same.
+
+In the case where the closest zero is top layer.
+
+Ah ok didn't realize this before, but there are only a linear number
+of strings that are possible since we can either go to the right or down
+and are forced to go to the right each time so n^2 total characters generated
+in total which is still too slow to iterate.
+
+Example:
+1101
+1100
+=> 11010, 11000, 11100, 11100
+
+Top = 0, bottom = 1 => Always go top
+Top = 1, bottom = 0 => Always go bottom
+Top = 0, bottom = 0 => Compare paths and add in lexigraphically smallest one
+Top = 1, bottom = 1 => Compare paths and add in lexigraphically smallest one
+
+Look at diagonal ones and zeros for this to work and pick the last
+two in such a position and take their difference betewen the two
+zero positions in the x-axis and add one (in other words, the amount
+of elements between those locations).
+
+If the zeros are directly stakced ontop of each other, then the answer
+is 1. 
+
+Find last place of {0, 1} diagonal.
+
+Can't find an easy way to copute the answer for something like this which
+is annoying as I am not able to figure it out. 
+
+First instace of {0, 1} tells me that I need to go in the down direction
+by that time which means that the rest of the path is determined for me.
+
+Last instance of {1, 0} tells me that in that local minima, staying in
+top produces lexigrapphy smallest.
+
+If the {0, 1} comes before, then only one path can exist since all other
+moves are forced.
+
+Basically there are 4 cases: 
+=> All zeroes => answer is just n here because we can go down at any interval
+=> One instance of {0, 1} => Difference betwene i and n
+=> One instance of {1, 0} => Difference between 1 and i
+=> Both instances of {0, 1} and {1, 0} => Difference between them
+
+1111
+1101
+
+11001
+11001
+
+
+
+
 
 */
