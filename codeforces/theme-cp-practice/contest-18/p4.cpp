@@ -291,13 +291,59 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void dfs(int x, vector<vector<int>>& adj, vector<bool>& visited, vector<int>& leaves, vector<int>& distances) {
+    if (visited[x]) return;
+    visited[x] = true;
+    for (auto i: adj[x]) {
+        if (!visited[i]) distances[i] = distances[x] + 1;
+        dfs(i, adj, visited, leaves, distances);
+    }
+    if (adj[x].size() <= 1) leaves.push_back(x);
+}
+
 int32_t main() {
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
+        int n, rounds;
+        cin >> n >> rounds;
+        vector<vector<int>> adj(n);
+        for (int i = 0; i < n-1; i++) {
+            int u, v;
+            cin >> u >> v;
+            u--, v--;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        int stone;
+        cin >> stone;
+        stone--;
+        vector<bool> visited(n, false);
+        vector<int> leaves;
+        vector<int> distances(n, 0);
+        dfs(stone, adj, visited, leaves, distances);
+        debug(leaves, distances);
+        if ((distances[leaves[0]]&1) || (distances[leaves[1]]&1)) cout << "Ron" << endl;
+        else cout << "Hermione" << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1970/C1
 
+Ron := A
+Hermione := B
+
+Starting on the edge of the nodes.
+Even length => A wins
+Odd length => B wins
+
+1 node away from leaf node
+=> A wins
+
+2 nodes away from leaf node
+
+x and y nodes away from leaf node (difference)
+=> If x or y are odd -> A wins
+=> B wins
 */
