@@ -295,9 +295,61 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int g = 0;
+        set<int> has;
+        for (auto i: a) has.insert(i);
+        for (int i = 1; i < n; i++) {
+            int d = a[i] - a[i-1];
+            g = gcd(d, g);
+        }
+        if (g == 0) g = 1;
+        // int mx = a[n-1] + g;
+        // int l = (n+1)/2;
+        // int r = l;
+        // while (l >= 0 || r < n) {
+        //     if (has.find(a[l] - g) == has.end()) {
+        //         mx = a[l] - g;
+        //         break;
+        //     } else l--;
+        //     if (has.find(a[r] + g) == has.end()) {
+        //         mx = a[r] + g;
+        //         break;
+        //     } else r++;
+        // }
+        int extra = a[0] - g;
+        for (int i = n-1; i >= 0; i--) {
+            if (has.find(a[i] - g) == has.end()) {
+                extra = a[i] - g;
+                break;
+            }
+        }
+        int ans = 0;
+        a.push_back(extra);
+        sort(a.begin(), a.end());
+        for (auto i: a) {
+            int res = abs(a.back() - i) / g;
+            debug(res);
+            ans += res;
+        }
+        debug(g, extra);
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1902/C
+
+Ah I'm griefing. We can't subtract elements - only add them back in which means
+we want the smallest element closest to the max.
+
+N-1 operations to subtract g fully from mx and then the leftmost number would
+be -ng + mx which is the same of having mx + g because the rest of elements
+would be forced to go to g.
 
 */

@@ -291,13 +291,53 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void dfs(int x, vector<vector<int>>& adj, vector<bool>& visited, int& leaves) {
+    if (visited[x]) return;
+    visited[x] = true;
+    for (auto i: adj[x]) {
+        dfs(i, adj, visited, leaves);
+    }
+    if (adj[x].size() <= 1) leaves++;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> adj(n);
+        for (int i = 0; i < n-1; i++) {
+            int u, v;
+            cin >> u >> v;
+            u--, v--;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        vector<bool> visited(n, false);
+        int leaves = 0;
+        dfs(1, adj, visited, leaves);
+        int ans = (leaves+1) / 2;
+        debug(leaves, ans);
+        cout << ans << endl;
     }
 }
 
 /*
+https://codeforces.com/problemset/problem/1905/B
+
+From the picture, it looks like the answer is the number of leaf nodes minus 1.
+Since each leaf node we take, it decreases number of leaf nodes by 2 and then
+adds back in one leaf node into the tree. By definition, having only one vertex
+equates to having 1 leaf node. So this progression should work unless there is 
+a better way of going about deleting leaf nodes.
+
+Nevermind, it looks like we can construct a solution so that it number of
+leaf nodes divided by 2 + 1. The +1 comes from constructing the solution such
+form a single chain down to a single node.
+
+The idea is that we can take 2 each time by taking a leaf node u and another
+leaf node v that crosses the root of the tree. Then we effectively get rid of
+two leaf nodes in one operation. 
 
 */

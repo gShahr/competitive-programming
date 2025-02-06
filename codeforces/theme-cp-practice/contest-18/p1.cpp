@@ -295,9 +295,25 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> one, rest;
+        map<int, int> freq;
+        for (auto i: a) freq[i]++;
+        for (auto i: freq) {
+            if (i.second <= 1) one.push_back(i.first);
+            else rest.push_back(i.first);
+        }
+        int ans = (one.size() + 1) / 2 * 2  + rest.size();
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
+// Started 8:04 AM
 /*
+https://codeforces.com/problemset/problem/2042/B
 
 */
