@@ -304,13 +304,13 @@ int32_t main() {
         vector<pair<int, int>> order;
         for (int i = 0; i < n; i++) {
             int sum = 0;
+            // sort(a[i].begin(), a[i].end(), greater<>());
             for (int j = 0; j < m; j++) {
-                sum += ((n*m-j) * a[i][j]);
+                sum += a[i][j];
             }
             order.emplace_back(sum, i);
         }
         sort(order.begin(), order.end(), greater<>());
-        debug(order);
         int ans = 0;
         int in = n*m;
         for (int i = 0; i < n; i++) {
