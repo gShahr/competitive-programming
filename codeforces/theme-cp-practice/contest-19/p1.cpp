@@ -295,6 +295,19 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int total = accumulate(a.begin(), a.end(), 0LL);
+        for (int i = 0; i < n; i++) {
+            if (a[i] == 1) total -= 2;
+            else total--;
+        }
+        debug(total);
+        if (total >= 0 && n > 1) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

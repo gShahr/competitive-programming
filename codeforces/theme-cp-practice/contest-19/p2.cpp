@@ -295,6 +295,28 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int target = accumulate(a.begin(), a.end(), 0LL) / n;
+        bool ok = true;
+        int z1 = 0;
+        int z2 = 0;
+        for (int i = 0; i < n; i += 2) z1 += a[i];
+        for (int i = 1; i < n; i+= 2) z2 += a[i];
+        if (n&1) {
+            int m = n/2;
+            if (z1 % (m+1) == 0 && z2 % m == 0 && z1/(m+1) == z2/m);
+            else ok = false;
+        } else {
+            int m = n/2;
+            if (z1 % m == 0 && z2 % m == 0 && z1 == z2);
+            else ok = false;
+        }
+        debug(ok);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

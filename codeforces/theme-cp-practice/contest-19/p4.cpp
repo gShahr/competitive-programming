@@ -291,10 +291,46 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void dfs(int x, vector<int>& a, vector<vector<int>>& adj, vector<int>& visited, vector<int>& mn) {
+    if (visited[x]) return;
+    visited[x] = true;
+    int subtree_mn = INT_MAX;
+    for (auto i: adj[x]) {
+        if (!visited[i]) {
+            dfs(i, a, adj, visited, mn);
+            subtree_mn = min(subtree_mn, mn[i]);
+        }
+    }
+    if (subtree_mn >= INT_MAX) subtree_mn = a[x];
+    if (a[x] < subtree_mn) mn[x] = a[x] + (subtree_mn - a[x]) / 2;
+    else mn[x] = subtree_mn;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<vector<int>> adj(n);
+        for (int i = 0; i < n-1; i++) {
+            int x;
+            cin >> x;
+            x--;
+            adj[i+1].push_back(x);
+            adj[x].push_back(i+1);
+        }
+        vector<int> mn(n, INT_MAX);
+        vector<int> visited(n, false);
+        dfs(0, a, adj, visited, mn);
+        debug(visited, mn);
+        int mnn = INT_MAX;
+        for (int i = 1; i < n; i++) mnn = min(mnn, mn[i]);
+        int ans = a[0] + mnn;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 

@@ -291,10 +291,35 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+int find_score(int n, int k, int pos, vector<int>& p, vector<int>& a) {
+    int ans = 0;
+    int curr = 0;
+    for (int i = 0; i < min(n, k); i++) {
+        int curr1 = curr + ((k-i) * a[pos]);
+        ans = max(ans, curr1);
+        curr += a[pos];
+        pos = p[pos]-1;
+    }
+    return ans;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k, pb, ps;
+        cin >> n >> k >> pb >> ps;
+        pb--, ps--;
+        vector<int> p(n), a(n);
+        for (int i = 0; i < n; i++) cin >> p[i];
+        for (int i = 0; i < n; i++) cin >> a[i];
+        pair<int, int> res = {0, 0};
+        res.first = find_score(n, k, pb, p, a);
+        res.second = find_score(n, k, ps, p, a);
+        debug(res);
+        if (res.first > res.second) cout << "Bodya" << endl;
+        else if (res.second > res.first) cout << "Sasha" << endl;
+        else cout << "Draw" << endl;
     }
 }
 
