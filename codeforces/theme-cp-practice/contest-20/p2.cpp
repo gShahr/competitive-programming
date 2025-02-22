@@ -295,6 +295,21 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k, x;
+        cin >> n >> k >> x;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        vector<int> cum(n+1, 0);
+        for (int i = 0; i < n; i++) cum[i+1] = cum[i] + a[i];
+        int ans = INT_MIN;
+        for (int i = 0; i <= k; i++) {
+            int res = cum[n-i] - 2*(cum[n-i] - cum[n-i-min(x, n-i)]);
+            // debug(res);
+            ans = max(ans, res);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 

@@ -295,6 +295,42 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> rCost = {1};
+        vector<int> lCost = {1};
+        for (int i = 1; i < n-1; i++) {
+            if (a[i] - a[i-1] > a[i+1] - a[i]) rCost.push_back(1);
+            else rCost.push_back(a[i+1] - a[i]);
+        }
+        for (int i = n-2; i >= 1; i--) {
+            if (a[i] - a[i-1] < a[i+1] - a[i]) lCost.push_back(1);
+            else lCost.push_back(a[i] - a[i-1]);
+        }
+        reverse(lCost.begin(), lCost.end());
+        vector<int> rCum(n, 0), lCum(n, 0);
+        for (int i = 0; i < n-1; i++) {
+            rCum[i+1] = rCum[i] + rCost[i];
+            lCum[i+1] = lCum[i] + lCost[i];
+        }
+        debug(rCum, lCum);
+        int m;
+        cin >> m;
+        for (int i = 0; i < m; i++) {
+            int x, y;
+            cin >> x >> y;
+            x--, y--;
+            int ans;
+            if (x < y) {
+                ans = rCum[y] - rCum[x];
+            } else {
+                ans = lCum[x] - lCum[y];
+            }
+            debug(ans);
+            cout << ans << endl;
+        }
     }
 }
 

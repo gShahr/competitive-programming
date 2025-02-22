@@ -295,9 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        bool ok = true;
+        int a1 = a[0];
+        int a2 = -1;
+        for (int i = 0; i < n; i++) {
+            if (a[i] % a1 != 0) {
+                if (a2 == -1) a2 = a[i];
+                else if (a[i] % a2 != 0) ok = false;
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
+// Started 8:47 AM
 /*
 
 */

@@ -293,11 +293,67 @@ namespace __DEBUG_UTIL__
 
 int32_t main() {
     int t;
-    cin >> t;
+    // cin >> t;
+    t = 1;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        // vector<int> p;
+        // set<int> ans;
+        // for (int i = 1; i <= pow(2, n); i++) p.push_back(i);
+        // do {
+        //     vector<int> curr = p;
+        //     for (int i = 0; i < n; i++) {
+        //         vector<int> next;
+        //         if (a[i] == '0') {
+        //             for (int j = 0; j < curr.size(); j += 2) {
+        //                 next.push_back(min(curr[j], curr[j+1]));
+        //             }
+        //         } else {
+        //             for (int j = 0; j < curr.size(); j += 2) {
+        //                 next.push_back(max(curr[j], curr[j+1]));
+        //             }
+        //         }
+        //         curr = next;
+        //     }
+        //     ans.insert(curr[0]);
+        // } while (next_permutation(p.begin(), p.end()));
+        // debug(ans);
+        pair<int, int> cnt = {0, 0};
+        for (auto i: a) {
+            if (i == '0') cnt.first++;
+            else cnt.second++;
+        }
+        vector<int> ans;
+        int l = pow(2, cnt.second);
+        int r = pow(2, n) - (pow(2, cnt.first) - 1);
+        for (int i = l; i <= r; i++) ans.push_back(i);
+        debug(ans);
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+4 2, 3 1
+4 8, 3 7 
+4 3
+
+000 => 1 only wins
+001 => 2, 3, 4, 5
+010 => 2, 3, 4, 5
+011 => 4, 5, 6, 7
+100 => 2, 3, 4, 5
+101 => 4, 5, 6, 7
+110 => 4, 5, 6, 7
+111 => 8 only wins
+
+00 => 1
+01 => 2, 3
+10 => 2, 3
+11 => 4
 
 */
