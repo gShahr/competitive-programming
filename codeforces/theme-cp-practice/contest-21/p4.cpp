@@ -300,20 +300,26 @@ int32_t main() {
         int k;
         cin >> k;
         int n = a.size();
+        vector<int> nz;
+        for (int i = 0; i < n; i++) {
+            if (a[i] != '0') nz.push_back(i);
+        }
         string ans;
         stack<char> st;
         for (int i = 0; i < n; i++) {
             while (!st.empty() && k > 0 && st.top() > a[i]) {
-                if (i+1 < n && st.size() <= 1 && a[i] == '0' && a[i+1] < st.top()
-            && k >= 2 && a[i+1] != '0') {
-                    k -= 2;
+                int nx = INT_MAX;
+                if (lower_bound(nz.begin(), nz.end(), i) != nz.end()) nx = *lower_bound(nz.begin(), nz.end(), i) - i;
+                debug(st, nx, k, i);
+                if (st.size() == 1 && i+nx < n && a[i+nx] < st.top() && k >= nx+1) {
                     st.pop();
-                    i++;
-                    continue;
+                    k -= (nx+1);
+                    i += nx;
+                    break;
                 } else if (st.size() <= 1 && a[i] == '0') break;
                 st.pop();
                 k--;
-            } 
+            }
             st.push(a[i]);
         }
         while (!st.empty()) {
@@ -352,5 +358,9 @@ If I still have operations left, need to apply them
 
 1 9080706 3
 
+1 7001 3
+
+1 67001 4 
+6001
 
 */
