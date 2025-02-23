@@ -363,4 +363,6 @@ If I still have operations left, need to apply them
 1 67001 4 
 6001
 
+1 90081 countercase
+
 */
