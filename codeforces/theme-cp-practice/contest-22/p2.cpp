@@ -295,6 +295,42 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int sides = -1;
+        int s1 = -1, s2 = -1;
+        for (int i = n-1; i >= 1; i--) {
+            if (a[i] == a[i-1]) {
+                sides = a[i];
+                s1 = i;
+                s2 = i-1;
+                break;
+            }
+        }
+        vector<int> left;
+        for (int i = 0; i < n; i++) {
+            if (i != s1 && i != s2) left.push_back(a[i]);
+        }
+        int top = -1;
+        int bottom = -1;
+        int best = INT_MAX;
+        for (int i = 0; i+1 < left.size(); i++) {
+            int d = left[i+1] - left[i];
+            if (d < best) {
+                best = d;
+                top = left[i];
+                bottom = left[i+1];
+            }
+        }
+        debug(sides, top, bottom);
+        vector<int> ans = {sides, sides, top, bottom};
+        if (sides == -1 || top == -1 || bottom == -1 || sides+sides+top <= bottom) ans = {-1};
+        debug(ans);
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 

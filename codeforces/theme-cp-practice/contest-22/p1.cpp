@@ -295,9 +295,39 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        vector<int> a(n), b(m);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < m; i++) cin >> b[i];
+        set<int> aa, bb;
+        for (auto i: a) aa.insert(i);
+        for (auto i: b) bb.insert(i);
+        bool ok = true;
+        int aop = k/2;
+        int bop = k/2;
+        vector<int> left;
+        for (int i = 1; i <= k; i++) {
+            if (aa.find(i) != aa.end() && bb.find(i) == bb.end()) {
+                aop--;
+            } else if (aa.find(i) == aa.end() && bb.find(i) != bb.end()) {
+                bop--;
+            } else if (aa.find(i) != aa.end() || bb.find(i) != bb.end()) {
+                left.push_back(i);
+            } else ok = false;
+        }
+        for (auto i: left) {
+            if (aop) aop--;
+            else bop--;
+        }
+        if (aop < 0 || bop < 0) ok = false;
+        debug(ok);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
+// Started 8:29 AM
 /*
 
 */

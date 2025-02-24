@@ -295,6 +295,30 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, d;
+        cin >> n >> m >> d;
+        vector<int> p(n), a(m);
+        for (int i = 0; i < n; i++) cin >> p[i];
+        for (int i = 0; i < m; i++) cin >> a[i];
+        map<int, int> pos;
+        for (int i = 0; i < n; i++) {
+            pos[p[i]] = i;
+        }
+        int ans = INT_MAX;
+        for (int i = 0; i < m-1; i++) {
+            int p1 = pos[a[i]];
+            int p2 = pos[a[i+1]];
+            int p3 = p1 + d;
+            debug(p1, p2, p3);
+            int res = min(p2-p1, p3-p2+1);
+            int mx_moves = p1 + n-1-p2;
+            debug(mx_moves);
+            if (mx_moves < p3-p2+1) res = p2-p1;
+            res = max(res, 0LL);
+            ans = min(ans, res);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 

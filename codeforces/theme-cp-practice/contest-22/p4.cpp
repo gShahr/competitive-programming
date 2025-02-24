@@ -291,13 +291,81 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+const int MAXN = 1e6;
+
+long long fac[MAXN + 1];
+long long inv[MAXN + 1];
+
+/** @return x^n modulo m in O(log p) time. */
+long long exp(long long x, long long n, long long m) {
+	x %= m;  // note: m * m must be less than 2^63 to avoid ll overflow
+	long long res = 1;
+	while (n > 0) {
+		if (n % 2 == 1) { res = res * x % m; }
+		x = x * x % m;
+		n /= 2;
+	}
+	return res;
+}
+
+/** Precomputes n! from 0 to MAXN. */
+void factorial(long long p) {
+	fac[0] = 1;
+	for (int i = 1; i <= MAXN; i++) { fac[i] = fac[i - 1] * i % p; }
+}
+
+/**
+ * Precomputes all modular inverse factorials
+ * from 0 to MAXN in O(n + log p) time
+ */
+void inverses(long long p) {
+	inv[MAXN] = exp(fac[MAXN], p - 2, p);
+	for (int i = MAXN; i >= 1; i--) { inv[i - 1] = inv[i] * i % p; }
+}
+
+/** @return nCr mod p */
+long long choose(long long n, long long r, long long p) {
+    // debug(n, r, n-r);
+	return fac[n] * inv[r] % p * inv[n - r] % p;
+}
+
 int32_t main() {
+    int modd = 1e9+7;
+    factorial(modd);
+	inverses(modd);
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int x = 0, y = 0;
+        for (auto i: a) {
+            if (i == 0) x++;
+            else y++;
+        }
+        int ans = 0;
+        int start = min(y, k);
+        int end = k/2 + 1;
+        for (int i = start; i >= end; i--) {
+            int ones = i;
+            int zeroes = k-i;
+            if (zeroes > x || zeroes < 0) break;
+            debug(x, zeroes, y, ones);
+            int res = choose(x, zeroes, modd) * choose(y, ones, modd);
+            ans = (ans + res) % modd;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+x := number of zeroes
+y := number of ones
+xCz * yC(z+1)
+next itertion would be z-1, z+2 until no more ones.
 
 */
