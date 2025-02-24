@@ -300,18 +300,21 @@ int32_t main() {
         int k;
         cin >> k;
         int n = a.size();
-        vector<int> nz;
-        for (int i = 0; i < n; i++) {
-            if (a[i] != '0') nz.push_back(i);
-        }
+        int MX = 11;
+        vector<vector<int>> closest(MX);
+        for (int i = 0; i < n; i++) closest[a[i]-'0'].push_back(i);
         string ans;
         stack<char> st;
         for (int i = 0; i < n; i++) {
             while (!st.empty() && k > 0 && st.top() > a[i]) {
                 int nx = INT_MAX;
-                if (lower_bound(nz.begin(), nz.end(), i) != nz.end()) nx = *lower_bound(nz.begin(), nz.end(), i) - i;
-                debug(st, nx, k, i);
-                if (st.size() == 1 && i+nx < n && a[i+nx] < st.top() && k >= nx+1) {
+                for (int j = 1; j < st.top()-'0'; j++) {
+                    debug(j);
+                    if (lower_bound(closest[j].begin(), closest[j].end(), i) != closest[j].end()) {
+                        nx = min(nx, *lower_bound(closest[j].begin(), closest[j].end(), i) - i);
+                    }
+                }
+                if (st.size() <= 1 && i+nx < n && a[i+nx] < st.top() && k >= nx+1) {
                     st.pop();
                     k -= (nx+1);
                     i += nx;
