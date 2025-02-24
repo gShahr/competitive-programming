@@ -1,4 +1,5 @@
 #include <vector>
+#include <iostream>
 using namespace std;
 // taken from https://usaco.guide/gold/combo?lang=cpp
 
@@ -37,4 +38,14 @@ void inverses(long long p) {
 /** @return nCr mod p */
 long long choose(long long n, long long r, long long p) {
 	return fac[n] * inv[r] % p * inv[n - r] % p;
+}
+
+int32_t main() {
+    int modd = 1e9+7;
+    factorial(modd);
+	inverses(modd);
+    int t;
+    cin >> t;
+    while (t--) {
+    }
 }
