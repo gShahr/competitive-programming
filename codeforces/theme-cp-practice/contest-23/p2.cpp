@@ -295,6 +295,40 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        vector<int> a(n), b(m);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < m; i++) cin >> b[i];
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        int flip = 1;
+        if (b.back() >= a[0]) {
+            a.push_back(b.back());
+            b.pop_back();
+            b.push_back(a[0]);
+            a.erase(a.begin());
+            sort(a.begin(), a.end());
+            sort(b.begin(), b.end());
+            k--;
+            flip = 0;
+        }
+        int ans = 0;
+        if (k % 2 == flip) {
+            ans = accumulate(a.begin(), a.end(), 0LL);
+        } else {
+            if (a.back() >= b[0]) {
+                b.push_back(a.back());
+                a.pop_back();
+                a.push_back(b[0]);
+                b.erase(b.begin());
+                sort(a.begin(), a.end());
+                sort(b.begin(), b.end());
+                ans = accumulate(a.begin(), a.end(), 0LL);
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 

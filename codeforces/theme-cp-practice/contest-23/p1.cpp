@@ -295,9 +295,45 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string a, b;
+        cin >> a >> b;
+        int n = a.size();
+        int m = b.size();
+        string ans;
+        if (a[0] == b[0]) ans = string(1, a[0]) + "*";
+        else if (a.back() == b.back()) ans = "*" + string(1, a.back());
+        else {
+            for (char i = 'a'; i <= 'z'; i++) {
+                for (char j = 'a'; j <= 'z'; j++) {
+                    bool ok1 = false;
+                    bool ok2 = false;
+                    for (int k = 0; k < n-1; k++) {
+                        if (a[k] == i && a[k+1] == j) ok1 = true;
+                    }
+                    for (int k = 0; k < m-1; k++) {
+                        if (b[k] == i && b[k+1] == j) ok2 = true;
+                    }
+                    if (ok1 && ok2) {
+                        ans = "*" + string(1, i) + string(1, j) + "*";
+                    }
+                }
+            }
+        }
+        debug(ans);
+        bool ok = !ans.empty();
+        if (ok) cout << "YES" << endl << ans << endl;
+        else cout << "NO" << endl;
     }
 }
 
+// Started 11:51 AM
 /*
+
+Answer contains at most 2 characters. Answers that work with 1 character don't
+necessarily work with 2 characters.
+
+ab...c..d..
+..a..b..cd
+=> *a*b*cd*
 
 */

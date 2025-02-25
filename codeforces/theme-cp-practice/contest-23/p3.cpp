@@ -291,13 +291,40 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(int k, vector<int>& a) {
+    int n = a.size();
+    int need = n % 2 == 0;
+    for (int i = 0; i < n; i += 2) {
+        if (a[i+1] - a[i] > k) {
+            need++;
+            i--;
+        }
+    }
+    return need > 1;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int k = 0;
+        for (int b = 1e18; b >= 1; b /= 2) {
+            while (check(k+b, a)) k += b;
+        }
+        debug(k+1);
+        cout << k+1 << endl;
     }
 }
 
 /*
+
+Kind of funny solved a harder verison of the problem by accident. Only being
+able to fill 2 white cells and not 2 blacks or 1 white and black makes it
+obvious that we have to skip by gaps of 2 and need to use the remaining fill
+when n is odd.
 
 */
