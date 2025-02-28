@@ -297,64 +297,32 @@ int32_t main() {
     while (t--) {
         int n;
         cin >> n;
-        if (n < 8 || n&1) {
-            cout << -1 << endl;
-            continue;
-        }
         vector<int> ans(n);
-        int color = 1;
-        for (int i = 0; i+8 < n; i += 8) {
-            for (int j = 0; j < 4; j++) {
-                ans[i+j] = color+j;
-            }
-            for (int j = 0; j < 4; j++) {
-                ans[i+j+4] = color+j;
-            }
-            color += 4;
+        for (int i = 1; i <= n/2; i++) {
+            ans[2*i-2] = i;
+            ans[2*i-1] = i;
         }
-        reverse(ans.begin(), ans.end());
-        if (n % 8 == 2) {
-            for (int i = 0; i < 10; i++) ans[i] = -1;
-            ans[0] = color;
-            ans[9] = color;
-            for (int i = 0; i < 10; i++) {
-                if (ans[i] == -1) {
-                    ans[i] = color+1;
-                    ans[i+4] = color+1;
-                    color++;
-                }
+        if ((n&1) && n >= 27) {
+            ans[0] = 1;
+            ans[9] = 1;
+            ans[25] = 1;
+            for (int i = 1; i < 9; i += 2) {
+                ans[i] = i+1;
+                ans[i+1] = i+1;
             }
-        } else if (n % 8 == 4) {
-            for (int i = 0; i < 12; i++) ans[i] = -1;
-            ans[0] = color;
-            ans[9] = color;
-            ans[2] = color+1;
-            ans[11] = color+1;
-            for (int i = 0; i < 12; i++) {
-                if (ans[i] == -1) {
-                    ans[i] = color+2;
-                    ans[i+4] = color+2;
-                    color++;
-                }
+            for (int i = 10; i < 24; i += 2) {
+                ans[i] = i;
+                ans[i+1] = i;
             }
-        } else if (n % 8 == 6) {
-            for (int i = 0; i < 14; i++) ans[i] = -1;
-            ans[0] = color;
-            ans[9] = color;
-            ans[2] = color+1;
-            ans[11] = color+1;
-            ans[4] = color+2;
-            ans[13] = color+2;
-            for (int i = 0; i < 14; i++) {
-                if (ans[i] == -1) {
-                    ans[i] = color+3;
-                    ans[i+4] = color+3;
-                    color++;
-                }
+            for (int i = 27; i < n; i += 2) {
+                ans[i] = i;
+                ans[i+1] = i;
             }
-        }
-        debug(ans);
-        if (n < 8 || n&1) ans = {-1};
+            ans[22] = 3*1e5;
+            ans[23] = 3*1e5+1;
+            ans[24] = 3*1e5+1;
+            ans[26] = 3*1e5;  
+        } else if (n&1) ans = {-1};
         debug(ans);
         for (auto i: ans) cout << i << ' ';
         cout << endl;
