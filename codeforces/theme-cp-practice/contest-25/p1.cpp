@@ -295,6 +295,12 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        int un =  n - (n + m - 1) / m;
+        bool ok = (k < un && m > 1);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

@@ -295,6 +295,28 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        bool ok = true;
+        for (int i = 0; i+1 < a.size(); i++) {
+            if (a[i] > a[i+1] && a[i] >= 10) {
+                int d2 = a[i] % 10;
+                int d1 = (a[i] - d2) / 10;
+                a.insert(a.begin()+i+1, d2);
+                a.insert(a.begin()+i+1, d1);
+                a.erase(a.begin()+i);
+                i = -1;
+                debug(a, d1, d2);
+            }
+        }
+        for (int i = 0; i+1 < a.size(); i++) {
+            if (a[i] > a[i+1]) ok = false;
+        }
+        debug(ok);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
