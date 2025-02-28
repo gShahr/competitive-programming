@@ -295,9 +295,16 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
     }
 }
 
 /*
+
+Keep adding unitl you get a 6 somewhere and then stop. Maximum operations
+you would need as a result would be 10. As a result, we can just brute
+force for shortest path while stopping after at most 10 iterations. 
+Nevermind, this would take too long, namely 10^10 operations.
 
 */
