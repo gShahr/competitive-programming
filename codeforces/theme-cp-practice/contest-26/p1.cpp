@@ -295,6 +295,13 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x, y, k;
+        cin >> x >> y >> k;
+        int tt = min(x, y);
+        vector<int> ans = {0, 0, tt, tt, 0, tt, tt, 0};
+        debug(ans);
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 

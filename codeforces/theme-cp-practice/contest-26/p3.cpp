@@ -295,6 +295,36 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        a[0] = 0;
+        for (int i = 1; i < n; i++) cin >> a[i];
+        map<int, int> cnt;
+        for (int i = 0; i < n-1; i++) {
+            int d = a[i+1] - a[i];
+            cnt[d]++;
+        }
+        bool ok = true;
+        int left = 0;
+        int c_cnt = 0;
+        for (int i = 1; i <= n; i++) {
+            if (cnt.find(i) != cnt.end()) cnt[i]--;
+            else {
+                left += i;
+                c_cnt++;
+            }
+        }
+        debug(cnt, left, c_cnt);
+        if (c_cnt != 2 && c_cnt != 1) ok = false;
+        for (auto i: cnt) {
+            if (i.second > 0) {
+                if (left != i.first) ok = false;
+            }
+        }
+        debug(ok);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

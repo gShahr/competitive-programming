@@ -291,10 +291,28 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(int height, int n, int x, vector<int>& a) {
+    int need = 0;
+    for (int i = 0; i < n; i++) {
+        need += max(0LL, height - a[i]);
+    }
+    return need <= x;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, x;
+        cin >> n >> x;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int height = 1;
+        for (int b = 1e9; b >= 1; b /= 2) {
+            while (check(height + b, n, x, a)) height += b;
+        }
+        cout << height << endl;
     }
 }
 

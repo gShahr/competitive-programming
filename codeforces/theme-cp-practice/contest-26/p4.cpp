@@ -291,10 +291,80 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void solve(string& a, string& ans, int x1, int x2, int c1, int c2, char p1, char p2) {
+    int n = a.size();
+    if ((x1&1) && (x2&1)) {
+        x1--;
+        x2--;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == c1) {
+                ans[i] = p1;
+                break;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (a[i] == c2) {
+                ans[i] = p1;
+                break;
+            }
+        }
+    }
+    int g1 = x1;
+    int g2 = x2;
+    for (int i = 0; i < n; i++) {
+        if (a[i] == c1) {
+            if (g1 > x1/2) {
+                ans[i] = p1;
+                g1--;
+            } else {
+                ans[i] = p2;
+            }
+        } else if (a[i] == c2) {
+            if (g2 > x2/2) {
+                ans[i] = p1;
+                g2--;
+            } else {
+                ans[i] = p2;
+            }
+        }
+    }
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        vector<int> cnt(4, 0);
+        for (auto c: a) {
+            if (c == 'N') cnt[0]++;
+            else if (c == 'S') cnt[1]++;
+            else if (c == 'E') cnt[2]++;
+            else if (c == 'W') cnt[3]++;
+        }
+        int x = cnt[0] + cnt[1];
+        int y = cnt[2] + cnt[3];
+        if ((x&1) || (y&1)) cout << "NO" << endl;
+        else {
+            string ans(n, ' ');
+            solve(a, ans, cnt[0], cnt[1], 'N', 'S', 'R', 'H');
+            solve(a, ans, cnt[2], cnt[3], 'E', 'W', 'H', 'R');
+            bool ok1 = false;
+            bool ok2 = false;
+            for (auto i: ans) {
+                if (i == 'R') ok1 = true;
+                if (i == 'H') ok2 = true;
+            }
+            if (!ok1 || !ok2) {
+                cout << "NO" << endl;
+                continue;
+            }
+            debug(ans);
+            cout << ans << endl;
+        }
     }
 }
 
