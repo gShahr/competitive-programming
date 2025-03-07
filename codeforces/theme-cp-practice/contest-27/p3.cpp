@@ -291,10 +291,40 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool dfs(int row, int col, vector<vector<char>>& grid, set<pair<int, int>>& visited) {
+    bool res = false;
+    if (visited.find({row, col}) != visited.end()) return res;
+    visited.insert({row, col});
+    if (col >= (int)grid[0].size()-1) res = true;
+    // debug(visited, row, col);
+    if (row == 0) {
+        if (visited.find({row+1, col}) == visited.end() && grid[row+1][col] == 'B') res |= dfs(row+1, col, grid, visited);
+        else if (grid[row][col+1] == 'B') res |= dfs(row, col+1, grid, visited);
+    } else {
+        if (visited.find({row-1, col}) == visited.end() && grid[row-1][col] == 'B') res |= dfs(row-1, col, grid, visited);
+        else if (grid[row][col+1] == 'B') res |= dfs(row, col+1, grid, visited);
+    }
+    return res;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<char>> grid(2, vector<char>(n));
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < n; j++) cin >> grid[i][j];
+        }
+        set<pair<int, int>> visited;
+        bool ok = false;
+        if (grid[0][0] == 'B') ok = dfs(0, 0, grid, visited); 
+        visited.clear();
+        if (grid[1][0] == 'B') ok |= dfs(1, 0, grid, visited);
+        debug(ok);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

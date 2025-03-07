@@ -295,8 +295,30 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 0;
+        map<int, int> cnt;
+        for (auto i: a) cnt[i]++;
+        for (int i = 0; i < n; i++) {
+            int x = a[i];
+            int y = k - a[i];
+            if (cnt.find(y) != cnt.end() && cnt[x] > 0 && cnt[y] > 0) {
+                int take = min(cnt[x], cnt[y]);
+                if (x == y) take /= 2;
+                cnt[x] -= take;
+                cnt[y] -= take;
+                ans += take;
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
+
+// Started 1:34 PM
 
 /*
 

@@ -295,9 +295,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int on, tw, mx;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == 1) on = i;
+            else if (a[i] == 2) tw = i;
+            else if (a[i] == n) mx = i;
+        }
+        pair<int, int> ans;
+        int lo = min(on, tw);
+        int hi = max(on, tw);
+        debug(lo, hi, mx);
+        if (lo < mx && mx < hi) ans = {lo+1, hi+1};
+        else if (mx < lo) {
+            ans = {lo+1, mx+1};
+        } else if (hi < mx) {
+            ans = {hi+1, mx+1};
+        }
+        debug(ans);
+        cout << ans.first << ' ' << ans.second << endl;
     }
 }
 
 /*
+
+1 2 3 4 5
+=> 5 2 3 4 1
+=> 1 5 3 4 2 (winner)
+
+4 5 6 1 2 3
+
 
 */

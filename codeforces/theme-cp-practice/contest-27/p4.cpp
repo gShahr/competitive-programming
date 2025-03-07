@@ -295,6 +295,25 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int fir = -1;
+        int total = 0;
+        for (int i = 0; i < n; i++) {
+            if (fir == -1 && a[i] > 0) fir = i;
+            else if (a[i] > 0) total += a[i];
+        }
+        if (fir != -1 && (fir % 2 == 0 || fir >= 2)) total += a[fir];
+        else if (fir != -1) {
+            int mx = INT_MIN;
+            for (int i = 0; i < fir; i++) mx = max(mx, a[i]);
+            if (total + mx + a[fir] > total) total += mx + a[fir];
+        }
+        int ans = total;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
