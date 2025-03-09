@@ -295,9 +295,36 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        if (n&1) {
+            cout << -1 << endl;
+            continue;
+        }
+        vector<pair<int, int>> ans;
+        for (int i = 0; i < n; i += 2) {
+            if (a[i] != a[i+1]) {
+                ans.emplace_back(i, i);
+                ans.emplace_back(i+1, i+1);
+            } else {
+                ans.emplace_back(i, i+1);
+            }
+        }
+        debug(ans);
+        cout << ans.size() << endl;
+        for (auto i: ans) {
+            cout << i.first+1 << ' ' << i.second+1 << endl;
+        }
     }
 }
 
 /*
+
+1 -1 => 0
+-1 1 => 0
+-1 -1 => 0
+1 1 => 0
 
 */

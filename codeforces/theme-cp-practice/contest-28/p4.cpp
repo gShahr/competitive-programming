@@ -291,10 +291,32 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(int x, int h, vector<int>& a, vector<int>& c) {
+    int n = a.size();
+    for (int i = 0; i < n; i++) {
+        int res = ((x-1) / c[i] + 1) * a[i];
+        h -= res;
+        if (h <= 0) return false;
+    }
+    return h > 0;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int h, n;
+        cin >> h >> n;
+        vector<int> a(n), c(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> c[i];
+        int x = 0;
+        for (int b = 1e9; b >= 1; b /= 2) {
+            while (check(x+b, h, a, c)) x += b;
+        }
+        x++;
+        debug(x);
+        cout << x << endl;
     }
 }
 

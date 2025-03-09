@@ -295,9 +295,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string a;
+        cin >> a;
+        string ans;
+        stack<pair<int, char>> c1, c2;
+        for (int i = 0; i < a.size(); i++) {
+            if (a[i] == 'b') {
+                if (!c1.empty()) c1.pop();
+            } else if (a[i] == 'B') {
+                if (!c2.empty()) c2.pop();
+            } else if (islower(a[i])) {
+                c1.push({i, a[i]});
+            } else {
+                c2.push({i, a[i]});
+            }
+        }
+        vector<pair<int, char>> res;
+        while (!c1.empty()) {
+            res.push_back(c1.top());
+            c1.pop();
+        }
+        while (!c2.empty()) {
+            res.push_back(c2.top());
+            c2.pop();
+        }
+        sort(res.begin(), res.end());
+        for (auto i: res) ans += i.second;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
+// Started 7:35 PM
 /*
 
 */

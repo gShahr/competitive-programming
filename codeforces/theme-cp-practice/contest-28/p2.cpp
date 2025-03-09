@@ -295,6 +295,23 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<char>> a(2, vector<char>(n));
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < n; j++) cin >> a[i][j];
+        }
+        int ans = 0;
+        for (int i = 1; i < n-1; i++) {
+            if (a[0][i-1] == '.' && a[1][i-1] == 'x'
+                && a[0][i] == '.' && a[1][i] == '.'
+                && a[0][i+1] == '.' && a[1][i+1] == 'x') ans++;
+            else if (a[0][i-1] == 'x' && a[1][i-1] == '.'
+                    && a[0][i] == '.' && a[1][i] == '.'
+                    && a[0][i+1] == 'x' && a[1][i+1] == '.') ans++;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
