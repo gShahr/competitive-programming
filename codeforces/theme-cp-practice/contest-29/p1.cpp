@@ -295,9 +295,32 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        bool ok = true;
+        for (int i = 1; i < n-1; i++) {
+            int take = max(a[i-1], 0LL);
+            a[i-1] -= take;
+            a[i] -= 2*take;
+            a[i+1] -= take;
+        }
+        for (auto i: a) {
+            if (i != 0) ok = false;
+        }
+        debug(ok, a);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
+
+// Started 8:49 PM
 /*
+
+1 3 5 5 2
+0 1 4 5 2
+0 0 2 4 2
 
 */

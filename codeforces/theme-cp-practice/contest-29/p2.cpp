@@ -295,6 +295,45 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> a(2, vector<int>(n));
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < n; j++) cin >> a[i][j];
+        }
+        // int dbl = INT_MIN;
+        // int ind = 0;
+        // for (int i = 0; i < n; i++) {
+        //     int vv = a[0][i] + a[1][i];
+        //     if (vv > dbl) {
+        //         dbl = vv;
+        //         ind = i;
+        //     }
+        // }
+        vector<pair<int, int>> bst;
+        for (int i = 0; i < n; i++) {
+            bst.emplace_back(a[0][i] - a[1][i], i);
+        }
+        sort(bst.begin(), bst.end(), greater<>());
+        debug(bst);
+        int ans = INT_MIN;
+        for (int i = 0; i < n; i++) {
+            int curr = a[0][i] + a[1][i];
+            for (int j = 0; j < n; j++) {
+                if (i == j) continue;
+                curr += a[1][j];
+            }
+            ans = max(ans, curr);
+            debug(curr);
+            for (int j = 0; j < n; j++) {
+                if (bst[j].second == i) continue;
+                curr += bst[j].first;
+                debug(curr, i, j);
+                ans = max(ans, curr);
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
