@@ -295,9 +295,39 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a1(n), a2(n);
+        for (int i = 0; i < n; i++) cin >> a1[i];
+        for (int i = 0; i < n; i++) cin >> a2[i];
+        pair<int, int> ans;
+        for (int i = 0; i < n; i++) {
+            if (a1[i] != a2[i]) ans.second = i;
+        }
+        for (int i = n-1; i >= 0; i--) {
+            if (a1[i] != a2[i]) ans.first = i;
+        }
+        while (ans.first-1 >= 0 && a2[ans.first-1] <= a2[ans.first]) ans.first--;
+        while (ans.second+1 < n && a2[ans.second+1] >= a2[ans.second]) ans.second++;
+        debug(ans);
+        cout << ans.first+1 << ' ' << ans.second+1 << endl;
     }
 }
 
 /*
+
+Intuition was right - there was a reason why array a1 was provided and needed to
+be somewhere since my current solution only relies on a2 (a'). The idea is that
+the cnt of each value present needs to match.
+
+Counterexample:
+
+a1: ... 9 10
+a2: ... 10 9
+
+If the sorted segment ends right before the 10 in a2, my current solution
+will go to it if the last element is less than or equal to 10. However,
+this is not allowed since there is no corresponding 10 in a1.
+
 
 */
