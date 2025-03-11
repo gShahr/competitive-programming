@@ -295,9 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int l, r;
+        cin >> l >> r;
+        int ans = 0;
+        int x = 1;
+        int cnt = 1;
+        while (x <= l/3) {
+            x *= 3;
+            cnt++;
+        }
+        int add = 1;
+        while (1) {
+            int left_bounds = max(l, x);
+            int right_bounds = min(3*x-1, r);
+            debug(x, left_bounds, right_bounds);
+            if (right_bounds < left_bounds) break;
+            ans += cnt * (right_bounds - left_bounds + add + 1);
+            add = 0;
+            cnt++;
+            x *= 3;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+[9, 26] = [3^2, 3^3 - 1] => 3 operations
+[27, 3^4 - 1] => 4 operations
 
 */
