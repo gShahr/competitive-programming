@@ -295,9 +295,61 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int a, b;
+        cin >> a >> b;
+        int g = gcd(a, b);
+        int ans = (a/g) * (b/g) * g;
+        if (ans == b) ans *= (b / g);
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
+// Started 10:29 PM
 /*
+
+a * (smallest prime factor that divides x) = b
+Can get x by multiplying it by the smallest
+prime factor contained in b. 
+=> Rule doesn't work when both a and b are primes.
+The idea is that we need 2 or more primes in b
+for it to work because those would be contained 
+in a except for 1 which would make it 'a'.
+
+Suppose b <= x, then the idea is that b = a
+and the smallest untouched value is b 
+divided by the smallest factor. Making 
+b < x, makes it so that b is the greatest
+divided by the smallest factor of x 
+while a is divided by the 2 smallest
+factors of x.
+
+a doesn't include second smallest factor
+while b does. gcd(a, b) gets all the factors
+except for first smallest factor along
+with second smallest factor. WLOG, we can
+assume first smallest factor is less than
+or equal to the second smallest factor.
+
+18 => {6, 9}
+6 => 2, 3
+9 => 3, 3
+
+Basically boils down to 2 cases. When x
+contains more than 2 unique prime factors
+or when the prime factors are the same.
+The first case is handled. The second
+case falls into the bucket where
+p^k = x so p^(k-1) = b and p^(k-2) = a.
+To get the base value p we can take the 
+gcd of (a, b) which will be p^(k-2)
+and divide by b which gives us
+p^(k-1) / p^(k-2) which gives
+us p. And then we just multiply this by 
+ans to get the solution.
+
+z = k-1
+p^z / p^(z-1) = p
+=> Oh lol the z is just cancelled out.
 
 */
