@@ -295,9 +295,51 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int sum = accumulate(a.begin(), a.end(), 0LL);
+        if (sum&1) cout << -1 << endl;
+        else {
+            vector<pair<int, int>> ans;
+            for (int i = 0; i < n; i++) {
+                if (a[i] == 1 || a[i] == -1) {
+                    int j = i+1;
+                    int cnt = 0;
+                    while (j < n && a[j] == 0) {
+                        j++;
+                        cnt++;
+                    }
+                    if (a[i] != a[j]) {
+                        ans.emplace_back(i, j-1);
+                        ans.emplace_back(j, j);
+                    } else {
+                        if (cnt&1) {
+                            ans.emplace_back(i, i);
+                            ans.emplace_back(i+1, j);
+                        }
+                        else ans.emplace_back(i, j);
+                    }
+                    i = j;
+                } else ans.emplace_back(i, i);
+            }
+            debug(ans);
+            cout << ans.size() << endl;
+            for (auto i: ans) {
+                cout << i.first+1 << ' ' << i.second+1;
+                cout << endl;
+            }
+            cout << endl;
+        }
     }
 }
 
 /*
+
+-1 1 => -1, 1
+-1 -1 => -1 -1
+1 1 => 1 1
+1 -1 => 1, -1
 
 */

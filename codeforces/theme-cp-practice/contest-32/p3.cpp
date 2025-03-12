@@ -295,9 +295,33 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        int cum = 0;
+        for (int i = n-1; i >= m; i--) {
+            cum += min(a[i], b[i]);
+        }
+        int ans = LLONG_MAX;
+        int curr = cum;
+        for (int i = m; i >= 1; i--) {
+            int res = curr + a[i-1];
+            ans = min(ans, res);
+            curr += b[i-1];
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+So grief that llong_max and long_max are basically super easy to confuse with
+each other.
+
+Terrible problem D. Weird intro, no explanation for test cases, queue in
+reverse order for input. 
 
 */

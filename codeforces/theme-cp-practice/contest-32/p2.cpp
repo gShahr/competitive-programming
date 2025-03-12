@@ -295,6 +295,25 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, q;
+        cin >> n >> q;
+        vector<int> a(n), x(q);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < q; i++) cin >> x[i];
+        set<int> visited;
+        for (int i = 0; i < q; i++) {
+            if (visited.find(x[i]) != visited.end()) continue;
+            visited.insert(x[i]);
+            int p = pow(2, x[i]);
+            for (int j = 0; j < n; j++) {
+                if (a[j] % p == 0) a[j] += p/2;
+            }
+        }
+        debug(a);
+        for (auto i: a) {
+            cout << i << ' ';
+        }
+        cout << endl;
     }
 }
 
