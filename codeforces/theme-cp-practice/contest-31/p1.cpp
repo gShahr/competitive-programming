@@ -295,9 +295,65 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        if (n == 1) cout << 1 << endl;
+        else if (n&1) cout << -1 << endl;
+        else {
+            vector<int> ans;
+            for (int i = 1; i <= n-1; i += 2) {
+                ans.push_back(i+1);
+                ans.push_back(i);
+            }
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        }
     }
 }
 
+// Start 7:50 PM
 /*
+n = 4
+1 4 3 2
+3 4 1 2
+
+n = 6
+5 6 3 4 1 2
+
+1 0 1 0 1 0
+2 0 0 1 1 2
+1 2 3 0 1 2
+0 1 3 4 1 2
+5 0 3 4 1 2
+
+2 1 4 3 6 5
+
+n*(n+1) / 2 
+when n is odd, then the factor of 2 doesn't get rid of
+it so it stays so it's always a factor of the output.
+Therefore, f(x) = -1 when x is odd. 
+
+4*(5) / 2 = 10
+5*(6) / 2  15
+
+z is the rest of the numbers from 1 to n-2.
+When n is even:
+z, n-1 would be divisible by n-1 so we make
+=> z, n-2 which is not divisible by n-1.
+We also have sum(z)-1, n-1, n
+
+We know sum(z) + n-1 = 0 (mod n-1)
+We have sum(z) + n-1 - 1 + n
+=> 0 - 1 + n (mod n-1)
+
+n = 4
+n-1 = 3
+sum(z) = 3
+
+Ah we take 2 so we don't run into that issue which is basically the inductive
+case.
+
+So we actually have sum(z) + n-1 - 2 + n which gives us n-2 which is not congruent
+to 0 mod n-1
 
 */

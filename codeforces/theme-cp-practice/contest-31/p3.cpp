@@ -291,13 +291,46 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(vector<int> a) {
+    int n = a.size();
+    bool ok = false;
+    vector<int> b;
+    for (int i = 0; i+1 < n; i+=2) {
+        int res = a[i]-a[i+1];
+        b.push_back(res);
+    }
+    vector<int> cum(b.size()+1, 0);
+    map<int, int> cnt;
+    cnt[0]++;
+    for (int i = 0; i < b.size(); i++) {
+        cum[i+1] = cum[i] + b[i];
+        cnt[cum[i+1]]++;
+        if (2*(i+1) < n) debug(cum[i+1] + a[2*(i+1)]);
+        ok |= ((cnt[cum[i+1]] >= 2)
+        || (2*(i+1) < n && cnt[cum[i+1] + a[2*(i+1)]] >= 1));
+    }
+    debug(b, cum, ok);
+    return ok;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        bool ok = check(a);
+        a.erase(a.begin());
+        ok |= check(a);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+
 
 */

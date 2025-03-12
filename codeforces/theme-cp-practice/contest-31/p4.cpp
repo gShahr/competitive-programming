@@ -291,13 +291,49 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool has_7(int x) {
+    bool ok = false;
+    while (x) {
+        int d = x % 10;
+        if (d == 7) ok = true;
+        x /= 10;
+    }
+    return ok;
+}
+
+void check(int n, int curr, int& ans) {
+    int op = 0;
+    for (int i = 0; i < ans; i++) {
+        if (has_7(n)) break;
+        n += curr;
+        op++;
+    }
+    debug(n, curr, op);
+    ans = min(ans, op);
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int ans = 10;
+        int curr = 9;
+        for (int i = 0; i < 10; i++) {
+            check(n, curr, ans);
+            curr = (curr * 10) + 9;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+Answer always bounded by at least 10 so brute force.
+
+8 0
+9+1 = 10 operations needed in the case above.
 
 */

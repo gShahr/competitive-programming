@@ -295,9 +295,37 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string s;
+        cin >> s;
+        stack<int> curr;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '_') {
+                if (curr.empty()) {
+                    curr.push(i);
+                } else {
+                    int tp = curr.top();
+                    curr.pop();
+                    ans += (i - tp);    
+                }
+            } else if (s[i] == '(') {
+                curr.push(i);
+            } else if (s[i] == ')') {
+                int tp = curr.top();
+                curr.pop();
+                ans += (i - tp);
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+Vscode griefed me by giving me a fake compiler warning that didn't update with new
+code and spent time trying to debug it - wtf.
 
 */
