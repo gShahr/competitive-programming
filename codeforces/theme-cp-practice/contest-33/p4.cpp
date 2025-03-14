@@ -291,24 +291,23 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
-bool check(int x, vector<int> a, vector<int> b) {
-    int n = a.size();
-    int cnt = 0;
-    for (int i = 0; i < n; i++) {
-        int z = -1;
-        int best = INT_MAX;
-        for (int j = 0; j < b.size(); j++) {
-            int res = abs(a[i] - b[j]);
-            if (res >= x && res <= best) {
-                best = res;
-                z = j;
+bool check(int x, vector<pair<int, bool>> c) {
+    int m = c.size();
+    vector<bool> visited(m, false);
+    for (int i = 0; i < m; i++) {
+        for (int j = i; j < m; j++) {
+            int r = abs(c[i].first - c[j].first);
+            if (r >= x && c[i].second != c[j].second && !visited[i] && !visited[j]) {
+                visited[i] = true;
+                visited[j] = true;
             }
         }
-        if (z == -1) return false;
-        cnt++;
-        b.erase(b.begin()+z);
     }
-    return cnt >= n;
+    debug(visited);
+    for (auto i: visited) {
+        if (!i) return false;
+    }
+    return true;
 }
 
 int32_t main() {
@@ -322,11 +321,15 @@ int32_t main() {
         for (int i = 0; i < n; i++) cin >> b[i];
         sort(a.begin(), a.end());
         sort(b.begin(), b.end());
+        vector<pair<int, bool>> c;
+        for (auto i: a) c.emplace_back(i, true);
+        for (auto i: b) c.emplace_back(i, false);
+        sort(c.begin(), c.end());
         int x = 0;
-        // debug(check(2, a, b));
-        // return 0;
+        debug(check(2, c));
+        return 0;
         for (int u = 1e9; u >= 1; u /= 2) {
-            while (check(x+u, a, b)) x += u;
+            while (check(x+u, c)) x += u;
         }
         int ans = x;
         debug(ans);
