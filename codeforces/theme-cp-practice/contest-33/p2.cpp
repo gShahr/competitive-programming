@@ -295,9 +295,37 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> cnt;
+        for (auto i: a) cnt[i]++;
+        if (cnt.size() <= 1) {
+            cout << -1 << endl;
+            continue;
+        }
+        int dom = -1;
+        for (auto i: cnt) {
+            if (i.second >= (n+1)/2) dom = i.first;
+        }
+        int ans = INT_MAX;
+        int curr = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == dom) curr++;
+            else {
+                ans = min(ans, curr);
+                curr = 0;
+            }
+        }
+        ans = min(ans, curr);
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 1 1 1 2 2 2 1
 
 */

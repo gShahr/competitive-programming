@@ -295,6 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> cum(n+1, 0);
+        for (int i = 0; i < n; i++) {
+            cum[i+1] = cum[i] + a[i];
+        }
+        map<int, int> cnt;
+        int ans = 0;
+        int rem = 0;
+        for (int i = 0; i <= n; i++) {
+            if (cnt[cum[i] - cum[rem]] >= 1 || (i-1 >= 0 && a[i-1] == 0)) {
+                cnt.clear();
+                cnt[0]++;
+                rem = i;
+                ans++;
+            } else cnt[cum[i] - cum[rem]]++;
+        }
+        debug(ans, cum);
+        cout << ans << endl;
     }
 }
 

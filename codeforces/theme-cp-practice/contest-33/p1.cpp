@@ -291,10 +291,47 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+vector<int> dx = {0, 0, 0, 1, 1, 1, -1, -1, -1};
+vector<int> dy = {-1, 1, 0, -1, 1, 0, -1, 1, 0};
+
+void dfs(int x, int y, int n, string curr, set<pair<int, int>> visited, vector<vector<char>> &a, string &ans) {
+    if (visited.find({x, y}) != visited.end()) return;
+    visited.insert({x, y});
+    curr += a[x][y];
+    if (visited.size() >= n) {
+        ans = min(ans, curr);
+        return;
+    }
+    for (int i = 0; i < dx.size(); i++) {
+        for (int j = 0; j < dy.size(); j++) {
+            int nx = x + dx[i];
+            int ny = y + dy[j];
+            if (nx >= 0 && nx < n && ny >= 0 && ny < n) {
+                dfs(nx, ny, n, curr, visited, a, ans);
+            }
+        }
+    }
+}
+
 int32_t main() {
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
+        int n = 3;
+        vector<vector<char>> a(n, vector<char>(n));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) cin >> a[i][j];
+        }
+        string ans = "CCC";
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                set<pair<int, int>> visited;
+                string curr;
+                dfs(i, j, n, curr, visited, a, ans);
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
