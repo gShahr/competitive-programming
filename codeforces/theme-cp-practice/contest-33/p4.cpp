@@ -291,13 +291,56 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(int x, vector<int> a, vector<int> b) {
+    int n = a.size();
+    int cnt = 0;
+    for (int i = 0; i < n; i++) {
+        int z = -1;
+        int best = INT_MAX;
+        for (int j = 0; j < b.size(); j++) {
+            int res = abs(a[i] - b[j]);
+            if (res >= x && res <= best) {
+                best = res;
+                z = j;
+            }
+        }
+        if (z == -1) return false;
+        cnt++;
+        b.erase(b.begin()+z);
+    }
+    return cnt >= n;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        int x = 0;
+        // debug(check(2, a, b));
+        // return 0;
+        for (int u = 1e9; u >= 1; u /= 2) {
+            while (check(x+u, a, b)) x += u;
+        }
+        int ans = x;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 => 3
+2 => 4
+3 => 1
+4 => 2
+5 => 
+
 
 */
