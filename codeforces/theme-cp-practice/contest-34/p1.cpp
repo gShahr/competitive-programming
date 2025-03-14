@@ -295,6 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        map<int, int> c1, c2;
+        for (auto i: a) c2[i]++;
+        int ans = c2.size();
+        for (int i = 0; i < n; i++) {
+            c1[a[i]]++;
+            c2[a[i]]--;
+            if (c2[a[i]] <= 0) c2.erase(c2.find(a[i]));
+            int res = c1.size() + c2.size();
+            ans = max(ans, res);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 

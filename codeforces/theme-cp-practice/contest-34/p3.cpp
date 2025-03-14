@@ -291,10 +291,59 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+vector<char> findCells(int layer, vector<vector<char>> &a) {
+    vector<char> res;
+    int n = a.size();
+    int m = a[0].size();
+    // debug(layer);
+    for (int i = layer; i+1 < m-layer; i++) res.push_back(a[layer][i]);
+    // debug(res);
+    for (int i = layer; i < n-layer; i++) res.push_back(a[i][m-layer-1]);
+    // debug(res);
+    for (int i = m-layer-2; i >= layer; i--) res.push_back(a[n-layer-1][i]);
+    // debug(res);
+    for (int i = n-layer-2; i >= layer+1; i--) res.push_back(a[i][layer]);
+    return res;
+}
+
+int cnt(vector<char> &cells) {
+    int n = cells.size();
+    int start = 0;
+    for (int i = 0; i < n; i++) {
+        if (cells[i] == '1') start = i;
+    }
+    string curr;
+    for (int i = start; i < n; i++) curr.push_back(cells[i]);
+    for (int i = 0; i < start; i++) curr.push_back(cells[i]);
+    int res = 0;
+    for (int i = 0; i+3 < n; i++) {
+        if (curr[i] == '1' && 
+            curr[i+1] == '5' &&
+            curr[i+2] == '4' &&
+            curr[i+3] == '3') res++;
+    }
+    return res;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<char>> a(n, vector<char>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cin >> a[i][j];
+        }
+        // debug(a);
+        int ans = 0;
+        for (int i = 0; i < min(n, m)/2; i++) {
+            vector<char> cells = findCells(i, a);
+            debug(cells);
+            ans += cnt(cells);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 

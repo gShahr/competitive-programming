@@ -292,12 +292,39 @@ namespace __DEBUG_UTIL__
 #define int long long int
 
 int32_t main() {
-    int t;
-    cin >> t;
-    while (t--) {
+    int q;
+    cin >> q;
+    set<int> s;
+    map<int, int> mex_minus_one;
+    for (int i = 0; i < q; i++) {
+        char c;
+        cin >> c;
+        if (c == '+') {
+            int x;
+            cin >> x;
+            s.insert(x);
+        } else if (c == '?') {
+            int k;
+            cin >> k;
+            if (s.find(k) == s.end()) {
+                cout << k << endl;
+                continue;
+            }
+            while (s.find(mex_minus_one[k] + k) != s.end()) {
+                mex_minus_one[k] += k;
+            }
+            int ans = mex_minus_one[k] + k;
+            debug(ans);
+            cout << ans << endl;
+        }
     }
 }
 
 /*
+
+3
++ 1
++ 2
+? 1
 
 */

@@ -295,6 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int n = s.size();
+        int ans = 0;
+        vector<int> z, o;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '0') z.push_back(i);
+            else if (s[i] == '1') o.push_back(i);
+        }
+        for (int i = 0; i < n; i++) {
+            auto it1 = upper_bound(o.begin(), o.end(), i);
+            auto it2 = lower_bound(z.begin(), z.end(), i)--;
+            if (it1 == o.end() && it2 == z.begin()) ans++;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
