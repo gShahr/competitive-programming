@@ -291,13 +291,134 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool is_prime(int x) {
+    if (x == 1) return false;
+    for (int i = 2; i*i <= x; i++) {
+        if (x % i == 0) return false;
+    }
+    return true;
+}
+
+int find_mex(vector<int> &a) {
+    int n = a.size();
+    int res = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = i; j < n; j++) {
+            int mex = -1;
+            vector<int> curr;
+            for (int k = i; k <= j; k++) {
+                curr.push_back(a[k]);
+            }
+            sort(curr.begin(), curr.end());
+            for (int k = 1; k <= curr.size(); k++) {
+                if (curr[k-1] != k) {
+                    mex = k;
+                    break;
+                }
+            }
+            if (mex == -1) mex = curr.size() + 1;
+            if (is_prime(mex)) res++;
+        }
+    }
+    return res;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans;
+        if (n == 1) ans = {1};
+        else if (n == 2) ans = {2, 1};
+        else if (n == 3) ans = {2, 1, 3};
+        else if (n == 4) ans = {2, 1, 4, 3};
+        else {
+            ans = {2};
+            for (int i = 4; i <= n; i++) ans.push_back(i);
+            ans.push_back(3);
+            ans.insert(ans.begin()+n/2, 1);
+        }
+        debug(ans);
+        // vector<int> a;
+        // int best = -1;
+        // for (int i = 1; i <= n; i++) a.push_back(i);
+        // do {
+        //     int mex = find_mex(a);
+        //     if (mex == 8) debug(a);
+        //     if (mex > best) {
+        //         ans = a;
+        //         best = mex;
+        //     } 
+        // } while (next_permutation(a.begin(), a.end()));
+        // debug(ans, best);
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+
+5 2 1 4 3
+6 2 1 5 4 3
+
+n 2 1 n-1 n-2 3
+
+2 1 5 4 3
+=>
+2 1
+2 1 5
+2 1 5 4
+1
+1 5
+1 5 4
+1 5 4 3
+
+5 2 1 4 3
+=>
+5 2 1
+5 2 1 4
+2 1
+2 1 4
+2 1 4 3
+1
+1 4
+1 4 3
+
+2 1 4 5 3
+
+5 => 2+3+3 = 8
+7 => 5+6+6 = n-2+n-1+n-1 = 3n-4
+
+4 2 1 3 
+=>
+4 2 1
+4 2 1 3
+2 1
+1
+1 3
+
+2 1 4 3
+=>
+2 1
+2 1 4
+2 1 4 3
+1
+1 4
+1 4 3
+
+7
+5 2 1 7 6 4 3
+=> 4+5+5
+
+2,3,4,1,7,6,5
+=> 3+4+4+4
+
+2 3 1 5 4
+vs 
+2,4,1,3,5
+
 
 */

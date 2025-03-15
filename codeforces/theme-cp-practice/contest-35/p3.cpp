@@ -295,9 +295,45 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> p;
+        for (int i = 0; i < n; i++) {
+            int x = a[i];
+            for (int j = 2; j*j <= x; j++) {
+                while (x % j == 0) {
+                    p[j]++;
+                    x /= j;
+                }
+            }
+            if (x > 1) {
+                p[x]++;
+            }
+        }
+        int ans = 0;
+        for (auto &i: p) {
+            ans += (i.second / 2);
+            i.second %= 2;
+        }
+        int res = 0;
+        for (auto i: p) {
+            res += i.second;
+        }
+        ans += res/3;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+2*3*5 = 30
+1 2 3 5 6 15 30
+=> 2 3 5
+=> 6 15 30
+
+=> either 3 primes or 2 repeating primes
 
 */

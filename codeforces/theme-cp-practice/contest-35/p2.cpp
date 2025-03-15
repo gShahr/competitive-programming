@@ -292,12 +292,31 @@ namespace __DEBUG_UTIL__
 #define int long long int
 
 int32_t main() {
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
+        int a, b;
+        cin >> a >> b;
+        int x = 4*a - 2*b;
+        int c1 = -1000;
+        int c2 = 1000 + x;
+        vector<int> ans = {c1, b, b, c2};
+        debug(ans);
+        cout << ans.size() << endl;
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+n length
+b b
+
+(b+b+x) / n = a
+=> (2*b+x) = n*a
+=> x = n*a - 2*b
+
+1000 -996
 
 */
