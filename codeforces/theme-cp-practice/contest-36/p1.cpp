@@ -291,13 +291,46 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void find_min(vector<int> &a, pair<int, int> &mn, int parity) {
+    int n = a.size();
+    mn.first = INT_MAX;
+    mn.second = 0;
+    for (int i = 0; i < n; i++) {
+        if (i % 2 == parity && mn.first > a[i]) {
+            mn.first = a[i];
+            mn.second = i;
+        }
+    }
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        bool first = true;
+        if (n&1) first = true;
+        else {
+            pair<int, int> mn1, mn2;
+            find_min(a, mn1, 0);
+            find_min(a, mn2, 1);
+            debug(mn1, mn2);
+            if (mn2.first > mn1.first) first = false;
+            if (mn2.first == mn1.first && mn2.second > mn1.second) first = false;
+        }
+        if (first) cout << "Mike" << endl;
+        else cout << "Joe" << endl;
     }
 }
 
 /*
+
+x1 x2 x3 => Mike 
+=> n&1 => Mike
+
+x1 x2 x3 x4
 
 */

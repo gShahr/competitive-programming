@@ -295,9 +295,55 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        pair<int, int> ans = {1, 1};
+        int mx = 0;
+        for (int i = 0; i < n; i++) {
+            int inv = 0;
+            int last = -1;
+            for (int j = i+1; j < n; j++) {
+                if (a[i] > a[j]) {
+                    last = j;
+                    inv++;
+                } else if (a[i] < a[j]) inv--;
+                if (inv > mx) {
+                    ans = {i+1, last+1};
+                    mx = inv;
+                }
+            }
+            // debug(i, inv, last);
+        }
+        debug(ans);
+        cout << ans.first << ' ' << ans.second << endl;
     }
 }
 
 /*
+
+x1 => x1
+x1 x2 => x2 x1
+x1 x2 x3 => x3 x1 x2
+=> x4 x1 x2 x3
+
+RIGHT SHIFT:
+x1 x2 x3 => x2 x3 x1
+x1 x2 x3 x4 => x2 x3 x4 x1
+
+1 3 2 5 3 3 4
+1 3 4 3 2 5 3
+
+4 1 2 5 5 5 5 3
+
+4 3 2 3 
+=> 3 2 3 4
+versus
+=> 3 2 4 3
+
+2 1 2 1
+=> 1 2 2 1 => 2 inversions
+1 2 1 2 => 1 inversion
 
 */

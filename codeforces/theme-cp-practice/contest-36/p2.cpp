@@ -295,9 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        int modd = 1e9 + 7;
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        int ans = 1;
+        for (int i = 0; i < n; i++) {
+            auto it = lower_bound(b.begin(), b.end(), a[i]);
+            if (it == b.begin()) {
+                ans = 0;
+                break;
+            } else it--;
+            int p = it - b.begin() - i + 1;
+            ans = (ans * p) % modd;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+1
+3
+5 10 10
+1 8 9
 
 */
