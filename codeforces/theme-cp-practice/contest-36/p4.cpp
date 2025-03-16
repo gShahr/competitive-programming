@@ -295,6 +295,9 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m1, m2;
+        cin >> n >> m1 >> m2;
+        
     }
 }
 
