@@ -291,13 +291,63 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void dfsG(int x, vector<vector<int>> &a, set<int> &visitedG) {
+    if (visitedG.find(x) != visitedG.end()) return;
+    visitedG.insert(x);
+    for (auto u: a[x]) {
+        dfsG(u, a, visitedG);
+    }
+}
+
+int dfsF(int x, vector<vector<int>> &a, set<int> &visitedG, set<int> &visitedF) {
+    if (visitedF.find(x) != visitedF.end()) return;
+    visitedF.insert(x);
+    for (auto u: a[x]) {
+        if (visitedG.find(u) == visitedG.end()) continue;
+        dfsF(u, a, visitedG, visitedF);   
+    }
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
         int n, m1, m2;
         cin >> n >> m1 >> m2;
-        
+        vector<vector<int>> adj1, adj2;
+        for (int i = 0; i < m1; i++) {
+            int u, v;
+            u--, v--;
+            cin >> u >> v;
+            adj1[u].push_back(v);
+            adj1[v].push_back(u);
+        }
+        for (int i = 0; i < m1; i++) {
+            int u, v;
+            u--, v--;
+            cin >> u >> v;
+            adj2[u].push_back(v);
+            adj2[v].push_back(u);
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            set<int> visitedG, visitedF;
+            dfsG(i, adj2, visitedG);
+            int components = 0;
+            for (auto u: visitedG) {
+                if (visitedF.find(u) != visitedF.end()) continue;
+                dfsF(u, adj1, visitedG, visitedF);
+                components++;
+            }
+            int res = 0;
+            for (auto u: visitedG) {
+                res += adj1[u].size();
+            }
+            res = res - 2 * (visitedG.size() - components) + components - 1;
+            res /= 2;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
