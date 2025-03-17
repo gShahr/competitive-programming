@@ -291,20 +291,21 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
-void dfsG(int x, vector<vector<int>> &a, set<int> &visitedG) {
+void dfsG(int x, vector<vector<int>> &a, set<int> &visitedG, set<int> &visitedGLocal) {
     if (visitedG.find(x) != visitedG.end()) return;
     visitedG.insert(x);
+    visitedGLocal.insert(x);
     for (auto u: a[x]) {
-        dfsG(u, a, visitedG);
+        dfsG(u, a, visitedG, visitedGLocal);
     }
 }
 
-int dfsF(int x, vector<vector<int>> &a, set<int> &visitedG, set<int> &visitedF) {
+void dfsF(int x, vector<vector<int>> &a, set<int> &visitedGLocal, set<int> &visitedF) {
     if (visitedF.find(x) != visitedF.end()) return;
     visitedF.insert(x);
     for (auto u: a[x]) {
-        if (visitedG.find(u) == visitedG.end()) continue;
-        dfsF(u, a, visitedG, visitedF);   
+        if (visitedGLocal.find(u) == visitedGLocal.end()) continue;
+        dfsF(u, a, visitedGLocal, visitedF);   
     }
 }
 
@@ -314,43 +315,52 @@ int32_t main() {
     while (t--) {
         int n, m1, m2;
         cin >> n >> m1 >> m2;
-        vector<vector<int>> adj1, adj2;
+        vector<vector<int>> adj1(n), adj2(n);
         for (int i = 0; i < m1; i++) {
             int u, v;
-            u--, v--;
             cin >> u >> v;
+            u--, v--;
             adj1[u].push_back(v);
             adj1[v].push_back(u);
         }
-        for (int i = 0; i < m1; i++) {
+        for (int i = 0; i < m2; i++) {
             int u, v;
-            u--, v--;
             cin >> u >> v;
+            u--, v--;
             adj2[u].push_back(v);
             adj2[v].push_back(u);
         }
         int ans = 0;
+        int dbl = 0;
+        set<int> visitedG;
         for (int i = 0; i < n; i++) {
-            set<int> visitedG, visitedF;
-            dfsG(i, adj2, visitedG);
+            if (visitedG.find(i) != visitedG.end()) continue;
+            set<int> visitedGLocal, visitedF;
+            dfsG(i, adj2, visitedG, visitedGLocal);
             int components = 0;
-            for (auto u: visitedG) {
+            for (auto u: visitedGLocal) {
                 if (visitedF.find(u) != visitedF.end()) continue;
-                dfsF(u, adj1, visitedG, visitedF);
+                dfsF(u, adj1, visitedGLocal, visitedF);
                 components++;
             }
-            int res = 0;
-            for (auto u: visitedG) {
-                res += adj1[u].size();
+            for (auto u: visitedF) {
+                for (int j = 0; j < adj1[u].size(); j++) {
+                    int v = adj1[u][j];
+                    if (visitedF.find(v) == visitedF.end()) dbl++;
+                }
             }
-            res = res - 2 * (visitedG.size() - components) + components - 1;
-            res /= 2;
+            ans += components-1;
         }
+        ans += (dbl/2);
         debug(ans);
         cout << ans << endl;
     }
 }
 
 /*
+
+1: 2 3 4 5
+2: 1 3 4 5
+3: 1 2 4 5
 
 */
