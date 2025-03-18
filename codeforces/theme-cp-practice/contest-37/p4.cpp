@@ -295,6 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k, q;
+        cin >> n >> k >> q;
+        vector<int> a(k), b(k);
+        for (int i = 0; i < k; i++) cin >> a[i];
+        for (int i = 0; i < k; i++) cin >> b[i];
+        vector<int> cum(k+1, 0);
+        for (int i = 0; i < k; i++) {
+            cum[i+1] = cum[i] + a[i];
+        }
+        for (int i = 0; i < q; i++) {
+            int d;
+            cin >> d;
+            int p = --upper_bound(cum.begin(), cum.end(), d) - cum.begin();
+            p = max(0LL, p);
+            int dist;
+            if (p-1 >= 0) dist = a[p] - a[p-1];
+            else dist = a[p];
+            int time;
+            if (p-1 >= 0) time = b[p] - b[p-1];
+            else time = b[p];
+            int travel;
+            if (p-1 >= 0) travel = d - cum[p];
+            else travel = d;
+            int ans = time * travel / dist;
+            if (p-1 >= 0) ans += b[p-1];
+            debug(ans, p, time, travel, dist);
+            cout << ans << endl;
+        }
     }
 }
 
