@@ -299,7 +299,17 @@ int32_t main() {
         cin >> n;
         vector<int> a(n);
         for (int i = 0; i < n; i++) cin >> a[i];
-        
+        int curr = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] < 0) curr += abs(a[i]);
+        }
+        int ans = curr;
+        for (int i = 0; i < n; i++) {
+            curr += a[i];
+            ans = max(ans, curr);
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
