@@ -291,13 +291,67 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+int calc(int n, int m, vector<int> &a) {
+    map<int, int> mn, mx;
+    int ans = 0;
+    for (int i = 0; i < n*m; i++) {
+        int x = a[i];
+        int c_mn = x;
+        int c_mx = x;
+        if (i % m != 0) {
+            c_mn = min(c_mn, mn[i-1]);
+            c_mx = max(c_mx, mx[i-1]);
+        }
+        if (i >= m) {
+            c_mn = min(c_mn, mn[i-m]);
+            c_mx = max(c_mx, mx[i-m]);
+        }
+        mn[i] = c_mn;
+        mx[i] = c_mx;
+        ans += (c_mx - c_mn);
+    }
+    return ans;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        map<int, int> mn, mx;
+        vector<int> a(n*m);
+        for (int i = 0; i < n*m; i++) cin >> a[i];
+        vector<int> b = a;
+        sort(a.begin(), a.end());
+        swap(a[1], a[m-1]);
+        a.insert(a.begin(), a.back());
+        a.pop_back();
+        if (n > m) swap(a[1], a[m]);
+
+        sort(b.begin(), b.end());
+        swap(b[1], b[n*m-1]);
+        swap(b[m], b[n*m-2]);
+        if (n > m) swap(b[1], b[m]);
+
+        int r1 = calc(n, m, a);
+        int r2 = calc(n, m, b);
+        debug(r1, r2, a, b);
+        int ans = max(r1, r2);
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 1 3 4 => 1 3 1 4 => 4 1 3 1
+
+-7 4
+8 1
+0 -3
+
+15 11 15
+11 15
 
 */

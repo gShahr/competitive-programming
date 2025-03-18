@@ -291,10 +291,52 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void dfs(int time_step, int player, int n, int m, vector<pair<int, char>> &a, vector<vector<bool>> &dp) {
+    if (time_step >= m) dp[time_step][player] = true;
+    if (dp[time_step][player]) return;
+    dp[time_step][player] = true;
+    int p1 = player;
+    int p2 = player;
+    char c = a[time_step].second;
+    int v = a[time_step].first;
+    if (c == '?') {
+        p1 -= v;
+        p2 += v;
+    } else if (c == '0') {
+        p2 += v;
+    } else if (c == '1') {
+        p1 -= v;
+    }
+    p1 = (p1 + n) % n;
+    p2 %= n;
+    if (c == '?' || c == '1') dfs(time_step+1, p1, n, m, a, dp);
+    if (c == '?' || c == '0') dfs(time_step+1, p2, n, m, a, dp);
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, x;
+        cin >> n >> m >> x;
+        vector<pair<int, char>> a;
+        for (int i = 0; i < m; i++) {
+            int x;
+            char c;
+            cin >> x >> c;
+            a.emplace_back(x, c);
+        }
+        vector<vector<bool>> dp(m+1, vector<bool>(n, false));
+        dfs(0, x-1, n, m, a, dp);
+        debug(dp);
+        vector<int> ans;
+        for (int i = 0; i < n; i++) {
+            if (dp[m][i]) ans.push_back(i+1);
+        }
+        debug(ans);
+        cout << ans.size() << endl;
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
