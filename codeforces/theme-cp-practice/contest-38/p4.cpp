@@ -297,6 +297,8 @@ int32_t main() {
     while (t--) {
         int n, x;
         cin >> n >> x;
+        for (int i = 0; i < x; i++) {
+        }
     }
 }
 
@@ -349,6 +351,18 @@ where I don't really understand the next step needed in order to solve this.
 => (4, 2)
 => (3, 3)
 
+7
+=> (7, 1)
+=> (3, 2)
+
 sqrt(1) + sqrt(2) + ... sqrt(n) total pairs
+
+(9, 9)
+
+What are the unknowns: b & c. For an individual value of a, denoted as
+a_i.
+
+a => [1, x]
+b => [1, sqrt(a)]
 
 */
