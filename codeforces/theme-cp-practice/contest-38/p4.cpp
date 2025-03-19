@@ -349,6 +349,6 @@ where I don't really understand the next step needed in order to solve this.
 => (4, 2)
 => (3, 3)
 
-sqrt(1) + sqrt(2) + ... sqrt(n)
+sqrt(1) + sqrt(2) + ... sqrt(n) total pairs
 
 */
