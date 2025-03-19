@@ -295,9 +295,42 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> ans;
+        for (int i = 1; i < n; i++) ans.push_back(a[i]);
+        ans.push_back(a[0]);
+        debug(ans);
+        for (auto i: ans) cout << i << ' ';
     }
 }
 
 /*
+
+1 2 3
+3 2 1
+
+1 2 3 4
+4 3 2 1
+
+1 4 2 3
+2 3 1 4
+4 1 3 2 => 4 3 1 2
+
+4 1 2 3 => 4 2 1 3
+
+4 5 => 4 5 9
+
+a1 a2 a3
+a2 a3 a1
+
+a1 + a2 = a2 + a3
+
+a1 a2 a3 a4
+a2 a3 a4 a1
+
+a1 + a2 + a3 = a2 + a3 + a4
 
 */

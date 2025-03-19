@@ -295,9 +295,23 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int mn = min_element(a.begin(), a.end()) - a.begin();
+        int ans = mn;
+        for (int i = mn; i+1 < n; i++) {
+            if (a[i] > a[i+1]) ans = -1;
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+4 3 2 6 4 1
+
 
 */
