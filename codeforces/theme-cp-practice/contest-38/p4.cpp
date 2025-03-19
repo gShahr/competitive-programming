@@ -295,9 +295,60 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, x;
+        cin >> n >> x;
     }
 }
 
 /*
+
+ab + ac + bc <= n
+a + b + c <= x
+
+ab + ac + bc <= n
+=> a(b+c) + bc <= n
+=> => bc <= n - a(b+c)
+=> b+c + bc/a <= n/a
+=> b+c <= (n-bc)/a
+
+b+c <= x-a
+(1, x-a-1)
+(2, x-a-2)
+...
+(x-a-1, 1)
+
+b+c ranges [2, x-a]
+bc <= n - a(b+c)
+smallest value: bc <= n - a(x-a) = n - ax + a^2
+biggest value: bc <= n - a(2) = n - 2a
+
+n = 10, x = 5
+b+c ranges: 2 3 4
+(1, 1)
+(1, 2)
+(2, 1)
+(1, 3)
+(2, 2)
+(3, 1)
+
+(1, 1, 1)
+(1, 1, 2)
+(1, 2, 2)
+(1, 2, 3)
+(1, 3, 3)
+
+maximum value of b
+
+I'm currently out of ideas and don't really know how to approach the problem. The
+idea of fixing one value like a and noticing the structure is symmetric is kind
+of obvious but idk what to do with this information. Problem comes after this
+where I don't really understand the next step needed in order to solve this.
+
+9
+=> (9, 1)
+=> (4, 2)
+=> (3, 3)
+
+sqrt(1) + sqrt(2) + ... sqrt(n)
 
 */
