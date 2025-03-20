@@ -295,9 +295,41 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        string a;
+        cin >> n >> a;
+        bool ok = false;
+        for (int i = 0; i+2 < n; i++) {
+            if (a[i] == '1' && a[i+1] == '1' && a[i+2] == '1') ok = true;
+        }
+        int cnt = 0;
+        for (int i = 0; i+1 < n; i++) {
+            if (a[i] == '1' && a[i+1] == '1') cnt++;
+        }
+        if (cnt >= 2) ok = true;
+        if (a[0] == '1' && a[n-1] == '1') ok = true;
+        if (cnt >= 1 && (a[0] == '1' || a[n-1] == '1')) ok = true;
+        debug(ok);
+        if (ok) cout << "Yes" << endl;
+        else cout << "No" << endl;
     }
 }
 
 /*
 
+0 ones => false
+1 one 
+
+011010
+
+11101010101
+
+0110110
+
+pairs that work
+=> consecutive ones for >= 3
+=> two pairs of 2 ones
+=> two single ones at ends
+
+10110
 */

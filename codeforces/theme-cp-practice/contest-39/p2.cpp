@@ -295,9 +295,87 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x;
+        cin >> x;
+        int ans = -1;
+        vector<int> bits;
+        while (x) {
+            int bit = x % 2;
+            bits.push_back(bit);
+            x /= 2;
+        }
+        reverse(bits.begin(), bits.end());
+        for (int i = 1; i+1 < bits.size(); i++) {
+            if (bits[i] == 1 && bits[i+1] == 0) {
+                int d = bits.size() - i - 1;
+                ans = (1 << d) | (1 << (d-1));
+            }
+        }
+        for (int i = 1; i+1 < bits.size(); i++) {
+            if (bits[i] == 0 && bits[i+1] == 1) {
+                int d = bits.size() - i - 1;
+                debug(d, bits);
+                ans = (1 << d) | (1 << (d-1));
+            }
+        }
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+a b c
+b+c > a is given
+a+c > b is given
+a+b > c needs to be verified
+
+110
+101
+
+x-1 x
+
+1000
+0001
+
+1 8 9
+
+1100
+1000
+
+11
+01
+
+111
+001
+
+1 6 7
+
+111
+011
+
+3 4 7
+
+111
+101
+
+2 5 7
+
+1000
+1001
+
+cancel out highest bit and add back in bit
+
+110
+011
+
+3 5 6
+
+6 67 69
+
+pattern is having 10 as bits
+
+101
+011
 
 */
