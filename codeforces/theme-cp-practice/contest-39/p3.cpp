@@ -295,9 +295,77 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        string s;
+        cin >> n >> s;
+        map<int, int> cnt;
+        for (auto i: s) cnt[i]++;
+        if (cnt['0'] != cnt['1']) {
+            cout << -1 << endl;
+            continue;
+        }
+        vector<int> ans;
+        int offset = 0;
+        while (!s.empty()) {
+            if (s.front() == s.back()) {
+                int res;
+                if (s.front() == '1') {
+                    res = offset;
+                    s = "01" + s;
+                } else {
+                    res = s.size() + offset;
+                    s += "01";
+                }
+                ans.push_back(res);
+            } else {
+                s.pop_back();
+                s.erase(s.begin());
+                offset++;
+            }
+        }
+        debug(ans);
+        cout << ans.size() << endl;
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+odd => never works
+even => 
+
+1111
+0011
+
+001110
+0011001110
+
+00111100
+
+0110
+001110
+
+00111001
+=> 011001 (answer)
+
+0011100011
+
+101011
+
+011010101001
+
+0110 => 011001
+010110 => 
+
+001110 => 00111001 => 011100 => 01110001 => 111000
+
+
+110001 => 01110001 => 111000
+
+00 => at to end
+11 => at to beginning
+
+0110
 
 */
