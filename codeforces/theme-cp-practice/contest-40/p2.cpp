@@ -295,6 +295,28 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int m = 1e9+7;
+        int sum = 0;
+        int best = sum;
+        for (int i = 0; i < n; i++) {
+            sum += a[i];
+            if (sum < 0) sum = 0;
+            best = max(best, sum);
+        }
+        int ans = accumulate(a.begin(), a.end(), 0LL);
+        for (int i = 0; i < k; i++) {
+            ans += best;
+            best *= 2;
+            best %= m;
+            ans %= m;
+        }
+        while (ans < 0) ans += m;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 

@@ -295,9 +295,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            int s = (i + 1) * (i + 1);
+            int r = (n + i + 1) / s;
+            ans += max(0LL, r);
+        }
+        ans--;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+x 1
+y 2; y % 4 = 2
+z 3; z % 9 = 6
+z 4; z % 16 = 12
+
+2 2
+6 2
+10 2
+14 2
+
+6 3
+15 3
+
+12 4
+
+2 6 10 => 0 4 8
+2 6 10 => 4 8 12
 
 */

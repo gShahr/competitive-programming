@@ -295,9 +295,53 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        int cnt = 0;
+        for (auto i: a) {
+            if (i == 'U') cnt++;
+        }
+        if (cnt%2) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
 
+UUDUD
+DUUD
+DDU
+DU
+U
+
+UUDUD
+DDUD
+DUU
+DD
+
+0, +1, -2, -3
+
+UUU => -3
+DUD => +1
+UUD <=> DUU => -1
+
+UU => -2
+UD <=> DU => 0
+
+UUU => DD
+DUD => UU
+UUD => DU
+DUU => UD
+UU  => D
+UD  => U
+DU  => U
+
+
+U
+DU, UD, UU
+
+UUUDD
+UUDDD
 */

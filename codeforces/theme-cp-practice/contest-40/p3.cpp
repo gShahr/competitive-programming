@@ -295,9 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, x;
+        cin >> n >> x;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int sum = accumulate(a.begin(), a.end(), 0LL);
+        int ans = (sum + x - 1) / x;
+        if (a[n-1] - ans > 0) ans += a[n-1] - ans;
+        debug(ans);
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 2 3
+1 1 2
+0 1 1
+0 0 0
+
+x = 5
+1 1 1 100 100
 
 */
