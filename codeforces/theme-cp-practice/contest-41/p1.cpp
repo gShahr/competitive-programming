@@ -295,9 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int n = s.length();
+        bool ok = false;
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '(') cnt++;
+            else cnt--;
+            if (cnt == 0 && i < n-1) ok = true;
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+(()()()())
+()()
 
+conflated the 2 ideas together where only the first half of sequence are open brackets
+versus there being 2 disjoint bracket sequences to take from so that they transform
+into an unbalanced sequence.
 */

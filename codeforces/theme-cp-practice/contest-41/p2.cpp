@@ -295,6 +295,15 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k, g;
+        cin >> n >> k >> g;
+        int x = (g-1)/2;
+        int r1 = (n-1) * x;
+        int l = g - (r1 % g);
+        if (l > x) r1 -= (g-l);
+        else r1 += l;
+        int mx = min(r1, k * g);
+        cout << mx << endl;
     }
 }
 
