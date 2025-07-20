@@ -295,6 +295,20 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        for (int i = 0; i < n/2; i++) {
+            int r = n-i-1;
+            if (a[i] > a[r]) {
+                
+            } else {
+
+            }
+        }
+        string ans;
+        cout << ans << endl;
     }
 }
 

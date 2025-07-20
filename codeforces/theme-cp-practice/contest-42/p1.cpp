@@ -295,6 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        string a;
+        int best = 0;
+        pair<int, int> ans;
+        for (int i = 0; i < n; i++) {
+            cin >> a;
+            int cnt = 0;
+            for (int j = 0; j < m; j++) {
+                if (a[j] == '#') {
+                    cnt++;
+                    if (cnt > best) {
+                        best = cnt;
+                        ans.first = i+1;
+                        ans.second = j-cnt/2+1;
+                    }
+                }
+            }
+        }
+        debug(ans);
+        cout << ans.first << ' ' << ans.second << endl;
     }
 }
 
