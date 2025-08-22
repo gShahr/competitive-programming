@@ -295,6 +295,35 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        string a;
+        cin >> a;
+        int x = -1;
+        while (x < n) {
+            if (x == -1 || a[x] == 'L') {
+                for (int i = 0; i < m; i++) {
+                    x++;
+                    if (x < n && a[x] == 'L') break;
+                }
+            }
+            // } else if (a[x] == 'L') {
+            //     for (int i = 0; i < m; i++) {
+            //         x++;
+            //         if (x >= n) break;
+            //         if (a[x] == 'L') break;
+            //     }
+            // }
+            else if (k && a[x] == 'W') {
+                while (k) {
+                    x++;
+                    k--;
+                    if (x < n && (a[x] == 'L' || a[x] == 'C')) break;
+                }
+            } else break;
+        }
+        if (x >= n) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

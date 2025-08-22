@@ -291,10 +291,37 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+void dfs(int x, int& cnt, vector<int>& a, string& s, vector<int>& values, vector<int>& visited) {
+    if (visited[x]) return;
+    visited[x] = true;
+    if (s[x] == '0') cnt++;
+    values.push_back(x);
+    dfs(a[x], cnt, a, s, values, visited);
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) a[i]--;
+        string s;
+        cin >> s;
+        vector<int> dp(n, 0);
+        vector<int> visited(n, false);
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                int cnt = 0;
+                vector<int> values;
+                dfs(i, cnt, a, s, values, visited);
+                for (auto j: values) dp[j] = cnt;
+            }
+        }
+        for (int i = 0; i < n; i++) cout << dp[i] << ' ';
+        cout << endl;
     }
 }
 

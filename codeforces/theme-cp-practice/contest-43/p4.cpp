@@ -295,9 +295,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        int ans = INT_MAX;
+        for (int i = 0; i < n-1; i++) {
+            string slice = {a[i], a[i+1]};
+            int x = stoi(slice);
+            for (int j = 0; j < i; j++) {
+                int y = a[j]-'0';
+                if (x <= 1 || y <= 1) x *= y;
+                else x += y;
+            }
+            for (int j = i+2; j < n; j++) {
+                int y = a[j]-'0';
+                if (x <= 1 || y <= 1) x *= y;
+                else x += y;
+            }
+            ans = min(ans, x);
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+Always use addition unless we have a 1 which is the only case where multiplication
+produces a smaller answer. Then the question is which number we use for the 2-digit
+number as we can only use n-2 operations. We can take a linear number of options
+and then combine them. Since n is small, this should be possible within the time
+constraint.
+
+One other case for multiplication is one when on the numbers is 0.
 
 */

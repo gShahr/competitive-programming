@@ -295,9 +295,43 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        // vector<int> b(n, 0);
+        // for (int i = 0; i < n; i++) {
+        //     if (a[i] == 'B') b[i]++;
+        // }
+        // for (int i = n-1; i > 0; i--) {
+        //     b[i-1] += b[i];
+        // }
+        // int ans = 0;
+        // for (int i = 0; i < n; i++) {
+        //     if (a[i] == 'A') ans += b[i];
+        // }
+        // cout << ans << endl;
+        int ans = 0;
+        int l = -1;
+        int r = -1;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == 'B') r = i;
+        }
+        for (int i = n-1; i >= 0; i--) {
+            if (a[i] == 'A') l = i;
+        }
+        // cout << l << ' ' << r << endl;
+        ans = max(r-l, 0LL);
+        if (l == -1 || r == -1) ans = 0;
+        cout << ans << endl;
     }
 }
 
 /*
+
+Must satisfy index i having A to the left or it and B to the right of it.
+Therefore ans is max(B) - min(A).
+
+BBBAAAB
 
 */
