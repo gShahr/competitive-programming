@@ -295,9 +295,31 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, P, l, tt;
+        cin >> n >> P >> l >> tt;
+        int days = 0;
+        int max_practical_lessons = (n+6)/7;
+        int need = (P-1)/(l+2*tt) + 1;
+        int take = min(max_practical_lessons/2, need);
+        days += take;
+        P -= (take * (l+2*tt));
+        if (P > 0 && max_practical_lessons % 2) {
+            days++;
+            P -= (l+tt);
+        }
+        if (P > 0) {
+            days += (P-1)/l + 1;
+        }
+        int ans = n - days;
+        cout << ans << endl;
     }
 }
 
 /*
+
+Group l and tt together and then just l.
+
+p = 7
+(n+p-1)/p = total practical lessons
 
 */

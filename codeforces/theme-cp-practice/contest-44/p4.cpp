@@ -291,13 +291,64 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+// return false if failed to work
+bool check(int k, vector<pair<int, int>>& a) {
+    int n = a.size();
+    int mn = 0;
+    int mx = 0;
+    bool ok = true;
+    for (int i = 0; i < n; i++) {
+        int l = a[i].first;
+        int r = a[i].second;
+        if (mn > l) {
+            if (mn-k > r) ok = false;
+            mn = max(mn-k, l);
+        } else {
+            if (mx > l) mn = l;
+            else {
+                if (mx+k < l) ok = false;
+                mn = l;
+            }
+        }
+
+        if (mx < r) {
+            if (mx+k < l) ok = false;
+            mx = min(mx+k, r);
+        } else {
+            if (mn < r) mx = r;
+            else {
+                if (mn-k > r) ok = false;
+                mx = r;
+            }
+
+        }
+    }
+    return ok;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<pair<int, int>> a;
+        for (int i = 0; i < n; i++) {
+            int x, y;
+            cin >> x >> y;
+            a.emplace_back(x, y);
+        }
+        int k = -1;
+        for (int i = 1e9; i >= 1; i /= 2) {
+            while (!check(k+i, a)) k += i;
+        }
+        k++;
+        cout << k << endl;
     }
 }
 
 /*
+
+
 
 */

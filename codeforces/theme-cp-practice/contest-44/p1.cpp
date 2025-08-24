@@ -295,9 +295,55 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int m = 1e9 + 7;
+        int ans = n*(n-1) % m;
+        int p = 1;
+        for (int i = 0; i < n; i++) {
+            p *= (i+1);
+            p %= m;
+        }
+        ans = ans * p % m;
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 2 2 1 => 2
+2 1 1 2 => 2
+
+n creates n-1 inversions because it is bigger than every other number.
+so forth and so on.
+
+3 2 1 => 4
+3 1 2 => 2
+1 2 3 => 0
+1 3 2 => 1
+2 1 3 => 1
+2 3 1 => 2
+
+3 2 1 1 2 3 => 4+2=6
+3 1 2 2 1 3 => 4+2=6
+1 2 3 3 2 1 => 1+2+2+1=6
+1 3 2 2 3 1 => 3+2+1=6
+2 1 3 3 1 2 => 2+2+2=6
+2 3 1 1 3 2 => 2+3+1=6
+
+Answer is (n*(n-1)) / 2 * 2 * n! = n*(n-1) * n! = (n^2 - n) * n!.
+
+We can describe the two arrays A and B and look at all permutaitons possible
+and take their inversions. We see that the total inversion count
+for A and B together will be n-1(n-x) where x is the number we are looking at
+because each element can at most get n-1(n-x) inversions in total and all these ways
+are achieved with both A and B together as none of the inversions double-count since
+when we swap, all the inversions in A become non-inversions in B and vice-versa for
+non-inversions in A because the elements reversed their postiions. Now the final part
+is to look at the inversions from A to B which will be the same value as the combined
+inversions of A and B individually. 
+
+
+
 
 */

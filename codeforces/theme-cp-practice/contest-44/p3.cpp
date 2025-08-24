@@ -295,9 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> m;
+        for (auto i: a) m[i]++;
+        int ans = 0;
+        for (auto& i: m) {
+            int j = ~i.first ^ (1 << 31);
+            int take = min(i.second, m[j]);
+            ans += take;
+            m[i.first] -= take;
+            m[j] -= take;
+        }
+        for (auto i: m) {
+            ans += i.second;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 4 3 4
+
+001
+100
+011
+100
 
 */
