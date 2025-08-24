@@ -295,9 +295,21 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k, x;
+        cin >> n >> k >> x;
+        int mn = k*(k+1)/2;
+        int z = n-k;
+        int mx = n*(n+1)/2 - z*(z+1)/2;
+        // cout << mn << ' ' << mx << endl;
+        if (x >= mn && x <= mx) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+1 2 3 4 5
+3 4 5 6 7 8 9
+6 12
 
 */

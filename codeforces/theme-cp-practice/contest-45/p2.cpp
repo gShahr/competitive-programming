@@ -295,9 +295,40 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> m;
+        for (auto i: a) m[i]++;
+        set<int> d;
+        for (auto i: m) {
+            if (i.second == 1) d.insert(i.first);
+        }
+        int best = 0;
+        pair<int, int> ans = {-1, -1};
+        int l = -1;
+        int r = -1;
+        for (int i = 0; i < n; i++) {
+            if (d.find(a[i]) != d.end()) {
+                if (l == -1) {
+                    l = i;
+                    r = i;
+                } else r++;
+                if (r-l+1 > best) {
+                    best = r-l+1;
+                    ans.first = l;
+                    ans.second = r;
+                }
+            } else l = -1;
+        }
+        if (ans.first == -1) cout << 0 << endl;
+        else cout << ans.first+1 << ' ' << ans.second+1 << endl;
     }
 }
 
 /*
+
+Remove largest subarray of distinct elements.
 
 */

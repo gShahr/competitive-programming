@@ -295,9 +295,139 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> ans(n, vector<int>(m, -1));
+        if (m <= n) {
+            for (int i = 0; i < m-1; i++) {
+                int g = (i+1)%m;
+                for (int j = 0; j < m; j++) {
+                    ans[i][j] = g;
+                    g = (g+1)%m;
+                }
+            }
+        } else {
+            for (int i = 0; i < n; i++) {
+                int g = (i+1)%(n+1);
+                for (int j = 0; j < n+1; j++) {
+                    ans[i][j] = g;
+                    g = (g+1)%(n+1);
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (ans[i][j] == -1) {
+                    if (i == 0) ans[i][j] = j;
+                    else ans[i][j] = ans[i-1][j];
+                }
+            }
+        }
+        int bea;
+        if (m <= n) bea = m;
+        else bea = n+1;
+
+        if (m == 1) bea = 0;
+        cout << bea << endl;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cout << ans[i][j] << ' ';
+            cout << endl;
+        }
     }
 }
 
 /*
+
+First column should have no zeroes.
+Second column should have at least one zero and no ones.
+Third column should have at least one zero and at least one one and no twos.
+
+? 0 0
+? ? 1
+? ? ?
+
+a1 a2 a3
+a4 a5 a6
+a7 a8 a9
+
+a1 = 1 or 2
+a4 = 1 or 2
+a7 = 1 or 2
+
+a5 = 0 or 2
+a8 = 0 or 2
+
+a9 = 0 or 1
+
+2 2 2
+1 1 
+0
+
+1 0 0
+2 0 1
+2 2 1
+
+? 0 0 0
+? ? 1 1
+? ? ? 2
+? ? ? ?
+
+3 3 3 3 
+2 2 2
+1 1 
+0
+
+? 0 0 0
+? ? 1 1
+? ? ? 2
+3 3 3 1
+
+2 0 1
+? 2 0
+? ? 1
+
+3 0 1 2
+2 3 0 1
+1 2 3 0
+2 3 0 1
+
+? 0 1 2
+? ? 0 1
+? ? ? 0
+? ? ? ?
+
+3 0 1 2
+2 3 0 1
+1 2 3 0
+1 2 3 0
+
+2 0 1
+0 1 2
+
+n = m
+=> n
+
+n > m
+=> m
+
+m > n
+=> n
+
+
+0 1 2
+1 2 0
+=> n+1
+
+0 1 2 3
+3 0 1 2
+2 3 0 1
+
+0 1 2 3 4 5
+5 0 1 2 3 4
+4 5 0 1 2 3
+
+0 1 2 3
+3 0 1 2
+2 3 0 1
 
 */
