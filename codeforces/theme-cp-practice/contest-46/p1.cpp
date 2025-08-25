@@ -295,9 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, p, q;
+        cin >> n >> m >> p >> q;
+        int mn = ((n-p)/p + 1) * q;
+        int mx = ((n-1)/p + 1) * q;
+        if (mn != mx) {
+            mn = 0;
+            mx = INT_MAX;
+        }
+        // cout << mn << ' ' << mx << endl;
+        if (mn <= m && m <= mx) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+1 0 0 1 0 0 1
+0 0 1 0 0 1 0
+
+0 3 0 3 0 => 6
+-2 5 -2 5 -2
+3 0 3 0 3 => 9
+
+-1 0 2 -1 0 2 -1
+
+3 0 0
+0 3 0
+
+2 0 0 0 0 2 0
 
 */

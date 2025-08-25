@@ -295,9 +295,55 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x;
+        cin >> x;
+        bitset<32> b(x);
+        vector<bool> neg(32, false);
+        for (int i = 0; i < 31; i++) {
+            if (b[i] == 1 && b[i+1] == 1) {
+                int l = i;
+                int r = i;
+                while (r < 32 && b[r] == 1) r++;
+                // cout << l << ' ' << r << endl;
+                neg[l] = true;
+                for (int j = l; j < r; j++) b[j] = 0;
+                b[r] = 1;
+            }
+        }
+        cout << b.size() << endl;
+        for (int i = 0; i < b.size(); i++) {
+            if (neg[i]) cout << -1 << ' ';
+            else cout << b[i] << ' ';
+        }
+        cout << endl;
     }
 }
 
 /*
+
+1001
+
+111 => 100-1 => 8 - 1 = 7
+110 => 10-10 => 8 - 2 = 6
+101
+100
+011
+
+10000
+11111 => 32 - 1 = 31
+
+111001101 => 
+
+
+16 => 15, 14, 12, 11, 8, 7, 6
+1 2 4 5 8 9 10
+
+16 - 4 + 1
+10-101
+1111
+1101
+
+Observation: 2 bits left untouched which we can always use. 
+
 
 */
