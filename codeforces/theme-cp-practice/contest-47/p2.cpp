@@ -295,9 +295,96 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> ans(n, vector<int>(n));
+        int r = n*n;
+        int l = 1;
+        for (int i = 0; i < n; i++) {
+            int v;
+            for (int j = 0; j < n; j++) {
+                if (j&1) v = l;
+                else v = r;
+                if ((n&1) && (i&1) && (j&1)) v = r;
+                else if ((n&1) && (i&1)) v = l;
+                ans[i][j] = v;
+                if (v == l) l++;
+                else r--;
+            }
+        }
+        for (int i = 1; i < n; i+=2) {
+            reverse(ans[i].begin(), ans[i].end());
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) cout << ans[i][j] << ' ';
+            cout << endl;
+        }
     }
 }
 
 /*
+
+1 2 4
+5   7
+
+8 1 9 => 7,8
+6 2 7 => 4,5
+4 3 5 => 2,3
+
+5 4 6 3 7 2 8 1 9
+4 1 3 2
+
+8 1 9
+6 4 3
+2 7 5
+
+4 4 2 2
+16 1 15 2 14 3 13 4 12 5 11 6
+
+16 1 15 2 14 3 12 4 11 5 10 6
+
+
+4x4 case:
+We can only have at most 12 values WLOG assume those values are between...
+
+9 1 8 2 6 3 5 4
+=> 8,7,6,4,3,2,1,5
+
+1 3 4
+9 2 7
+5 8 6
+=> 2,1,3,1,2,3,4,8
+=> 1,2,3,4,8
+
+Solved completely different problem as I thought side adjacent meant specifically 
+on the border.
+
+1 9 2
+8 3 7
+4 6 5
+
+8,7,
+5,4
+2,1
+
+1 16 2 15
+3 14 4 13
+5 12 6 11
+7 10 8 9
+
+1 16 2 15
+13 4 14 3
+5 12 6 11
+7 10 8 9
+
+16 1 15 2
+3 14 4 13
+5 12 6 11
+7 10 8 9
+
+15,14,13
+11,10,9
+7,6,5
+3,2,1
 
 */

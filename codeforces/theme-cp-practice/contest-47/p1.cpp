@@ -291,13 +291,43 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(vector<int>& a, int n, int k) {
+    bool ok = true;
+    for (int i = 0; i < n; i++) {
+        if ((a[i]-1)%k != i%k) ok = false;
+    }
+    return ok;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 0;
+        pair<int, int> sw = {-1, -1};
+        if (!check(a, n, k)) {
+            for (int i = 0; i < n; i++) {
+                if ((a[i]-1)%k != i%k) {
+                    if (sw.first == -1) sw.first = i;
+                    else sw.second = i;
+                }
+            }
+            swap(a[sw.first], a[sw.second]);
+            if (check(a, n, k)) ans = 1;
+            else ans = -1;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+k = 2
+2 4 3 1
+2 1 3 4
 
 */
