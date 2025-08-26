@@ -295,9 +295,66 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        // vector<int> a(n);
+        // for (int i = 0; i < n; i++) a[i] = i+1;
+        // int best = 0;
+        // vector<int> c;
+        // do {
+        //     int score = 0;
+        //     int mx = 0;
+        //     for (int i = 0; i < n; i++) {
+        //         score += (a[i] * (i+1));
+        //         mx = max(mx, a[i] * (i+1));
+        //     }
+        //     score -= mx;
+        //     if (score > best) {
+        //         best = score;
+        //         c = a;
+        //     }
+        // } while (next_permutation(a.begin(), a.end()));
+        // for (int i = 0; i < n; i++) cout << c[i] << ' ';
+        // cout << endl;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            vector<int> curr(n);
+            for (int j = 0; j < i; j++) curr[j] = j+1;
+            for (int j = i; j < n; j++) curr[j] = n-(j-i);
+            int score = 0;
+            int mx = 0;
+            for (int j = 0; j < n; j++) {
+                score += (curr[j] * (j+1));
+                mx = max(mx, curr[j] * (j+1));
+            }
+            score -= mx;
+            // for (int j = 0; j < n; j++) cout << curr[j] << ' ';
+            // cout << endl;
+            if (score > ans) {
+                ans = score;
+            }
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 2 3 4 5
+1 2 3 5 4
+1 2 5 3 4
+1 2 5 4 3
+
+1 2 4 3
+
+1 + 2 + 12 + 12
+
+10 * 6 < 9 * 7
+<=> x * a < (x-1) * (a+1)
+<=> x * a < a(x-1) + (x-1)
+<=> x < (x-1) + (x-1)/a
+=> (x-1)/a > 1
+=> x > a+1
+
 
 */
