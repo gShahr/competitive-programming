@@ -295,9 +295,45 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x, y, k;
+        cin >> x >> y >> k;
+        int curr = x;
+        int nxt = (x+y-1)/y * y;
+        if (curr == nxt) {
+            curr++;
+            nxt = (curr+y-1)/y * y;
+            k--;
+        }
+        // cout << curr << ' ' << nxt << endl;
+        int ans = -1;
+        while (curr != 1) {
+            if (curr+k < nxt) {
+                // cout << curr << ' ' << nxt << ' ' << k << endl;
+                ans = curr+k;
+                k = 0;
+                break;
+            } else {
+                k -= (nxt-curr);
+                curr = nxt;
+            }
+            while (curr % y == 0) curr /= y;
+            nxt = (curr+y-1)/y * y;
+        }
+        if (ans == -1 && curr+k < nxt) {
+            ans = curr+k;
+            k = 0;
+        } else if (ans == -1) {
+            k -= (nxt-curr);
+            k %= (y-1);
+            ans = curr + k;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+x to nxt => once
+nxt2 to y => infinite
 
 */

@@ -295,9 +295,74 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> splits;
+        int sum = 0;
+        for (int i = n-1; i >= 0; i--) {
+            if (a[i] > 0) {
+                splits.push_back(a[i]);
+                sum += a[i];
+                continue;
+            }
+            int j = i-1;
+            int s2 = a[i];
+            while (j >= 0 && -s2 > sum) {
+                s2 += a[j];
+                j--;
+            }
+            splits.push_back(s2);
+            sum += s2;
+            i = j+1;
+        }
+        reverse(splits.begin(), splits.end());
+        // for (auto i: splits) {
+        //     cout << i << ' ';
+        // }
+        // cout << endl;
+        int k = 1;
+        int ans = 0;
+        for (int i = 0; i < splits.size(); i++) {
+            ans += (k * splits[i]);
+            k++;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+a1 a2
+k k+1
+
+(a1+a2)*k  > a1 * k + a2 * (k+1)
+
+<=> 
+
+a b
+
+(b-a)*k = b*k - a*k
+-a*k + b*(k+1)
+=> Always better to leave negative alone if b > 0. However, should group together 
+if b < 0 because it would minimize contribution of the negative values.
+
+Look at subarrays with pos neg pattern.
+Never need to look beyond this because postiives to the right of negatives should
+always be split on their own. Therefore, these cases are independent. Since
+we always want to group all negatives together since it will minimize the answer,
+the question then is how many positives we want to contribute over to help further minimize
+the answer without coming at the cost of splitting on their own.
+
+a -b 
+
+a*k + -b*(k+1)
+(a-b)*k
+
+100 -10
+90k
+100k - 10(k+1)
+
 
 */

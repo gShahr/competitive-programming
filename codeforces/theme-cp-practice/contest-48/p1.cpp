@@ -295,9 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (i+2 < n && a[i] == 'p' && a[i+1] == 'i' && a[i+2] == 'e') {
+                ans++;
+                i += 2;
+            }
+            if (i+2 < n && a[i] == 'm' && a[i+1] == 'a' && a[i+2] == 'p') {
+                ans++;
+                i += 2;
+            }
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+mappie
+pie
+map
+
+mmaapppiiee
+
+
+mapie
 
 */

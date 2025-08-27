@@ -295,9 +295,35 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n-1);
+        for (int i = 0; i < n-1; i++) cin >> a[i];
+        vector<int> ans(n);
+        ans[0] = 1e8;
+        for (int i = 1; i < n; i++) {
+            ans[i] = ans[i-1] + a[i-1];
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+2 4 1
+3 5 4 9
+
+3x + 2
+5x + 4
+4x + 1
+
+3 8 20 21
+5 8 11 14
+
+x1+1 (x1+1)+x1 (x1+1)+x1+x2 (x1+1)+x1+x2+x3
+3 5 9 10
+
+
 
 */
