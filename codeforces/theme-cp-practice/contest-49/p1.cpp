@@ -295,6 +295,23 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, q;
+        cin >> n >> q;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int sum = accumulate(a.begin(), a.end(), 0LL);
+        vector<int> cum(n+1, 0);
+        for (int i = 0; i < n; i++) {
+            cum[i+1] = cum[i] + a[i];
+        }
+        for (int i = 0; i < q; i++) {
+            int l, r, k;
+            cin >> l >> r >> k;
+            l--, r--;
+            int nwSum = sum - (cum[r+1] - cum[l]) + (r-l+1)*k;
+            if (nwSum&1) cout << "YES" << endl;
+            else cout << "NO" << endl;
+        }
     }
 }
 

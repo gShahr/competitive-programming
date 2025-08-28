@@ -291,13 +291,49 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+double get_iso_triangle_area(int base, int height) {
+    return (base*height)/2.0;
+}
+
+double get_trapezoid_area(double a, double b, int h) {
+    return (a+b)/2.0 * h;
+}
+
 int32_t main() {
     int t;
     cin >> t;
+    cout << std::setprecision(10);
     while (t--) {
+        int n, d, h;
+        cin >> n >> d >> h;
+        vector<int> y(n);
+        for (int i = 0; i < n; i++) cin >> y[i];
+        double ans = get_iso_triangle_area(d, h);
+        for (int i = 0; i < n-1; i++) {
+            int diff_height = y[i+1] - y[i];
+            if (diff_height < h) {
+                double b = d - diff_height * (d / (h * 1.0));
+                ans += get_trapezoid_area(d, b, diff_height);
+            } else {
+                ans += get_iso_triangle_area(d, h);
+            }
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+area = (bh)/2
+2*area = bh
+
+area = 2 * ((d * h) / 4) = (dh)/2
+
+trapezoid height <=> diff_height
+
+upper trapezoid height
+=> d - 2 * diff_height(d/2 / h)
+=> d - 2 * diff_height(d/(2h))
+=> d - diff_height(d/h)
 
 */

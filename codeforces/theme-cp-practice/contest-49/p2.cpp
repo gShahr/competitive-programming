@@ -295,9 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int m = 0;
+        for (int i = 0; i < n/2; i++) {
+            if (a[i] != a[n-i-1]) {
+                int mp = abs(a[i] - a[n-i-1]);
+                m = gcd(m, mp);
+            }
+        }
+        cout << m << endl;
     }
 }
 
 /*
+
+6
+15
 
 */

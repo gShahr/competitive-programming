@@ -295,9 +295,61 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<bool> b(n+1, false);
+        for (int i = 0; i < n; i++) b[a[i]] = true;
+        map<int, int> m;
+        for (auto i: a) m[i]++;
+        vector<int> p(n+2, 0);
+
+        vector<int> e(n+1, 0);
+        for (auto i: a) e[i]++;
+        for (int i = 0; i < n; i++) e[i+1] += e[i];
+        vector<int> dup(n+1, 0);
+        for (auto i: a) dup[i]++;
+        for (int i = 0; i < n+1; i++) {
+            if (dup[i] >= 1) dup[i]--;
+        }
+        for (int i = 0; i < n; i++) dup[i+1] += dup[i];
+
+        int stop = 0;
+        for (int i = 0; i < n+1; i++) {
+            if (!b[i]) break;
+            stop++;
+            int mn = m[i];
+            int v = mn + e[n] - e[i];
+            if (i > 0) v += dup[i-1];
+            int mx = min(v, n);
+            // cout << mn << ' ' << mx << endl;
+            p[mn]++;
+            p[mx+1]--;
+        }
+        p[0]++;
+        p[dup[stop]+1+e[n]-e[stop]]--;
+        for (int i = 0; i < n; i++) p[i+1] += p[i];
+        for (int i = 0; i < n+1; i++) cout << p[i] << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+Find min and max values of k for each a_i and then take prefix sum of that
+which will be the answer.
+
+Need to remove at least m[i] elements.
+Can remove at most e > m[i] + dup < m[i]
+
+e > m[i] can be calculated via prefix sums
+dup < m[i] can also be calculated via prefix sums
+
+e[i] := how many elements greater than i
+=> e[n+1] - e[l];
+
+dup[i] := how many duplicates that we can remove less than i
+=> dup[i-1]
 
 */
