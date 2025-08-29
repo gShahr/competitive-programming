@@ -295,9 +295,36 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        vector<int> d(n, -1);
+        for (int i = 0; i < n; i++) {
+            d[i] = a[i] - b[i];
+        }
+        vector<int> ans;
+        int best = INT_MIN;
+        int ind = 0;
+        for (int i = 0; i < n; i++) {
+            if (d[i] > best) {
+                best = d[i];
+                ind = i;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (d[i] == best) ans.push_back(i);
+        }
+        cout << ans.size() << endl;
+        for (auto i: ans) cout << i+1 << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+a_u - a_v >= b_u - b_v
+=> a_u - b_u >= a_v - b_v
 
 */

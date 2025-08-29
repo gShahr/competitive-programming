@@ -295,9 +295,109 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<int> a(n), b(m);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < m; i++) cin >> b[i];
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        int ans = 0;
+        int l1 = 0;
+        int r1 = m-1;
+        int l2 = 0;
+        int r2 = n-1;
+        for (int i = 0; i < n; i++) {
+            vector<int> v = {abs(a[l2] - b[l1]), abs(a[l2] - b[r1]), abs(a[r2] - b[l1]), abs(a[r2] - b[r1])};
+            int best = 0;
+            int ind = 0;
+            for (int j = 0; j < v.size(); j++) {
+                if (v[j] > best) {
+                    best = v[j];
+                    ind = j;
+                }
+            }
+            switch (ind) {
+                case 0:
+                    l2++;
+                    l1++;
+                    break;
+                case 1:
+                    l2++;
+                    r1--;
+                    break;
+                case 2:
+                    l1++;
+                    r2--;
+                    break;
+                case 3:
+                    r2--;
+                    r1--;
+                    break;
+            }
+            ans += best;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+6 1 2 4
+3 5 1 7 2 3 => 1 2 3 3 5 7
+
+6 5 2
+1 7 9 7 2 => 1 2 7 7 9
+
+1 6 => 5
+2 5 => 3
+9 2 => 7
+
+1 6 => 5
+9 5 => 4
+7 2 => 5
+
+2 5 6
+1 2 7 7 9
+
+9 10 6 3 7 => 3 6 7 9 10
+5 9 2 3 9 => 2 3 5 9 9
+
+3 9 => 6
+6 2 => 4
+7 3 => 4
+9 5 => 4
+10 9 => 1
+
+6 2 => 4
+10 9 => 1
+
+6 9 => 3
+10 2 => 8
+
+a1 a2
+b1 b2
+a2 > a1
+b2 > b1
+b1 > a1
+b1 > a2
+
+b1-a1 + b2-a2
+b2-a1 + b1-a2
+
+1 4
+6 10
+=> 
+1 6 => 5
+4 10 => 6
+
+1 10 => 9
+4 6 => 2
+
+0 inf
+0 10
+
+0 10
+5 15
 
 */

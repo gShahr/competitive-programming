@@ -295,9 +295,31 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        vector<pair<int, int>> c;
+        for (int i = 0; i < n; i++) {
+            c.emplace_back(a[i] + b[i] - 1, i);
+        }
+        sort(c.begin(), c.end(), greater<pair<int, int>>());
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            int j = c[i].second;
+            if (i % 2 == 0) ans += a[j]-1;
+            else ans -= b[j]-1;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+delta_a := a_i - 1 + b_i
+delta_b := b_i - 1 + a_i
+
+4 3 4
 
 */
