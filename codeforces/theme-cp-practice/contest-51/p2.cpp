@@ -291,10 +291,55 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+// Function to rotate the matrix by 90 degrees clockwise
+// taken from https://www.geeksforgeeks.org/dsa/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
+void rotate90(vector<vector<char>>& mat) {
+    int m = mat.size();
+    int n = mat[0].size();
+    vector<vector<char>> res(n, vector<char>(m));
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            res[j][m - i - 1] = mat[i][j];
+        }
+    }
+    mat = res;
+}
+
+bool check(vector<vector<char>>& a, char c) {
+    int n = a.size();
+    int m = a[0].size();
+    bool ok = false;
+    if (a[0][0] == c) {
+        for (int i = 0; i < m; i++) {
+            if (a[n-1][i] == c) ok = true;
+        } 
+    } else {
+        for (int i = 0; i < m; i++) {
+            if (a[0][i] == c) ok = true;
+        }
+    }
+    return ok;
+}
+
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<char>> a(n, vector<char>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cin >> a[i][j];
+        }
+        bool ok = false;
+        if (a[0][0] == a[n-1][m-1] || a[0][m-1] == a[n-1][0]) ok = true;
+        else {
+            if (a[0][0] == a[n-1][0]) rotate90(a);
+            ok = check(a, 'W') | check(a, 'B');
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

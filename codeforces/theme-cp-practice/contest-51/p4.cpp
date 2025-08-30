@@ -295,9 +295,46 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> b(2*n);
+        for (int i = 0; i < 2*n; i++) cin >> b[i];
+        sort(b.begin(), b.end());
+        vector<int> ans(2*n+1);
+        ans[0] = b[2*n-1];
+        int v = -b[2*n-1];
+        for (int i = 0; i < 2*n-1; i++) {
+            ans[i+2] = b[i];
+            if (i%2==0) v -= b[i];
+            else v += b[i];
+        }
+        ans[1] = -v;
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+8 6
+
+6 = 8 -
+
+2 9
+9 = 2 - 7
+
+a_1 a_2 a_3 a_4
+
+a_4 = x - a_3 + a_2 - a_1
+=> -x = -a_3 + a_2 - a_1 - a_4
+
+a1 => a4
+a2 => x
+a3 => a_3
+a4 => a_2
+a5 => a_1
+
+1 2 3 6
+x - 3 + 2 - 1
 
 */

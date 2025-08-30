@@ -295,6 +295,20 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        string ans;
+        map<int, vector<char>> m;
+        for (int i = 'a'; i <= 'z'; i++) m[-1].push_back(i);
+        for (int i = 0; i < n; i++) {
+            char v = m[a[i]-1].back();
+            m[a[i]-1].pop_back();
+            m[a[i]].push_back(v);
+            ans.push_back(v);
+        }
+        cout << ans << endl;
     }
 }
 

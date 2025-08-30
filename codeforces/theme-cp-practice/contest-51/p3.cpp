@@ -295,9 +295,51 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            priority_queue<int> pq;
+            int sum = a[i];
+            int mx = 0;
+            k--;
+            int choose = mx;
+            if (i > 0) choose = max(choose, a[0]);
+            if (i < n-1) choose = max(choose, a[n-1]);
+            ans = max(ans, sum+choose);
+            if (k <= 0) continue;
+            for (int j = i+1; j < n; j++) {
+                if (pq.size() < k) {
+                    pq.push(-a[j]);
+                    sum += a[j];
+                    if (pq.size() >= k) {
+                        int choose = mx;
+                        if (i > 0) choose = max(choose, a[0]);
+                        if (j < n-1) choose = max(choose, a[n-1]);
+                        ans = max(ans, sum+choose);
+                    }
+                } else {
+                    int v = abs(pq.top());
+                    pq.pop();
+                    pq.push(-a[j]);
+                    sum = sum - v + a[j];
+                    mx = max(mx, v);
+                    int choose = mx;
+                    if (i > 0) choose = max(choose, a[0]);
+                    if (j < n-1) choose = max(choose, a[n-1]);
+                    ans = max(ans, sum+choose);
+                }
+            }
+            k++;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+max(mx, a[0], a[n-1])
 
 */
