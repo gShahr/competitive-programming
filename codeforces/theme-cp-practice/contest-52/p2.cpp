@@ -295,9 +295,29 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n+1);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n+1; i++) cin >> b[i];
+        int ans = 0;
+        int ex = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            int d = abs(b[i] - a[i]);
+            int mn = min(a[i], b[i]);
+            int mx = max(a[i], b[i]);
+            if (b[n] >= mn && b[n] <= mx) ex = 0;
+            else if (b[n] <= mn) ex = min(ex, mn - b[n]);
+            else ex = min(ex, b[n] - mx);
+            ans += d;
+        }
+        ans += ex + 1;
+        cout << ans << endl;
     }
 }
 
 /*
+
+We want min difference between b[n-1] and a_i to b_i
 
 */

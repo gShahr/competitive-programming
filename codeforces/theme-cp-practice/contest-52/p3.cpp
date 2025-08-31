@@ -295,9 +295,90 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        // cin >> n;
+        // vector<int> a(n);
+        // for (int i = 0; i < n; i++) a[i] = i+1;
+        // int mx = 0;
+        // do {
+        //     int curr = 0;
+        //     for (int i = 0; i < n; i++) curr += abs(a[i] - (i+1));
+        //     mx = max(mx, curr);
+        //     if (mx == 50 && n == 10) {
+        //         for (int i = 0; i < n; i++) cout << a[i] << ' ';
+        //         cout << endl;
+        //     }
+        // } while (next_permutation(a.begin(), a.end()));
+        // cout << mx << endl;
+        int mx = 0;
+        for (int i = 0; i < n; i++) {
+            int e = n-i;
+            int g = i+1;
+            mx += abs(e-g);
+        }
+        if (k > mx || k&1) cout << "NO" << endl;
+        else {
+            cout << "YES" << endl;
+            vector<int> ans(n);
+            for (int i = 0; i < n; i++) ans[i] = i+1;
+
+            for (int i = 0; i < n; i++) {
+                int d = 2 * abs(ans[i] - ans[n-i-1]);
+                if (k >= d) {
+                    k -= d;
+                    swap(ans[i], ans[n-i-1]);
+                }
+            }
+            for (int i = 0; i+1 < n; i++) {
+                if (k == 2 && ans[i] == i+1) {
+                    k -= 2;
+                    swap(ans[i], ans[i+1]);
+                }
+            }
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        }
     }
 }
 
 /*
+
+1 2 3 4
+4 3 2 1 => 3+1+1+3 = 8
+
+1 2 3 4 => 0
+1 2 4 3 => 2
+1 4 2 3 => 4
+4 1 2 3 => 6
+4 1 3 2 => 6
+4 3 2 1 => 8
+
+9 8 7 6 5 4 3 2 1
+
+9 7 5 3 1
+9 7 5 1 
+
+10 9  ...  2 1
+
+1 2 3 4
+2 3 4 1 => 4
+2 4 3 1 
+
+n-1 n-1
+n-2 n-2
+n-3 n-3
+n-4 n-4
+...
+=> What is closed form of this?
+=> Handle even and odd case separately. Then the idea is that we split it into
+2 so that we just multiply it by 2. Then split the subtraction which is just 
+-x*(x+1)/2 where x is the number of times the term exists. Then n appears n*x times.
+
+18 14 10 6
+
+1 4 3 2 5
+
+1 4 3 2 5 => 
 
 */

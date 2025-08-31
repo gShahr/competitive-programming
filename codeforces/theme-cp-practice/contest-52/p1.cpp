@@ -295,9 +295,42 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<char>> a(n, vector<char>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cin >> a[i][j];
+        }
+        vector<vector<bool>> rows(n, vector<bool>(m, false)), cols(n, vector<bool>(m, false));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (a[i][j] == '1') rows[i][j] = true;
+                else break;
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (a[j][i] == '1') cols[j][i] = true;
+                else break;
+            }
+        }
+        bool ok = true;
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                if (a[i][j] == '1') {
+                    if (!rows[i][j] && !cols[i][j]) ok = false;
+                }
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+010
+111
+011
 
 */
