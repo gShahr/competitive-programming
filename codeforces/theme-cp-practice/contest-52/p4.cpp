@@ -289,15 +289,215 @@ namespace __DEBUG_UTIL__
 #endif
 #endif
 
+const int MAXN = 1e6;
+
+long long fac[MAXN + 1];
+long long inv[MAXN + 1];
+
+/** @return x^n modulo m in O(log p) time. */
+long long exp(long long x, long long n, long long m) {
+	x %= m;  // note: m * m must be less than 2^63 to avoid ll overflow
+	long long res = 1;
+	while (n > 0) {
+		if (n % 2 == 1) { res = res * x % m; }
+		x = x * x % m;
+		n /= 2;
+	}
+	return res;
+}
+
+/** Precomputes n! from 0 to MAXN. */
+void factorial(long long p) {
+	fac[0] = 1;
+	for (int i = 1; i <= MAXN; i++) { fac[i] = fac[i - 1] * i % p; }
+}
+
+/**
+ * Precomputes all modular inverse factorials
+ * from 0 to MAXN in O(n + log p) time
+ */
+void inverses(long long p) {
+	inv[MAXN] = exp(fac[MAXN], p - 2, p);
+	for (int i = MAXN; i >= 1; i--) { inv[i - 1] = inv[i] * i % p; }
+}
+
+/** @return nCr mod p */
+long long choose(long long n, long long r, long long p) {
+	return fac[n] * inv[r] % p * inv[n - r] % p;
+}
+
 #define int long long int
 
 int32_t main() {
+    int modd = 998244353;
+    factorial(modd);
+	inverses(modd);
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans = {0, 0, 1};
+        int i = 1;
+        while (n - i >= 0) {
+            int v = choose(n-i, (n-i)/2, modd);
+            // cout << n-i << ' ' << (n-i)/2 << endl;
+            if (i > 1) {
+                v = 2 * choose(n-i, (n-i)/2-1, modd) - choose(n-i-1, (n-i)/2-2, modd);
+            }
+            ans[0] = (ans[0] + v) % modd;
+            cout << ans[0] << endl;
+            // cout << ans[0] << endl;
+            i += 3;
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+Alex has highest card => Always wins
+Otherwise Boris has the highest card
+===
+n
+x
+=> A wins
+
+x
+n
+=> Potential draw
+
+n-1
+n
+=> Potential draw
+
+n-2 n-1
+n
+=> A wins
+
+n-1
+n-2 n
+=> Potential draw
+
+n-3 n-1
+n-2 n
+=> Potential draw
+
+n-4 n-3 n-1
+n-2 n
+=> A wins
+
+2n-1 choose n-1
+2n-3 choose n-3
+2n-5 choose n-5
+
+n-4 n-2 n-1
+n-3 n
+
+n-4 n-2 n-1
+n-3 n
+
+n-3 n-2 n-1
+n-4 n
+
+n-6 n-4 n-2 n-1
+n-7 n-5 n-3 n
+
+2 4 6 7
+1 3 5 8
+
+2 5 6 7
+1 3 4 8
+
+1
+2
+
+2
+1
+
+3 4
+2 4
+1 4
+
+1 2
+1 3
+
+2 3
+
+467
+358
+
+11 10 7
+12 9 8
+
+12
+=> A wins (n-1) choose (n/2 - 1) 
+
+10
+=> B wins (n-2) choose (n/2 - 2)
+
+11 
+
+12
+11
+=> A wins
+
+11
+12
+=> ?
+
+10 9
+12 11
+=> B wins
+
+11 10
+12 9
+=> ?
+
+11 x 
+12 10
+=> B wins
+
+11 10 8
+12 9 7
+=> A wins
+
+11 10 7
+12 9 8
+=> ?
+
+7 6 3 2
+8 5 4 1
+
+5 4 1
+6 3 2
+
+6
+x
+
+5 4 2
+6 3 1
+
+5 4 x
+6 x x
+
+11 10 
+12 9 8
+
+7 6 4/5
+8 
+
+7 6 3 2
+8 5 4
+
+1 4 7
+
+11 10 7 6 4/5
+12 9 8
+
+7 6 4 1
+8 5 2 3
+=> 1 2 3 5
 
 */
