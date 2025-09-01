@@ -295,6 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans(2*n, -1);
+        set<int> a;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int x;
+                cin >> x;
+                ans[i+j+1] = x;
+                a.insert(x);
+            }
+        }
+        int mx = -12;
+        for (int i = 1; i <= 2*n; i++) {
+            if (a.find(i) == a.end()) mx = i;
+        }
+        for (int i = 0; i < 2*n; i++) {
+            if (ans[i] == -1) ans[i] = mx;
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 

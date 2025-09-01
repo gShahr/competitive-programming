@@ -295,6 +295,79 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        string s;
+        cin >> s;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '0') a[i] = -1e12;
+        }
+        // set<pair<int, int>> p;
+        // int sum = 0;
+        // int l = 0;
+        // int r = 0;
+        // int mx = 0;
+        // for (int i = 0; i < n; i++) {
+        //     sum += a[i];
+        //     mx = max(mx, sum);
+        //     if (sum < 0) {
+        //         p.insert({l, r});
+        //         l = i;
+        //         r = i;
+        //     } else {
+        //         r++;
+        //     }
+        // }
+        int sum = 0;
+        int mx = 0;
+        for (int i = 0; i < n; i++) {
+            sum = max(a[i], sum + a[i]);
+            mx = max(mx, sum);
+        }
+        bool ok = (mx == k);
+        if (mx < k) {
+            int change = -1;
+            for (int i = 0; i < n; i++) {
+                if (s[i] == '0') {
+                    change = i;
+                    a[i] = 0;
+                    break;
+                }
+            }
+            if (change != -1) {
+                int sum = 0;
+                int segment = 0;
+                for (int i = 0; i < n; i++) {
+                    sum += a[i];
+                    if (i == change) {
+                        segment = max(sum, segment);
+                        while (i+1 < n) {
+                            sum += a[i+1];
+                            segment = max(sum, segment);
+                            i++;
+                        }
+                        break;
+                    }
+                    if (sum < 0) sum = 0;
+                }
+                a[change] = k - segment;
+                ok = true;
+            }
+            sum = 0;
+            int mx = 0;
+            for (int i = 0; i < n; i++) {
+                sum = max(a[i], sum + a[i]);
+                mx = max(mx, sum);
+            }
+            // if (mx != k && change != -1) a[change] -= (mx - k);
+        }
+        if (ok) {
+            cout << "YES" << endl;
+            for (auto i: a) cout << i << ' ';
+            cout << endl;
+        } else cout << "NO" << endl;
     }
 }
 

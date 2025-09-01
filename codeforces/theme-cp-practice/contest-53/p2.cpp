@@ -295,6 +295,21 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end(), greater<>());
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (i%2==0) ans += a[i];
+            else {
+                int mx = min(a[i-1], a[i]+k);
+                k -= (mx - a[i]);
+                ans -= mx;
+            }
+        }
+        cout << ans << endl;
     }
 }
 

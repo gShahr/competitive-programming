@@ -295,6 +295,33 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        int m;
+        cin >> m;
+        vector<int> d(m);
+        for (int i = 0; i < m; i++) cin >> d[i];
+
+        map<int, int> need;
+        for (auto i: b) need[i] = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] != b[i]) need[b[i]]++;
+        }
+        bool ok = true;
+        for (int i = 0; i < m; i++) {
+            if (need.find(d[i]) != need.end()) need[d[i]]--;
+            else {
+                if (i+1 >= m) ok = false;
+            }
+        }
+        for (auto i: need) {
+            if (i.second > 0) ok = false;
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
