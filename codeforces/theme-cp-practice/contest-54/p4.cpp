@@ -295,9 +295,91 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int l, r;
+        cin >> l >> r;
+        int base1 = 0;
+        int base2 = 0;
+        int x, y, z;
+        bool ok = true;
+        bool started = false;
+        for (int i = 30; i >= 0; i--) {
+            if ((1 << i)&l && (1 << i)&r) base1 |= (1 << i);
+            else if (!((1 << i)&l) && (1 << i)&r) {
+                while (i >= 0) {
+                    if ((1 << i)&l) base2 |= (1 << i);
+                    i--;
+                }
+            }
+        }
+        // cout << base1 << ' ' << base2 << endl;
+        for (int i = 30; i >= 0; i--) {
+            if (!((1 << i)&l) && (1 << i)&r)  {
+                x = base1 | (1 << i);
+                y = (base1 | ((1 << i) - 1)) ^ base2;
+                z = base1 | base2;
+                break;
+            }
+        }
+        if (r-l <= 2) {
+            x = l;
+            y = l+1;
+            z = r;
+        }
+        vector<int> ans = {x, y, z};
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+lowest bit for one
+highest bit for one
+everything else in between for one
+
+check lowest bit for l
+check higest bit for r
+
+1000
+0001
+0110
+
+11000
+10000
+
+x: highest bit for r
+y: lowest bit between l and r
+max bits filled between x and y
+
+1100
+1011
+1010
+
+find first instance where l bit is 0 and r bit is 1 
+=> ans[0] make all the bits up until that point turned on
+=> ans[1] 
+
+=> all bits up until that point need to be activated for all answers where r = l = 1
+=> 2^x - 1, 1 both |= where the bits of r = l = 1 from the left to right continuation
+=> if there is only one bit to the right that can be used, then special case which
+represents the case when there is a difference exactly of 3
+
+111
+001
+=>
+100
+010
+001
+
+10110
+00110
+
+1000
+0000
+
+15 7 8
+
+1100010
+1000101
 
 */

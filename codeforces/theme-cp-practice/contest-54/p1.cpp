@@ -291,10 +291,39 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+// Declaring a custom comparator
+// Taken from https://www.geeksforgeeks.org/cpp/how-to-declare-comparator-for-set-of-pair-in-cpp/
+struct comp {
+    // Operator() overloading
+    bool operator()(const pair<int, int>& p1,
+                    const pair<int, int>& p2) const
+    {
+        // new definition
+        if (p1.first == p2.first) {
+            return p1.second > p2.second;
+        } else return p1.first < p2.first;
+    }
+};
+
 int32_t main() {
-    int t;
-    cin >> t;
+    int t = 1;
     while (t--) {
+        string s;
+        cin >> s;
+        vector<pair<int, int>> a;
+        int n = s.length();
+        int balance = 0;
+        for (int i = 0; i < n; i++) {
+            a.emplace_back(balance, i);
+            if (s[i] == '(') balance++;
+            else balance--;
+        }
+        sort(a.begin(), a.end(), comp());
+        string ans;
+        for (int i = 0; i < n; i++) {
+            ans.push_back(s[a[i].second]);
+        }
+        cout << ans << endl;
     }
 }
 

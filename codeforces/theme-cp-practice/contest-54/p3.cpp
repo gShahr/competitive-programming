@@ -295,9 +295,64 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        bool ok = true;
+        if (n % 2 == 0) {
+            for (int i = 0; i+1 < n; i++) {
+                if (i+2 < n && a[i] > a[i+1]) {
+                    int d = a[i] - a[i+1];
+                    a[i+1] += d;
+                    a[i+2] += d;
+                }
+            }
+            for (int i = n-1; i-1 >= 0; i--) {
+                if (i-2 >= 0 && a[i-1] > a[i]) {
+                    int d = a[i-1] - a[i];
+                    a[i-1] -= d;
+                    a[i-2] -= d;
+                }
+            }
+            for (int i = 0; i+1 < n; i++) {
+                if (a[i] > a[i+1]) ok = false;
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
+
     }
 }
 
 /*
 
+2 1 4 3
+2 0 3 3
+2 2 5 3
+
+1 2 1 4 3
+1 2 0 3 3
+-1 0 0 3 3
+
+1 2 1 4 3
+1 2 2 5 3
+
+2 1 4 3
+2 2 5 3
+
+5 4 3 2 1
+5 5 4 2 1
+5 5 5 3 1
+5 5 5 5 3
+
+7 7 7 6
+7 6 6 6
+
+5 4 6
+
+2 2 5 3
+2 0 0 3
+
+0 1 4 3
 */

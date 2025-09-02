@@ -295,6 +295,46 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n), x(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> x[i];
+        priority_queue<pair<int, int>> pq;
+        for (int i = 0; i < n; i++) {
+            pq.push({-abs(x[i]), a[i]});
+        }
+        // while (!pq.empty()) {
+        //     cout << pq.top().first << ' ';
+        //     pq.pop();
+        // }
+        bool ok = true;
+        int seconds_passed = 0;
+        while (!pq.empty()) {
+            int pos = abs(pq.top().first) - seconds_passed;
+            int hp = pq.top().second;
+            pq.pop();
+            int hits_needed = (hp+k-1) / k;
+            if (hits_needed > pos) {
+                ok = false;
+            } else {
+                int hits_remaining = (k - (hp % k)) % k;
+                while (!pq.empty()) {
+                    pair<int, int> tp = pq.top();
+                    pq.pop();
+                    int take = min(tp.second, hits_remaining);
+                    tp.second = tp.second -= take;
+                    hits_remaining -= take;
+                    if (tp.second > 0) {
+                        pq.push(tp);
+                        break;
+                    }
+                }
+                seconds_passed += hits_needed;
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
