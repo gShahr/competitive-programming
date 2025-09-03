@@ -295,9 +295,71 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans;
+        for (int i = 1; i <= 18; i++) {
+            int d = 1 + powl(10, i);
+            if (n % d == 0) {
+                ans.push_back(n / d);
+            }
+        }
+        sort(ans.begin(), ans.end());
+        cout << ans.size() << endl;
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
 
+Find all independent substrings that repeat exactly twice
+
+555
+
+1234 1234
+
+1234
+
+1001
+110011
+
+00120034
+12003400
+12123434
+
+
+xy op lf
+
+
+060606
+606060
+
+89
+8989
+
+00444
+44400
+43000 => 01800
+
+44800
+
+n = x + y
+n-y = x
+
+4
+400
+
+n = x + x * 10^k
+n = x(1 + 10^k)
+
+k = 1
+n = x(1 + 10)
+n / 11 = x
+
+k = 2
+n = x(1 + 100)
+n / 101 = x
+
+k > 0
 */
