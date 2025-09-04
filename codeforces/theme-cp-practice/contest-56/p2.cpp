@@ -295,9 +295,40 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string s;
+        cin >> s;
+        bool ok = true;
+        int aCount = 0;
+        for (auto i: s) {
+            if (i == 'A') aCount++;
+        }
+        if (s[0] == 'A' && s[n-1] == 'A') ok = true;
+        else if (s[n-1] == 'A' && s[n-2] == 'A') ok = true;
+        else if (s[0] == 'A' && aCount == n-1) ok = true;
+        else ok = false;
+        if (ok) cout << "Alice" << endl;
+        else cout << "Bob" << endl;
     }
 }
 
 /*
 
+Alice has 1 and n => win
+Alice has neither => loss
+Alice has n and n-1 => win
+Alice has n and n-2 => loss
+    => can be extended to where if she does not have n-1, she loses
+Alice has 1 and n-1 => loss
+    => can be extened to where if she does not have n-1, she loses
+
+Alice has 1 and n-1 leads to a loss because bob has n and bob is the one
+reacting.
+
+
+Alice has 1 => only one case where she wins
+    => she needs to have n-1 cards
+Alice has n => only one case where she wins
+    => she needs the n-1 card
 */

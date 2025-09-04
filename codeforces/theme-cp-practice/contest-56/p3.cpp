@@ -291,13 +291,42 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+int check(vector<char>& a, int x, int n) {
+    int l = x;
+    int r = x;
+    while (r < n && a[r] == '.') r++;
+    while (l >= 0 && a[l] == '.') l--;
+    int moves = min(l+2, n-1-r+2);
+    int ans = moves;
+    if (x == 0 || x == n-1) ans = 1;
+    return ans;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, x;
+        cin >> n >> x;
+        x--;
+        vector<char> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<char> b = a;
+        vector<char> c = a;
+        if (x-1 >= 0) b[x-1] = '#';
+        if (x+1 < n) c[x+1] = '#';
+        int ans = max(check(b, x, n), check(c, x, n));
+        cout << ans << endl;
     }
 }
 
 /*
+
+1
+7 2
+#....##
+
+Just do case analysis. The guy can either build a wall to the left
+of him or to the right of him. He will choose the answer which is minimized.
 
 */

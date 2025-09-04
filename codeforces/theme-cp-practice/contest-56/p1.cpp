@@ -295,6 +295,16 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int take = 1;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == take) take++;
+        }
+        int ans = (n-take+k)/k;
+        cout << ans << endl;
     }
 }
 
