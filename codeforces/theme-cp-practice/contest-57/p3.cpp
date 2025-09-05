@@ -295,9 +295,37 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        string s;
+        cin >> s;
+        vector<int> cum(n+1, 0);
+        for (int i = 0; i < n; i++) cum[i+1] = cum[i] + a[i];
+        int l = 0;
+        int r = n-1;
+        int ans = 0;
+        while (l < n && r >= 0) {
+            while (l < n && s[l] != 'L') l++;
+            while (r >= 0 && s[r] != 'R') r--;
+            if (l != -1 && r != -1 && l <= r) {
+                ans += cum[r+1] - cum[l];
+            }
+            l++;
+            r--;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+Pick first L from left
+Pick first R from right
+
+(r, l-1) for 1-indexed
+=> add 1 for each to make 1-indexed 0-indexed
+=> (r+1, l)
 
 */

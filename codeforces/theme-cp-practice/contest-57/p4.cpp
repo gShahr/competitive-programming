@@ -295,9 +295,39 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int b, c, d;
+        cin >> b >> c >> d;
+
     }
 }
 
 /*
 
+(a|b) - (a&c) = d
+a + b - (a&b) - (a&c) = d
+d-b = a - (a&b) - (a&c)
+
+10 2 14
+
+4 = a - (a&10) - (a&2)
+
+1010
+0010
+
+10
+10
+
+Since any bit that is in b and not in c and vice versa will be deducted from a anyways, there
+is no point in considering them. Therefore, we only consider bits in b&c.
+=>
+d-b = a - 2*(a&b&c) *with one important caveat that a cannot have bits that are only in b or only in c.
+
+4 2 6
+2 = a - 2*(a&0)
+2 = a - (a&b) - (a&c)
+
+d has 1 bit => then a can have anything
+
+d consecutive 1 bits until it hits 0 or hits the end
+=> a follows the pattern. if it has a 
 */

@@ -291,13 +291,51 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+vector<int> dx {0, 0, 1, -1};
+vector<int> dy {-1, 1, 0, 0};
+
+int dfs(int i, int j, vector<vector<int>>& a, map<pair<int, int>, bool>& visited) {
+    int sum = 0;
+    if (visited.find({i, j}) != visited.end()) return sum;
+    visited[{i, j}] = true;
+    sum += a[i][j];
+    for (int x = 0; x < 4; x++) {
+        int nx = dx[x] + i;
+        int ny = dy[x] + j;
+        if (nx >= 0 && nx+1 <= a.size() && ny >= 0 && ny+1 <= a[0].size() && a[nx][ny] != 0) {
+            sum += dfs(nx, ny, a, visited);
+        }
+    }
+    return sum;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> a(n, vector<int>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cin >> a[i][j];
+        }
+        map<pair<int, int>, bool> visited;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (visited.find({i, j}) != visited.end() || a[i][j] == 0) continue;
+                else {
+                    int curr = dfs(i, j, a, visited);
+                    ans = max(ans, curr);
+                }
+            }
+        }
+        cout << ans << endl;
     }
 }
 
 /*
 
+nx <= a.size()-1
+nx+1 <= a.size()
 */

@@ -295,6 +295,17 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int a, b, n;
+        cin >> a >> b >> n;
+        vector<int> x(n);
+        for (int i = 0; i < n; i++) cin >> x[i];
+        int ans = b;
+        sort(x.begin(), x.end());
+        for (int i = 0; i < n; i++) {
+            int add = min(x[i], a-1);
+            ans += add;
+        }
+        cout << ans << endl;
     }
 }
 
