@@ -291,13 +291,65 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(vector<string>& a) {
+    bool ok = a[0] <= a[1] && a[2] <= a[1];
+    ok |= a[0] >= a[1] && a[2] >= a[1];
+    return ok;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int n = s.size();
+        vector<string> ans;
+        ans.push_back(string(1, s[0]));
+        string curr;
+        for (int i = 1; i+1 < n; i++) {
+            curr.push_back(s[i]);
+        }
+        ans.push_back(curr);
+        ans.push_back(string(1, s[n-1]));
+        if (check(ans)) {
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+            continue;
+        }
+
+        ans.clear();
+        curr.clear();
+        for (int i = 0; i+2 < n; i++) {
+            curr.push_back(s[i]);
+        }
+        ans.push_back(curr);
+        ans.push_back(string(1, s[n-2]));
+        ans.push_back(string(1, s[n-1]));
+        if (check(ans)) {
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+            continue;
+        }
+
+        ans.clear();
+        curr.clear();
+        ans.push_back(string(1, s[0]));
+        ans.push_back(string(1, s[n-1]));
+        for (int i = 2; i < n; i++) {
+            curr.push_back(s[i]);
+        }
+        ans.push_back(curr);
+        if (check(ans)) {
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        }
+
     }
 }
 
 /*
+
+baab
 
 */

@@ -295,6 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int x = 0;
+        int v = 1;
+        while (v*3 <= n) {
+            v *= 3;
+            x++;
+        }
+        int ans = 0;
+        while (n) {
+            int need = n / v;
+            int add = need * (powl(3, x+1) + x * powl(3, x-1));
+            ans += add;
+            n %= v;
+            v /= 3;
+            x--;
+        }
+        cout << ans << endl;
     }
 }
 

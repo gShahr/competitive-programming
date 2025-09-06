@@ -295,9 +295,28 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, a, b;
+        cin >> n >> m >> a >> b;
+        int total = n * m;
+        int ans = 0;
+        while (total > 1) {
+            int r1 = max(n-a, a-1);
+            int r2 = max(m-b, b-1);
+            if ((n-r1)*m < n*(m-r2)) n -= r1;
+            else m -= r2;
+            total = n * m;
+            a = (n+1)/2;
+            b = (m+1)/2;
+            // cout << n << ' ' << m << ' ' << a << ' ' << b << endl;
+            ans++;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+(x-v)*y = xy - yv
+x*(y-v) = xy - xv
 
 */
