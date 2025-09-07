@@ -295,6 +295,13 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int a, b;
+        cin >> a >> b;
+        bool ok = true;
+        if ((a/2 != b && a%2==0) || (b/2 != a && b%2==0)) ok = true;
+        else ok = false;
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

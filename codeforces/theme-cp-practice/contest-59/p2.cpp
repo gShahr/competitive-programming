@@ -295,6 +295,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int m;
+        cin >> m;
+        vector<vector<int>> a(m);
+        for (int i = 0; i < m; i++) {
+            int n;
+            cin >> n;
+            vector<int> curr(n);
+            for (int j = 0; j < n; j++) cin >> curr[j];
+            a[i] = curr;
+        }
+        map<int, int> pos;
+        for (int i = m-1; i >= 0; i--) {
+            for (auto j: a[i]) {
+                if (pos.find(j) == pos.end()) {
+                    pos[j] = i;
+                }
+            }
+        }
+        vector<int> ans;
+        for (int i = 0; i < m; i++) {
+            for (auto j: a[i]) {
+                if (pos.find(j) != pos.end() && pos[j] == i) {
+                    ans.push_back(j);
+                    break;
+                }
+            }
+        }
+        if (ans.size() < m) cout << -1 << endl;
+        else {
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        }
     }
 }
 

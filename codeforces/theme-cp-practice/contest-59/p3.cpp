@@ -295,9 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) {
+            int x = a[i] % (k+1);
+            int need = k+1-x;
+            // cout << x << ' ' << need << endl;
+            a[i] += x*k;
+        }
+        for (auto i: a) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+2 1 0
+3 2 1 0
+
+x % x+1
+=>
+x
+2x = x-1
+2x-1 = x-2
+
+2 0 1 2 0
+
+k1 k2 k3 k4 k5 k6 ... k_k+1
 
 */

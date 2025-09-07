@@ -295,6 +295,33 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> c;
+        vector<int> l, r;
+        for (int i = 0; i < n; i++) {
+            c[a[i]]++;
+            if (c[a[i]] > 1) l.push_back(i);
+        }
+        c.clear();
+        for (int i = n-1; i >= 0; i--) {
+            c[a[i]]++;
+            if (c[a[i]] > 1) r.push_back(i);
+        }
+        sort(r.begin(), r.end());
+        int ans = n*(n+1)/2;
+        for (int i = 0; i < l.size(); i++) {
+            ans -= (n-l[i]);
+            int x = lower_bound(r.begin(), r.end(), l[i]) - r.begin();
+            int db_cnt = r.size()-x;
+            ans += db_cnt;
+        }
+        for (int i = 0; i < r.size(); i++) {
+            ans -= (r[i]+1);
+        }
+        cout << ans << endl;
     }
 }
 
