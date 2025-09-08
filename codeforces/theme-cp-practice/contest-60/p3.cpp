@@ -295,6 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        string s;
+        cin >> s;
+        vector<int> b;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '1') {
+                int v = max(i, n-i-1);
+                b.push_back(v);
+            }
+        }
+        sort(b.begin(), b.end(), greater<int>());
+        bool ok = true;
+        if (b.size() >= k+1 && b[k] >= k) ok = false;
+        if (ok) cout << "Alice" << endl;
+        else cout << "Bob" << endl;
     }
 }
 

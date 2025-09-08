@@ -295,6 +295,19 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 0;
+        int g = 0;
+        for (int i = 0; i < n; i++) {
+            int curr = abs(a[i] - i - 1);
+            // cout << curr << endl;
+            g = gcd(g, curr);
+        }
+        ans = g;
+        cout << ans << endl;
     }
 }
 

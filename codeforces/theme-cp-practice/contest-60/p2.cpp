@@ -295,6 +295,23 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            int curr = (k - (a[i]%k)) % k;
+            ans = min(ans, curr);
+        }
+        if (k == 4) {
+            int need = 2;
+            for (auto i: a) {
+                if (i % 2 == 0 && need) need--; 
+            }
+            ans = min(ans, need);
+        }
+        cout << ans << endl;
     }
 }
 
