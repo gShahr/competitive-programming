@@ -292,9 +292,55 @@ namespace __DEBUG_UTIL__
 #define int long long int
 
 int32_t main() {
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<string> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<map<int, int>> m(5);
+        for (int i = 0; i < n; i++) {
+            string x = a[i];
+            int sz = x.size();
+            int sum = 0;
+            for (int j = 0; j < sz; j++) {
+                sum += (x[j]-'0');
+            }
+            m[sz-1][sum]++;
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            string x = a[i];
+            int sz = x.size();
+            int sum = 0;
+            for (int j = 0; j < sz; j++) {
+                sum += (x[j]-'0');
+            }
+            // cout << x << ' ' << sum << endl;
+            ans += m[sz-1][sum];
+            for (int j = 0; j <= (sz-1)/2; j++) {
+                sum -= (x[sz-1-j]-'0');
+                cout << sz-1-j << ' ' << sum << endl;
+                // cout << m[j][sum] << endl;
+                ans += m[j][sum];
+            }
+        }
+        // for (int i = 1; i <= 5; i++) {
+        //     for (int j = i; j > 0; j-=2) {
+        //         for (int k = 0; k <= 45; k++) {
+        //             for (int l = 0; l <= 45; l++) {
+        //                 int v = m[i-1][k] * m[j-1][l];
+        //                 if (v != 0) {
+        //                     cout << i << ' ' << j << ' ' << k << ' ' << l << endl;
+        //                 }
+        //                 // if (i != j) v *= 2;
+        //                 ans += v;
+        //             }
+        //         }
+        //     }
+        // }
+        cout << ans << endl;
     }
 }
 

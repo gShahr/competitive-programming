@@ -295,6 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        string ans(n, '0');
+        int mn = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            if (a[i] < mn) {
+                mn = a[i];
+                ans[i] = '1';
+            }
+        }
+        int mx = 0;
+        for (int i = n-1; i >= 0; i--) {
+            if (a[i] > mx) {
+                mx = a[i];
+                ans[i] = '1';
+            }
+        }
+        cout << ans << endl;
     }
 }
 

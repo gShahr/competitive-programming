@@ -295,6 +295,23 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 1;
+        set<int> curr, next;
+        curr.insert(a[0]);
+        for (int i = 1; i < n; i++) {
+            next.insert(a[i]);
+            if (curr.find(a[i]) != curr.end()) curr.erase(a[i]);
+            if (curr.empty()) {
+                curr = next;
+                next.clear();
+                ans++;
+            }
+        }
+        cout << ans << endl;
     }
 }
 
