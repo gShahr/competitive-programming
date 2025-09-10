@@ -295,6 +295,25 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int ans = INT_MAX;
+        int l = INT_MAX;
+        int r = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            int cost;
+            string s;
+            cin >> cost >> s;
+            if (s == "11") ans = min(cost, ans);
+            else if (s == "10") l = min(cost, l);  
+            else if (s == "01") r = min(cost, r);  
+        }
+        if (l != INT_MAX && r != INT_MAX) {
+            if (ans == INT_MAX) ans = l+r;
+            else ans = min(ans, l+r);
+        }
+        if (ans == INT_MAX) ans = -1;
+        cout << ans << endl;
     }
 }
 

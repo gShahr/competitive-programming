@@ -291,10 +291,38 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool check(vector<vector<int>>& a, int i, int j, int& mx) {
+    int n = a.size();
+    int m = a[0].size();
+    if (i >= 1) mx = max(mx, a[i-1][j]);
+    if (j >= 1) mx = max(mx, a[i][j-1]);
+    if (i+1 < n) mx = max(mx, a[i+1][j]);
+    if (j+1 < m) mx = max(mx, a[i][j+1]);
+    return a[i][j] > mx;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> a(n, vector<int>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cin >> a[i][j];
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int mx = -1;
+                if (check(a, i, j, mx)) {
+                    a[i][j] = mx;
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cout << a[i][j] << ' ';
+            cout << endl;
+        }
     }
 }
 

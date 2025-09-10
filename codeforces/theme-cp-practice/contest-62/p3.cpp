@@ -295,9 +295,28 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, x;
+        cin >> n >> x;
+        vector<int> fin = {0};
+        int y = 0;
+        for (int i = 1; i < n; i++) {
+            if ((i&x) == i) {
+                fin.push_back(i);
+                y |= i;
+            }
+        }
+        if (y != x) {
+            if (fin.size() >= n) fin.pop_back();
+            fin.push_back(x);
+        }
+        while (fin.size() < n) fin.push_back(x);
+        for (auto i: fin) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+Is there an easy way to check if i only has bits that are in x?
 
 */

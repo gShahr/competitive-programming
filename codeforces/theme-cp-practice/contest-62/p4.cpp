@@ -295,9 +295,54 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans;
+        int x = 0;
+        bool ok = false;
+        for (int i = 0; i < 64; i++) {
+            if (((n >> i)&1)) {
+                if (ok) x |= (1LL << i);
+                ok ^= true;
+            }
+        }
+        ans.push_back(x);
+        while (x < n) {
+            int next = n-x;
+            
+        }
+        cout << ans.size() << endl;
+        for (auto i: ans) cout << i << ' ';
     }
 }
 
 /*
+
+1010
+0101
+1011
+1111
+
+0110
+1001
+0111
+1111
+
+0110
+1111
+0111
+
+0101
+1010
+1101
+1110
+1111
+
+
+00101
+10010
+10111
+
+Answer will be number of bits it has on plus 1.
 
 */
