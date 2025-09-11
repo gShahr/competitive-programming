@@ -295,6 +295,51 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        // vector<int> viable(31, 0);
+        // for (int i = 0; i < n; i++) {
+        //     for (int j = 0; j < 31; j++) {
+        //         if ((1 << j)&a[i]) viable[j]--;
+        //         else viable[j]++;
+        //     }
+        // }
+        // debug(viable);
+        // int x = 0;
+        // for (int i = 0; i < viable.size(); i++) {
+        //     if (viable[i] > 0 && (x | (1 << i)) <= n) x |= (1 << i);
+        // }
+        // debug(x);
+        // int ans = 0;
+        // for (int i = 0; i < n; i++) {
+        //     ans += (x ^ a[i]);
+        // }
+        
+        vector<int> on(31, 0);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < 31; j++) {
+                if ((1 << j)&a[i]) on[j]++;
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            int curr = 0;
+            for (int j = 0; j < on.size(); j++) {                
+                if ((1 << j)&a[i]) {
+                    int off = n - on[j];
+                    int add = off * (1 << j);
+                    // cout << i << ' ' << j << ' ' << off << endl;
+                    curr += add;
+                } else {
+                    int add = on[j] * (1 << j);
+                    curr += add;
+                }
+            }
+            ans = max(ans, curr);
+        }
+        cout << ans << endl;
     }
 }
 

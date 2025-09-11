@@ -294,10 +294,47 @@ namespace __DEBUG_UTIL__
 int32_t main() {
     int t;
     cin >> t;
+    int mx = 2*1e5+1;
+    vector<int> cum(mx+1, 0);
+    for (int i = 1; i <= mx; i++) {
+        string s = to_string(i);
+        int sum = 0;
+        for (int j = 0; j < s.size(); j++) sum += s[j]-'0';
+        cum[i] = sum + cum[i-1];
+    }
     while (t--) {
+        int n;
+        cin >> n;
+        int ans = cum[n];
+        cout << ans << endl;
     }
 }
 
 /*
+
+10 => 1
+11 => 2
+19 => 10 => 1
+20 => 2
+29 => 11 => 2
+
+1-9
+10-18
+19-27
+
+100 => 1
+110 => 2
+
+100-108 => 
+109-117 
+118-126
+
+1000-1008
+
+Whoops, I thought it kept summing them up until they were only 1 digit.
+82-90
+91-99
+
+
 
 */

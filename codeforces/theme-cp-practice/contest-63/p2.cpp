@@ -295,6 +295,19 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<pair<int, int>> sol;
+        for (int i = 0; i < n; i++) {
+            int v = a[i] % k;
+            if (v == 0) v = k;
+            sol.emplace_back(v, -i);
+        }
+        sort(sol.begin(), sol.end(), greater<pair<int, int>>());
+        for (auto i: sol) cout << -i.second+1 << ' ';
+        cout << endl;
     }
 }
 
