@@ -295,9 +295,18 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        int ans = 0;
+        if (k == 1) ans = 1;
+        else if (k == 2) ans = m / n + min(n-1, m);
+        else if (k == 3) ans = m - (m/n+min(n-1, m));
+        cout << ans << endl;
     }
 }
 
 /*
+
+k can only be 1, 2, or 3.
 
 */

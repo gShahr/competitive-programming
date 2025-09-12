@@ -295,6 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, l, r, k;
+        cin >> n >> l >> r >> k;
+        int ans = -1;
+        if (n&1) ans = l;
+        else {
+            int highest_bit = 0;
+            for (int i = 0; i < 60; i++) {
+                if ((1LL << i)&l) highest_bit = i;
+            }
+            if ((1LL << (highest_bit+1)) <= r) {
+                if (n == 2) ans = -1;
+                else if (k >= n-1) ans = (1LL << (highest_bit+1));
+                else ans = l;
+            }
+        }
+        cout << ans << endl;
     }
 }
 

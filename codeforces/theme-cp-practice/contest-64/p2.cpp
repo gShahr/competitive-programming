@@ -295,6 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> a(2, vector<int>(n));
+        int curr = 1;
+        for (int i = 0; i+1 < n; i+=2) {
+            a[1][i] = curr;
+            a[0][i+1] = curr+1;
+            curr += 2;
+        }
+        for (int i = 1; i+1 < n; i+=2) {
+            a[1][i] = curr;
+            a[0][i+1] = curr+1;
+            curr += 2;
+        }
+        a[0][0] = 2*n;
+        a[1][n-1] = 2*n-1;
+        for (auto i: a) {
+            for (auto j: i) cout << j << ' ';
+            cout << endl;
+        }
     }
 }
 
