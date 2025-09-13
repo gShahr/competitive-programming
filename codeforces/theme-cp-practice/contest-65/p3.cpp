@@ -295,6 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 0;
+        int v1 = 0;
+        int v2 = 0;
+        for (auto i: a) {
+            if (i&1) v1 += i;
+            else v2 += i;
+        }
+        for (auto i: a) {
+            int curr = 0;
+            if (i&1) curr = i+v2;
+            else curr = i+v1;
+            ans = max(ans, curr);
+        }
+        cout << ans << endl;
     }
 }
 

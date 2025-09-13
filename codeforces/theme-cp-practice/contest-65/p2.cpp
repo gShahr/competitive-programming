@@ -295,9 +295,33 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans(n);
+        for (int i = 0; i < n; i++) {
+            ans[i] = (2*i)%n+1;
+        }
+        if (n%2==0) cout << -1 << endl;
+        else {
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        }
     }
 }
 
 /*
+
+1 3 2
+1 3 2 4
+
+1 3 4 2
+4 3 1 
+
+0 1 2 3 4
+0 1 2 3 4
+
+0 2 4 6 8 => 0 2 4 1 3 => 1 3 5 2 4
+
+0 2 4 6 => 0 2 0 2
 
 */

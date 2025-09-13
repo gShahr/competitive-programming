@@ -295,6 +295,13 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        int ans = -1;
+        if (a == b) ans = c;
+        else if (a == c) ans = b;
+        else ans = a;
+        cout << ans << endl;
     }
 }
 
