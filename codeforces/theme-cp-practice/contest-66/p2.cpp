@@ -295,6 +295,18 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int n = s.size();
+        int ans = 0;
+        int ones = 0;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '1') ones++;
+            else {
+                if (ones > 0) ans += ones+1;
+            }
+        }
+        cout << ans << endl;
     }
 }
 

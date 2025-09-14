@@ -295,9 +295,50 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> ans(n);
+        int sum = 0;
+        int odd = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i]&1) odd++;
+            sum += a[i];
+            int v = sum;
+            int left = 0;
+            left = odd/3;
+            if (odd%3 == 1 && i > 0) left++;
+            ans[i] = v - left;
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+1 odd => -1
+2 odd => 0
+3 odd => -1
+4 odd => -2
+5 odd => -1
+6 odd => -2
+7 odd => 
+
+3 3 3 3
+3 3 3
+
+2 | (2m+1) + (2g+1)
+
+x x x 0
+x 0 0
+0 0
+
+-2 => 0
+-1 => -1
+
+x x x 0 0
+
 
 */

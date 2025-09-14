@@ -295,9 +295,47 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 0;
+        map<int, int> m;
+        for (int i = 0; i < n; i++) {
+            ans += m[a[i]];
+            if (a[i] == 1) ans += m[2];
+            else if (a[i] == 2) ans += m[1];
+            m[a[i]]++;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+2^(a_i)
+2^(a_j)
+
+(2^(a_i))^(2^(a_j))
+= (2^(a_i * 2^(a_j)))
+!= (2^(2^(a_i+a_j)))
+
+(2^(a_i * 2^(a_j))) = (2^(a_j * 2^(a_i)))
+<=>
+(a_i * 2^(a_j)) = (a_j * 2^(a_i))
+<=>
+2^(a_i) / a_i = 2^(a_j) / a_j
+
+Try to find upperbound for where answer cannot exist.
+Assume a_j = a_i+1
+=>
+2^(a_i) / a_i = 2^(a_i+1) / (a_i+1)
+=> 
+1 / a_i = 2 / (a_i+1)
+=>
+2 * a_i = a_i + 1
+a_i - 1 = 0
+a_i = 1
+
 
 */
