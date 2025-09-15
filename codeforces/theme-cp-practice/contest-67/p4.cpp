@@ -291,10 +291,46 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+pair<int, int> find_coords(int n, int d) {
+    pair<int, int> res;
+    int total_blocks = powl(2LL, n) * powl(2LL, n);
+    for (int i = 1; i <= 4; i++) {
+        if (d <= i*total_blocks/4) {
+            d -= i*total_blocks/4;
+            total_blocks /= 4;
+            break;
+        }
+    }
+    return res;
+}
+
+int find_value(int n, int x, int y) {
+    int res;
+    return res;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        int q;
+        cin >> n >> q;
+        for (int i = 0; i < q; i++) {
+            string s;
+            cin >> s;
+            if (s == "->") {
+                int x, y;
+                cin >> x >> y;
+                int value = find_value(n, x, y);
+                cout << value << endl;
+            } else {
+                int d;
+                cin >> d;
+                pair<int, int> coords = find_coords(n, d);
+                cout << coords.first << ' ' << coords.second << endl;
+            }
+        }
     }
 }
 
