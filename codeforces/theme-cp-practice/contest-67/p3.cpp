@@ -295,6 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a, b;
+        cin >> a >> b;
+        int v1 = 0;
+        int v2 = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] != b[i]) v1++;
+        }
+        reverse(a.begin(), a.end());
+        for (int i = 0; i < n; i++) {
+            if (a[i] != b[i]) v2++;
+        }
+        if (v1%2==0) v1 = 2*v1;
+        else v1 = 2*v1-1;
+        if (v2&1) v2 = 2*v2;
+        else v2 = 2*v2-1;
+        v2 = max(2LL, v2);
+        int ans = min(v1, v2);
+        cout << ans << endl;
     }
 }
 

@@ -295,9 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int a, b;
+        cin >> a >> b;
+        int n, m;
+        cin >> n >> m;
+        int v1 = n * b;
+        int v2 = n/(m+1) * m * a + (n%(m+1))*min(a, b);
+        int ans = min(v1, v2);
+        cout << ans << endl;
     }
 }
 
 /*
+5 4
+3 2
+=>
+v1 = 12
+6
 
 */

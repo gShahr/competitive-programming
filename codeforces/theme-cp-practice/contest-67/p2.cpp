@@ -295,9 +295,48 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        // vector<vector<int>> p(n+1);
+        // for (int i = 0; i < n+1; i++) p[i].push_back(-1);
+        // for (int i = 0; i < n; i++) {
+        //     p[a[i]].push_back(i);
+        // }
+        // for (int i = 0; i < n+1; i++) p[i].push_back(n);
+        // int ans = INT_MAX;
+        // for (int i = 0; i < p.size(); i++) {
+        //     int curr = 0;
+        //     // if (p[i].size() <= 0) continue;
+        //     // cout << curr << ' ' << p[i].size() << ' ' << i << endl;
+        //     for (int j = 1; j < p[i].size(); j++) {
+        //         // if (j == 0) curr += p[i][j];
+        //         // else if (j+1 >= p[i].size()) curr += (n - p[i][j] - 1);
+        //         // else {
+        //         curr += (p[i][j] - p[i][j-1] - 1);
+        //         // }
+        //     }
+        //     // cout << curr << ' ' << i << endl;
+        //     ans = min(ans, curr);
+        // }
+        // cout << ans << endl;
+        int l = 1;
+        int r = n-2;
+        int ans = INT_MAX;
+        while (l < n && a[l] == a[l-1]) l++;
+        while (r >= 0 && a[r] == a[r+1]) r--;
+        if (a[0] == a[n-1]) ans = r-l+1;
+        else {
+            ans = min(n - l, r + 1);
+        }
+        ans = max(ans, 0LL);
+        cout << ans << endl;
     }
 }
 
 /*
+
+Whoops solved the wrong problem again.
 
 */
