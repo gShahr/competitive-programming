@@ -295,6 +295,19 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int lowest_d = n;
+        for (int i = 2; i*i <= n; i++) {
+            if (n % i == 0) {
+                lowest_d = i;
+                break;
+            }
+        }
+        bool infinite = (lowest_d <= m);
+        if (n == 1 || m == 1) infinite = false;
+        if (infinite) cout << "NO" << endl;
+        else cout << "YES" << endl;
     }
 }
 

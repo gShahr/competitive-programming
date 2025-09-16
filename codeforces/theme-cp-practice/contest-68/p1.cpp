@@ -295,9 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int res = stoi(s);
+        int mx = 100;
+        pair<int, int> ans = {-1, -1};
+        for (int i = 0; i <= mx; i++) {
+            if (i*i == res) {
+                if (res == 0) ans = {0, 0};
+                else ans = {1, i-1};
+                break;
+            }
+        }
+        if (ans.first == -1) cout << -1 << endl;
+        else cout << ans.first << ' ' << ans.second << endl;
     }
 }
 
 /*
+
+a^2 + b^2 + 2ab = s
+b^2 + 2ab = s - a^2
+b(b+a) = s - a^2 
 
 */

@@ -295,6 +295,23 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int a, b;
+        if (n % 2 == 0) {
+            a = n/2;
+            b = a;
+        } else {
+            int highest_d = 1;
+            for (int i = 2; i*i <= n; i++) {
+                if (n % i == 0) {
+                    highest_d = max(highest_d, max(i, n/i));
+                }
+            }
+            a = highest_d;
+            b = n - a;
+        }
+        cout << a << ' ' << b << endl;
     }
 }
 

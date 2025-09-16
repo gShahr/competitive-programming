@@ -291,13 +291,33 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+double find_dist(pair<int, int> a, pair<int, int> b) {
+    double v = (a.first - b.first) * (a.first - b.first) + (a.second - b.second) * (a.second - b.second);
+    return sqrt(v);
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        pair<int, int> p, a, b;
+        pair<int, int> o = {0, 0};
+        cin >> p.first >> p.second >> a.first >> a.second >> b.first >> b.second;
+        double v1 = max(find_dist(a, p), find_dist(a, o));
+        double v2 = max(find_dist(b, p), find_dist(b, o));
+        double v3 = max(max(find_dist(a, p), find_dist(b, o)), find_dist(a, b)/2);
+        double v4 = max(max(find_dist(a, o), find_dist(b, p)), find_dist(a, b)/2);
+        // cout << v1 << ' ' << v2 << ' '<< v3 << ' ' << v4 << endl;
+        double ans = min(min(v1, v2), min(v3, v4));
+        cout << setprecision(10) << ans << endl;
     }
 }
 
 /*
+
+A => O, P
+B => O, P
+A => P, B = O
+A => O, B => P
 
 */
