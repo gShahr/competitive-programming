@@ -295,6 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        string s;
+        cin >> s;
+        int ans = 0;
+        int cons = 0;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '0') cons++;
+            else cons = 0;
+            if (cons >= m) {
+                ans++;
+                cons = 0;
+                i += (k-1);
+            }
+        }
+        cout << ans << endl;
     }
 }
 

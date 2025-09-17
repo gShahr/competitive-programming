@@ -295,9 +295,29 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        bool ok = true;
+        int mn = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            mn = min(mn, a[i]);
+            if (a[i] >= 2*mn) ok = false;
+            if (i > 0 && a[i] > a[i-1]+(a[i-1]-1)/2) ok = false;
+            // cout << a[i] << ' ' << a[i-1]+(a[i-1]-1)/2 << endl;
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+5 6 7 8 9 10
+
+40 60
+19 19
+40 19+40
 
 */

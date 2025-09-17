@@ -295,6 +295,20 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int ans = 0;
+        int curr = 0;
+        bool ok = true;
+        for (int i = 0; i < n; i++) {
+            string s;
+            cin >> s;
+            if (curr + s.size() <= m && ok) {
+                curr += s.size();
+                ans++;
+            } else ok = false;
+        }
+        cout << ans << endl;
     }
 }
 
