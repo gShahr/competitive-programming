@@ -295,9 +295,20 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+
     }
 }
 
 /*
+
+0111
+0011
+0001
+0000
+
+=> Since the answer is unique, can always determine what the beginning number is.
+
 
 */

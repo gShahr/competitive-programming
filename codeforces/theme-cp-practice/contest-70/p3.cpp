@@ -295,6 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, l, r;
+        cin >> n >> l >> r;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 0;
+        int sum = 0;
+        queue<int> values;
+        for (int i = 0; i < n; i++) {
+            sum += a[i];
+            values.push(a[i]);
+            while (sum > r) {
+                sum -= values.front();
+                values.pop();
+            }
+            if (l <= sum && sum <= r) {
+                ans++;
+                sum = 0;
+                while (!values.empty()) values.pop();
+            }
+        }
+        cout << ans << endl;
     }
 }
 

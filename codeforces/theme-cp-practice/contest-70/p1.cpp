@@ -295,9 +295,17 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        if (n % 4 == 0) cout << "BOB" << endl;
+        else cout << "ALICE" << endl;
     }
 }
 
 /*
+
+1 2 3 0
+
+0 1 2 3
 
 */
