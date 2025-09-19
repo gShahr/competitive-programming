@@ -295,9 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        map<char, int> m;
+        for (auto i: a) m[i]++;
+        int mx = 0;
+        int sum = 0;
+        for (auto i: m) {
+            mx = max(mx, i.second);
+            sum += i.second;
+        }
+        sum -= mx;
+        int ans = max(n%2, mx - sum);
+        cout << ans << endl;
     }
 }
 
 /*
+
+3 3 2 1
 
 */

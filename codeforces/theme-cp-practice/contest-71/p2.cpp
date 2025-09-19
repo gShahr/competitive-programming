@@ -295,9 +295,18 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int ans = sqrtl(n);
+        if (ans*ans == n) ans--;
+        cout << ans << endl;
     }
 }
 
 /*
+0 => 1
+1 => 4
+2 => 9
+3 => 16
 
 */

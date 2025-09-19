@@ -295,6 +295,14 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int ans = 0;
+        if (m % 2 == 0) ans = (n*m)/2;
+        else {
+            ans = (n*(m-1))/2;
+        }
+        cout << ans << endl;
     }
 }
 
