@@ -295,9 +295,40 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int zeros = 0;
+        int ones = 0;
+        for (auto i: s) {
+            if (i == '0') zeros++;
+            else ones++;
+        }
+        int ans = 0;
+        int n = s.size();
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == '1') {
+                if (zeros) zeros--;
+                else {
+                    ans = n - i;
+                    break;
+                }
+            } else {
+                if (ones) ones--;
+                else {
+                    ans = n - i;
+                    break;
+                }
+            }
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+111100
+0011
+
+10100000
 
 */

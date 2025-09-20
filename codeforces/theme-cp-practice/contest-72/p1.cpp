@@ -292,9 +292,14 @@ namespace __DEBUG_UTIL__
 #define int long long int
 
 int32_t main() {
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int ans = (m-1)*n;
+        if (m-1 <= 0) ans = n-1;
+        cout << ans << endl;
     }
 }
 

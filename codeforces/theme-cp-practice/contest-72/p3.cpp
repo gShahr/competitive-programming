@@ -295,9 +295,55 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> ans(n);
+        int mex = 0;
+        for (int i = 0; i < n; i++) {
+            int p = mex - a[i];
+            while (p <= 0) {
+                mex++;
+                p++;
+            }
+            ans[i] = p;
+        }
+        set<int> used;
+        for (int i = 0; i < n; i++) {
+            if (ans[i] != 1) used.insert(ans[i]);
+        }
+        int curr = 0;
+        for (int i = 0; i < n; i++) {
+            if (ans[i] == 1) {
+                ans[i] = curr;
+                curr++;
+                while (used.find(curr) != used.end()) curr++;
+            }
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+p_i = mex(p_1, ..., p_n) - a_i
+
+mex - 1
+mex - 1
+mex + 2
+mex - 1
+mex - 2
+
+1
+2
+2
+3
+5
+
+0 1 4 2 3 
+
+
 
 */
