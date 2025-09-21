@@ -295,6 +295,28 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        for (int i = 0; i < n; i++) {
+            if (a[i] < b[i]) {
+                int d = b[i] - a[i];
+                a[i] += d;
+                for (int j = 0; j < n; j++) {
+                    if (i == j) continue;
+                    a[j] -= d;
+                }
+                break;
+            }
+        }
+        bool ok = true;
+        for (int i = 0; i < n; i++) {
+            if (a[i] < b[i]) ok = false;
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

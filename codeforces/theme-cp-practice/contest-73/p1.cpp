@@ -295,6 +295,18 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a, b, c;
+        cin >> a;
+        int m;
+        cin >> m;
+        cin >> b >> c;
+        for (int i = 0; i < m; i++) {
+            if (c[i] == 'V') a.insert(a.begin(), b[i]);
+            else a.push_back(b[i]);
+        }
+        cout << a << endl;
     }
 }
 

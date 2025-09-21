@@ -295,6 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, c;
+        cin >> n >> c;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> costs;
+        for (int i = 0; i < n; i++) {
+            costs.push_back(i+1+a[i]);
+        }
+        sort(costs.begin(), costs.end());
+        debug(costs);
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (c-costs[i] >= 0) {
+                c -= costs[i];
+                ans++;
+            }
+        }
+        cout << ans << endl;
     }
 }
 

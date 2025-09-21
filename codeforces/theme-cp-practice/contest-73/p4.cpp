@@ -295,9 +295,39 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> b = a;
+        sort(b.begin(), b.end());
+        int mex = 0;
+        for (int i = 0; i < n; i++) {
+            if (b[i] == mex) mex++;
+            else break;
+        }
+        vector<int> ans(n);
+        for (int i = 0; i < n; i++) {
+            ans[i] = mex;
+            mex = a[i];
+        }
+        k--;
+        vector<int> ans2(n);
+        k %= n;
+        for (int i = 0; i < n; i++) {
+            ans2[(i+k)%n] = ans[i];
+        }
+        for (int i = 0; i < n; i++) cout << ans2[i] << ' ';
+        cout << endl;
     }
 }
 
 /*
 
+1 2 3 4 5
+0 1 2 3 4 => 5
+5 0 1 2 3 => 4
+4 5 0 1 2 => 3
+          => 2
+          => 1
 */
