@@ -295,9 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        n *= 2;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int mn = accumulate(a.begin(), a.end(), 0LL) % 2;
+        int mx;
+        int cnt = accumulate(a.begin(), a.end(), 0LL);
+        mx = min(cnt, n/2);
+        cnt -= mx;
+        mx -= cnt;
+        cout << mn << ' ' << mx << endl;
     }
 }
 
 /*
+
+2n  => n-n
+n+2 => n-2
+n+1 => n-1
+n => n
 
 */

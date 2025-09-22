@@ -295,6 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x, y, k;
+        cin >> x >> y >> k;
+        int ans;
+        if (x <= y) {
+            int v = (x+k-1)/k;
+            ans = 2 * v;
+            y -= (v * k);
+            ans += 2 * ((y+k-1)/k);
+        } else {
+            int v = (y+k-1)/k;
+            ans = 2 * v;
+            x -= (v * k);
+            x = max(x, 0LL);
+            int v2 = 2 * ((x+k-1)/k) - 1;
+            v2 = max(v2, 0LL);
+            ans += v2;
+        }
+        cout << ans << endl;
     }
 }
 

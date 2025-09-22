@@ -295,6 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int sum = 0;
+        vector<int> mx(n+1, 0);
+        for (int i = 0; i < n; i++) {
+            mx[i+1] = max(mx[i], a[i]);
+        }
+        vector<int> ans;
+        for (int i = n-1; i >= 0; i--) {
+            ans.push_back(sum + mx[i+1]);
+            sum += a[i];
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 

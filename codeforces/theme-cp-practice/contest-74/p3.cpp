@@ -295,9 +295,37 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string s;
+        cin >> s;
+        int n = s.size();
+        string ans;
+        for (int i = 0; i < n; i++) {
+            if (i+1 < n && s[i] == s[i+1]) ans = s.substr(i, 2);
+            else if (i+2 < n && s[i] != s[i+1] && s[i] != s[i+2] && s[i+1] != s[i+2]) ans = s.substr(i, 3);
+        }
+        if (!ans.empty()) cout << ans << endl;
+        else cout << -1 << endl;
     }
 }
 
 /*
+
+7 unique characters
+2 same characters
+
+unique that work
+===
+3
+4
+7
+8
+
+aba
+=>
+a
+b
+ab
+ba
+aba
 
 */
