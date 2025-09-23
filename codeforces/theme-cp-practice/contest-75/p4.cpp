@@ -295,6 +295,20 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        // string a;
+        // cin >> a;
+        // int n = a.size();
+        // for (int i = n-1; i >= 0; i--) {
+        //     if (a[i] >= '5') {
+        //         if (a[i-1]++;
+        //         for (int j = i; j < n; j++) a[j] = '0';
+        //         break;
+        //     }
+        // }
+        int n;
+        cin >> n;
+        int ans = round(.20445);
+        cout << ans << endl;
     }
 }
 

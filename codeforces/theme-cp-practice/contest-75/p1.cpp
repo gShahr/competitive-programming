@@ -295,6 +295,25 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        int ans = 0;
+        int curr = 0;
+        int mx = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == '.') {
+                curr++;
+                mx = max(mx, curr);
+            } else {
+                ans += curr;
+                curr = 0;
+            }
+        }
+        ans += curr;
+        if (mx >= 3) ans = 2;
+        cout << ans << endl;
     }
 }
 

@@ -295,6 +295,23 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a, b;
+        cin >> a >> b;
+        int mn = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == '1') {
+                mn = i;
+                break;
+            }
+        }
+        bool ok = true;
+        for (int i = 0; i < n; i++) {
+            if (a[i] != b[i] && a[i] == '0' && mn > i) ok = false;
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
