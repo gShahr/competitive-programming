@@ -295,9 +295,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x, k;
+        cin >> x >> k;
+        bool ok = false;
+        if (k == 1) {
+            bool p = true;
+            for (int i = 2; i*i <= x; i++) {
+                if (x % i == 0) p = false;
+            }
+            ok |= p;
+        }
+        if (x == 1 && k == 1) ok = false;
+        else if (x == 1 && k == 2) ok = true;
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
 
+5151
+
+x * 10^k + x => x(10^k + 1) => divisble by x
+x * 10^k + x * 10^(k-1) + x => x(10^k + 10^(k-1) + 1) => divisible by x
+
+x * 10^(g1) + x * 10^(g2) + x * 10^(g3)
+
+g1 = (k-1) * length(x)
+g2 = (k-2) * length(x)
+g3 = (k-3) * length(x)
+
+1 * 10 + 1 * 1 = 1 * (10 + 1) 
+
+1 3
+100 + 10 + 1
 */

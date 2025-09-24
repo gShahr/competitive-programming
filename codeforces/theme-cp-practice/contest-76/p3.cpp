@@ -295,6 +295,34 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int m;
+        cin >> m;
+        vector<string> b(m);
+        for (int i = 0; i < m; i++) cin >> b[i];
+        for (int i = 0; i < m; i++) {
+            string s = b[i];
+            int sz = s.size();
+            bool ok = true;
+            map<int, char> to;
+            map<char, int> from;
+            if (sz == n) {
+                for (int j = 0; j < sz; j++) {
+                    if (to.find(a[j]) != to.end()) {
+                        if (to[a[j]] != s[j]) ok = false;
+                    } else if (from.find(s[j]) != from.end()) {
+                        if (from[s[j]] != a[j]) ok = false;
+                    }
+                    to[a[j]] = s[j];
+                    from[s[j]] = a[j];
+                }
+            } else ok = false;
+            if (ok) cout << "YES" << endl;
+            else cout << "NO" << endl;
+        }
     }
 }
 

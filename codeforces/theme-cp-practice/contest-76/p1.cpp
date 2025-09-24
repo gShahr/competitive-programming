@@ -295,9 +295,38 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int mn = INT_MAX;
+        int mx = 0;
+        for (auto i: a) {
+            mn = min(mn, i);
+            mx = max(mx, i);
+        }
+        int cnt1 = 0;
+        int cnt2 = 0;
+        for (auto i: a) {
+            if (i == mn) cnt1++;
+            else if (i == mx) cnt2++;
+        }
+        bool ok = false;
+        if (cnt1 == n) ok = true;
+        if (cnt1 + cnt2 == n && abs(cnt1-cnt2) <= 1) ok = true;
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+1 2 3 4 5 6
+1 2 2
+
+mx mn pair needs to always match
+
+mn mx mn mx
+mx mn mx mn
 
 */
