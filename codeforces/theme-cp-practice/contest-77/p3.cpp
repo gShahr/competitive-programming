@@ -295,6 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        string ans(n, 0);
+        ans[0] = '1';
+        int lw = -1;
+        int mx = a[0];
+        for (int i = 1; i < n; i++) {
+            if (a[i] >= mx && lw == -1) {
+                ans[i] = '1';
+                mx = a[i];
+            }
+            else {
+                if (lw <= a[i] && a[i] <= a[0]) {
+                    lw = a[i];
+                    ans[i] = '1';
+                } else ans[i] = '0';
+            }
+        }
+        cout << ans << endl;
     }
 }
 
