@@ -295,9 +295,29 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans(n);
+        int c = 0;
+        for (int i = 0; i < n; i += 2) {
+            ans[i] = c+1;
+            if (i+1 < n) ans[i+1] = n-c;
+            c++;
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+2 3 4 5
+1 6 2 5 3 4
+
+1 n 2 n-1 3 n-2 4 n-3 5 n-4
+
+1 5 2 4 3 6
+
+1 10 2 9 3 8 4 7
 
 */

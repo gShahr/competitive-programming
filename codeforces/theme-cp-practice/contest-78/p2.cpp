@@ -295,6 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        int max_elements = 50;
+        vector<int> a(max_elements+1, 0);
+        for (int i = 0; i < n; i++) {
+            int l, r;
+            cin >> l >> r;
+            if (l <= k && k <= r) {
+                for (int j = l; j <= r; j++) a[j]++;
+            }
+        }
+        int mx = *max_element(a.begin(), a.end());
+        bool ok = (a[k] == mx);
+        int cnt = 0;
+        for (auto i: a) {
+            if (i == mx) cnt++;
+        }
+        if (cnt > 1) ok = false;
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
