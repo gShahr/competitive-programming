@@ -295,9 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == '1') cnt++;
+        }
+        bool ok = (cnt % 2 == 0);
+        if (cnt == 2) {
+            for (int i = 0; i+1 < n; i++) {
+                if (a[i] == '1' && a[i] == a[i+1]) ok = false;
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+1  1
 
 */

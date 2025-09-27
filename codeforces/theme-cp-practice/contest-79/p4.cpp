@@ -295,6 +295,12 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, a, b;
+        cin >> n >> a >> b;
+        int ans = 0;
+        if (b < a) ans = 1;
+        else ans = (n+a-1)/a;
+        cout << ans << endl;
     }
 }
 

@@ -295,6 +295,13 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int a, b, k;
+        cin >> a >> b >> k;
+        int g = gcd(a, b);
+        int mx =  max(a / g, b / g);
+        int ans = 2;
+        if (mx <= k) ans = 1;
+        cout << ans << endl;
     }
 }
 

@@ -295,9 +295,23 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x1, y1, x2, y2;
+        cin >> x1 >> y1 >> x2 >> y2;
+        if (x1 > y1) {
+            swap(x1, y1);
+            swap(x2, y2);
+        }
+        bool ok = true;
+        if (x2 >= y2) ok = false;
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
 
+mn mx
+mn2 mx2
+
+mn2 >= mx
 */
