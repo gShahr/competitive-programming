@@ -295,6 +295,18 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        bool ok = true;
+        if (n == 1) ok = true;
+        else if (n == 2) {
+            if (a[1] - a[0] > 1) ok = true;
+            else ok = false;
+        } else ok = false;
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

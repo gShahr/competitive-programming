@@ -295,9 +295,18 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int p1, p2, p3;
+        cin >> p1 >> p2 >> p3;
+        int ans = -1;
+        if ((p1+p2+p3)%2==0) {
+            ans = min(p1+p2, (p1+p2+p3)/2);
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+parity has to be even
 
 */
