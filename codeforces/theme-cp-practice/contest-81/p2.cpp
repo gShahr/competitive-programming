@@ -295,9 +295,30 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int a, b, c, d;
+        cin >> a >> b >> c >> d;
+        int ans = 2;
+        int l = a*d;
+        int r = b*c;
+        if (l > r) swap(l, r);
+        if (l == r) ans = 0;
+        else if (l == 0 || r % l == 0) ans = 1;
+        cout << ans << endl;
     }
 }
 
 /*
+
+a/b = c/d
+=>
+a*d = b*c
+
+1/2 2/3
+
+3 = 4
+
+2/8 = 12/24
+
+48 = 96
 
 */

@@ -295,6 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m;
+        cin >> n >> m;
+        bool ok = (n == m);
+        queue<int> curr;
+        curr.push(n);
+        while (!curr.empty()) {
+            int tp = curr.front();
+            curr.pop();
+            if (tp % 3 == 0) {
+                int a = tp / 3;
+                int b = 2*a;
+                if (a == m || b == m) ok = true;
+                curr.push(a);
+                curr.push(b);
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

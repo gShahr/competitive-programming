@@ -291,13 +291,47 @@ namespace __DEBUG_UTIL__
 
 #define int long long int
 
+bool is_alt(int n, string& a) {
+    for (int i = 1; i < n; i++) {
+        if (a[i] == a[i-1]) return false;
+    }
+    return true;
+}
+
 int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        map<char, int> m;
+        bool ok = false;
+        string c1, c2;
+        for (int i = 0; i < n; i++) {
+            if (m.find(a[i]) == m.end()) {
+                if (i&1) m[a[i]] = 1;
+                else m[a[i]] = 0;
+            }
+            c1.push_back(m[a[i]]);
+        }
+        m.clear();
+        for (int i = 0; i < n; i++) {
+            if (m.find(a[i]) == m.end()) {
+                if (!(i&1)) m[a[i]] = 1;
+                else m[a[i]] = 0;
+            }
+            c2.push_back(m[a[i]]);
+        }
+        ok = is_alt(n, c1) | is_alt(n, c2);
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+abcabc
 
 */
