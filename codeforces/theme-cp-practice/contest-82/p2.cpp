@@ -295,9 +295,31 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i+1 < n; i++) {
+            if (a[i] != i+1 && abs(a[i]-a[i+1]) == 1) {
+                swap(a[i], a[i+1]);
+            }
+        }
+        bool ok = true;
+        for (int i = 0; i < n; i++) {
+            if (a[i] != i+1) ok = false;
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+5 3 4 2 1
+
+5 4 3 2 1
+4 5 3 2 1
+
+The 
 
 */

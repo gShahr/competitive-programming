@@ -295,9 +295,45 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> ans(n, 1);
+        int dup = -1;
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j < n; j++) {
+                if (a[i] == a[j]) {
+                    ans[i] = 1;
+                    ans[j] = 2;
+                    dup = a[i];
+                    break;
+                }
+            }
+            if (dup != -1) break;
+        }
+        int dup2 = -1;
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j < n; j++) {
+                if (a[i] == a[j] && a[i] != dup) {
+                    ans[i] = 1;
+                    ans[j] = 3;
+                    dup2 = a[i];
+                    break;
+                }
+            }
+            if (dup2 != -1) break;
+        }
+        if (dup != -1 && dup2 != -1) {
+            for (auto i: ans) cout << i << ' ';
+            cout << endl;
+        } else cout << -1 << endl;
     }
 }
 
 /*
+
+at least three duplicates => whoops does not work
+or 2 two duplicates
 
 */

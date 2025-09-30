@@ -295,6 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        bool ok = false;
+        set<string> tracker;
+        for (int i = 0; i+1 < n; i++) {
+            string curr = {a[i], a[i+1]};
+            if (tracker.find(curr) != tracker.end()) ok = true;
+            if (i-1 >= 0) {
+                string prev = {a[i-1], a[i]};
+                tracker.insert(prev);
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
