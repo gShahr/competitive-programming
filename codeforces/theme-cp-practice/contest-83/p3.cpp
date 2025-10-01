@@ -295,9 +295,51 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        string a, b;
+        cin >> a >> b;
+        reverse(a.begin(), a.end());
+        while (a.size() < b.size()) {
+            a.push_back('0');
+        }
+        reverse(a.begin(), a.end());
+        int n = a.size();
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == b[i]) continue;
+            else {
+                ans += abs(a[i] - b[i]);
+                ans += (9 * (n-i-1));
+                break;
+            }
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+88 1914
+999
+100
 
+1899
+0100
+
+1900
+0099
+
+13 37
+30 
+19
+
+different sizes
+same size
+=> first digit differs
+
+53222 53999
+
+53299 53200
+
+=> 
+first digit where they differ +
+size of that suffix * 9
 */
