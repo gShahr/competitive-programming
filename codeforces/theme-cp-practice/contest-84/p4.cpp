@@ -295,6 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, c, d;
+        cin >> n >> c >> d;
+        vector<int> b(n*n);
+        for (int i = 0; i < n*n; i++) cin >> b[i];
+        int a1 = INT_MAX;
+        for (auto i: b) a1 = min(a1, i);
+        multiset<int> v;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int curr = a1 + c*i + d*j;
+                v.insert(curr);
+            }
+        }
+        bool ok = true;
+        for (auto i: b) {
+            if (v.find(i) == v.end()) ok = false;
+            else v.erase(v.find(i));
+        }
+        if (!v.empty()) ok = false;
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

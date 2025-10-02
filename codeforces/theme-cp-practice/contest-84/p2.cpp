@@ -295,6 +295,21 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int mx = 100;
+        vector<bool> d(mx);
+        for (int i = 1; i <= mx; i++) {
+            if (n % i == 0) d[i] = true;
+        }
+        int ans = 0;
+        int cnt = 0;
+        for (int i = 0; i < mx; i++) {
+            if (d[i]) cnt++;
+            else cnt = 0;
+            ans = max(ans, cnt);
+        }
+        cout << ans << endl;
     }
 }
 

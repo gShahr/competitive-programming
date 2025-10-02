@@ -295,6 +295,22 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, x;
+        cin >> n >> x;
+        vector<int> a = {0};
+        for (int i = 0; i < n; i++) {
+            int y;
+            cin >> y;
+            a.push_back(y);
+        }
+        a.push_back(x);
+        int ans = 0;
+        for (int i = 1; i < a.size(); i++) {
+            int cost = a[i] - a[i-1];
+            if (i+1 >= a.size()) cost *= 2;
+            ans = max(ans, cost);
+        }
+        cout << ans << endl;
     }
 }
 
