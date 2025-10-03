@@ -295,9 +295,50 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        int ans = 0;
+        int mn = INT_MAX;
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (b[i] != -1) {
+                cnt++;
+                mn = min(mn, a[i]+b[i]);
+            }
+        }
+        bool ok = true;
+        for (int i = 0; i < n; i++) {
+            if (b[i] != -1 && a[i]+b[i] != mn) ok = false;
+        }
+        if (mn == INT_MAX) {
+            int mx = *max_element(a.begin(), a.end());
+            int mnn = *min_element(a.begin(), a.end());
+            if (mx - mnn <= k) ans = k + mnn - mx + 1;
+        } else if (ok) {
+            int mx = *max_element(a.begin(), a.end());
+            if (mx <= mn) {
+                if (cnt < n) {
+                    bool ok2 = true;
+                    for (int i = 0; i < n; i++) {
+                        if (mn - a[i] > k) ok2 = false;
+                    }
+                    if (ok2) ans = 1;
+                } else ans = 1;
+            } else ans = 0;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+B contains all negative ones => k - max(a_i) + 1
+B contains exactly one non-negative value
+
+V = a[i] + b[i];
+All missing values need to be replaced with V
 
 */
