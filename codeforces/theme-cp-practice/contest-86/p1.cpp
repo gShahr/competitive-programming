@@ -295,6 +295,18 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int x, k;
+        cin >> x >> k;
+        vector<int> ans;
+        if (x % k != 0) {
+            ans.push_back(x);
+        } else {
+            ans.push_back(x-1);
+            ans.push_back(1);
+        }
+        cout << ans.size() << endl;
+        for (auto i: ans) cout << i << endl;
+        cout << endl;
     }
 }
 

@@ -295,9 +295,46 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int cnt = 0;
+        int p = 1;
+        vector<int> b = a;
+        sort(b.begin(), b.end());
+        for (int i = 0; i < n; i++) {
+            if (p == b[i]) p++;
+        }
+        for (int i = 0; i < n; i++) {
+            if (a[i] == 0) cnt++;
+        }
+        if (cnt == 1) {
+            for (int i = 0; i < n; i++) {
+                if (a[i] == 0) a[i] = p;
+            }
+        }
+        int ans = 0;
+        int l = -1;
+        int r = -1;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == 0 || a[i] != i+1) {
+                if (l == -1) l = i;
+                else r = i;
+            }
+        }
+        if (l == -1 && r == -1) ans = 0;
+        else ans = r-l+1;
+        cout << ans << endl;
     }
 }
 
 /*
+
+3 cases
+0 appears 2+ times
+0 appears 1 time
+    => try to get rid of this case
+0 appears 0 times
 
 */

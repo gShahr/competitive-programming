@@ -295,6 +295,31 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> b(k);
+        for (int i = 0; i < k; i++) cin >> b[i];
+        sort(b.begin(), b.end());
+        int ans = 0;
+        priority_queue<int> pq;
+        for (auto i: a) pq.push(i);
+        for (int i = 0; i < k; i++) {
+            for (int j = 0; j < b[i]-1; j++) {
+                if (!pq.empty()) {
+                    ans += pq.top();
+                    pq.pop();
+                } else break;
+            }
+            if (!pq.empty()) pq.pop();
+            else break;
+        }
+        while (!pq.empty()) {
+            ans += pq.top();
+            pq.pop();
+        }
+        cout << ans << endl;
     }
 }
 

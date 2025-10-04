@@ -295,6 +295,20 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        vector<int> ans;
+        for (int i = n; i >= k; i--) {
+            ans.push_back(i);
+        }
+        for (int i = k-1; i > m; i--) {
+            ans.push_back(i);
+        }
+        for (int i = 1; i <= m; i++) {
+            ans.push_back(i);
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
