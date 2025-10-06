@@ -295,9 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        int ans = 0;
+        int sub = n;
+        bool decrease = true;
+        while (k > 0 && sub > 0) {
+            if (ans == 0) {
+                k -= sub;
+            } else {
+                k -= (sub);
+                decrease ^= true;
+            }
+            ans++;
+            if (decrease) sub--;
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+3 4
 
 */

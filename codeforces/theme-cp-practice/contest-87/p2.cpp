@@ -295,6 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        bool ok = false;
+        int need = k;
+        for (int i = 0; i < n; i++) {
+            if (a[0] == a[i]) need--;
+            if (need == 0) {
+                need = k;
+                int j;
+                for (j = n-1; j >= 0; j--) {
+                    if (a[n-1] == a[j]) need--;
+                    if (need == 0) break;
+                }
+                if (i <= j || a[0] == a[n-1]) ok = true;
+                break;
+            }
+        }
+        if (ok) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 

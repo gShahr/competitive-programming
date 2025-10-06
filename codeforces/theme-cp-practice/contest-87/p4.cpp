@@ -295,6 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, q;
+        cin >> n >> m >> q;
+        vector<int> b(m);
+        for (int i = 0; i < m; i++) cin >> b[i];
+        sort(b.begin(), b.end());
+        for (int i = 0; i < q; i++) {
+            int x;
+            cin >> x;
+            int ans;
+            if (b[0] <= x && x <= b[1]) {
+                ans = (b[1] - b[0]) / 2;
+            } else if (b[0] <= x && b[1] <= x) {
+                ans = n-b[1];
+            } else {
+                ans = b[0]-1;
+            }
+            cout << ans << endl;
+        }
     }
 }
 
