@@ -295,9 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int ans = 0;
+        vector<int> use = {a[0], a[n-1], a[1], a[n-2]};
+        for (int i = 0; i < 4; i++) {
+            ans += abs(use[(i+1)%4] - use[i]);
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 1 2 3
+
+1 3 1 3
 
 */

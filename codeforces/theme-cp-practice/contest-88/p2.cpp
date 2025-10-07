@@ -295,6 +295,26 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, p;
+        cin >> n >> p;
+        vector<int> a(n), b(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; i++) cin >> b[i];
+        int ans = 0;
+        vector<pair<int, int>> c;
+        for (int i = 0; i < n; i++) {
+            c.emplace_back(b[i], -a[i]);
+        }
+        sort(c.begin(), c.end());
+        int need = n-1;
+        ans += p;
+        for (int i = 0; i < n; i++) {
+            int take = min(-c[i].second, need);
+            need -= take;
+            ans += (c[i].first * take);
+        }
+        ans = min(ans, p * n);
+        cout << ans << endl;
     }
 }
 

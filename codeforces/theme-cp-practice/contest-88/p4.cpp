@@ -295,9 +295,40 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        string a;
+        cin >> a;
+        if (k % 2 == 0) {
+            sort(a.begin(), a.end());
+        } else {
+            string even, odd;
+            for (int i = 0; i < n; i++) {
+                if (i % 2 == 0) even.push_back(a[i]);
+                else odd.push_back(a[i]);
+            }
+            sort(even.begin(), even.end());
+            sort(odd.begin(), odd.end());
+            a.clear();
+            int ee = 0;
+            int oo = 0;
+            for (int i = 0; i < n; i++) {
+                if (i % 2 == 0) {
+                    a.push_back(even[ee]);
+                    ee++;
+                } else {
+                    a.push_back(odd[oo]);
+                    oo++;
+                }
+            }
+        }
+        cout << a << endl;
     }
 }
 
 /*
 
+panda
+aapdn
+aandp
 */
