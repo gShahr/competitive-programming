@@ -92,7 +92,7 @@ using namespace std;
 namespace __DEBUG_UTIL__
 {
     using namespace std;
-    bool I_want_colored_output = true; /* ONLY WORKS WITH TERMINAL */
+    bool I_want_colored_output = false; /* ONLY WORKS WITH TERMINAL */
     string white = I_want_colored_output ? "\033[0;m" : "";
     string outer = I_want_colored_output ? "\033[0;31m" : "";    // red
     string varName = I_want_colored_output ? "\033[1;34m" : "";  // blue
@@ -295,6 +295,27 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int ans = 0;
+        sort(a.begin(), a.end());
+        int curr = 0;
+        debug(a);
+        for (int i = 0; i < n; i++) {
+            int j = i;
+            curr++;
+            while (j+1 < n && a[j+1] <= curr) {
+                j++;
+                curr++;
+            }
+            debug(i, j, curr);
+            i = j;
+            if (curr >= a[i]+1) ans++;
+        }
+        if (a[0] != 0) ans++;
+        cout << ans << endl;
     }
 }
 
