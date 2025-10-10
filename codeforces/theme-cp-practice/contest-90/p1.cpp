@@ -295,9 +295,21 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans(n);
+        for (int i = 0; i < n; i++) {
+            ans[i] = 2*i+1;
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+1 3 5 7
+
+2*m-1 mod m => m-1
 
 */

@@ -295,6 +295,25 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        map<int, int> cnt;
+        for (auto i: a) cnt[i]++;
+        vector<int> c;
+        for (auto i: cnt) {
+            c.push_back(i.second);
+        }
+        int ans = c.size();
+        sort(c.begin(), c.end());
+        for (int i = 0; i < n; i++) {
+            if (k - c[i] < 0) break;
+            k -= c[i];
+            ans--;
+        }
+        ans = max(ans, 1LL);
+        cout << ans << endl;
     }
 }
 
