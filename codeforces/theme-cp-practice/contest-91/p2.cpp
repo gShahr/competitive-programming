@@ -295,9 +295,33 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<int> evens, odds;
+        for (auto i: a) {
+            if (i&1) odds.push_back(i);
+            else evens.push_back(i);
+        }
+        int ans = 0;
+        if (odds.size()) {
+            ans = accumulate(evens.begin(), evens.end(), 0LL);
+            sort(odds.begin(), odds.end(), greater<int>());
+            for (int i = 0; i < (odds.size()+1)/2; i++) ans += odds[i];
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+count evens, odds
+
+no odds => 0
+1 odd => n
+2 odd => n-1
+3 odd => n-1
+4 odd => n-2
 
 */

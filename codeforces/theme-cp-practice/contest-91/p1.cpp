@@ -295,6 +295,17 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        int m = 2*n;
+        vector<int> a(m);
+        for (int i = 0; i < m; i++) cin >> a[i];
+        int ans = 0;
+        sort(a.begin(), a.end());
+        for (int i = 0; i < m; i += 2) {
+            ans += min(a[i], a[i+1]);
+        }
+        cout << ans << endl;
     }
 }
 

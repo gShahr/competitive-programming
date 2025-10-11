@@ -92,7 +92,7 @@ using namespace std;
 namespace __DEBUG_UTIL__
 {
     using namespace std;
-    bool I_want_colored_output = true; /* ONLY WORKS WITH TERMINAL */
+    bool I_want_colored_output = false; /* ONLY WORKS WITH TERMINAL */
     string white = I_want_colored_output ? "\033[0;m" : "";
     string outer = I_want_colored_output ? "\033[0;31m" : "";    // red
     string varName = I_want_colored_output ? "\033[1;34m" : "";  // blue
@@ -295,9 +295,40 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, k;
+        cin >> n >> k;
+        string a;
+        cin >> a;
+        string ans(n, '+');
+        vector<int> cnt(3, 0);
+        for (int i = 0; i < k; i++) {
+            if (a[i] == '0') {
+                cnt[0]++;
+            } else if (a[i] == '1') {
+                cnt[1]++;
+            } else {
+                cnt[2]++;
+            }
+        }
+        debug(cnt);
+        for (int i = 0; i < cnt[0]; i++) ans[i] = '-';
+        for (int i = n-1; i > n-1-cnt[1]; i--) ans[i] = '-';
+        for (int i = cnt[0]; i < cnt[0]+cnt[2]; i++) ans[i] = '?';
+        for (int i = n-1-cnt[1]; i > n-1-cnt[1]-cnt[2]; i--) ans[i] = '?';
+        if (k >= n) {
+            for (int i = 0; i < n; i++) ans[i] = '-';
+        }
+        cout << ans << endl;
     }
 }
 
 /*
+
+x 0s => first x characters forced to be -
+y 1s => last y characters forced to be -
+z 2s => next z characters after the 0s and next z characters before the 1s forced to be ?
+Everything else forced to be +
+
+When the 2s cover everything
 
 */

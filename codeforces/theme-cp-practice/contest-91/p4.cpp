@@ -295,9 +295,29 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans(2*n);
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+1 2 3 1 2 3
+2 3 1 1 3 2
+
+3 1 2 1 2 3
+
+1 2 3 3 2 1
+3 2 1 1 2 3
+
+2 1 3 1 2 3
+3 1 2 4 2 1 3 4
+
+n-1 1 2 n 2 1 n-1 n
+
+4 1 3 2 5 3 2 1 4 5
 
 */
