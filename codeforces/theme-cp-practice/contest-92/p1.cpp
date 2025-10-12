@@ -295,9 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        int ind = -1;
+        for (int i = 0; i+1 < n; i++) {
+            if (a[i] == 'R' && a[i+1] == 'L') {
+                ind = 0;
+                break;
+            }
+            if (a[i] == 'L' && a[i+1] == 'R') ind = i+1;
+        }
+        cout << ind << endl;
     }
 }
 
 /*
+
+Make the pattern into RL
 
 */

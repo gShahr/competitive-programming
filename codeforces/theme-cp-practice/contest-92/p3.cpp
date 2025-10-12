@@ -295,9 +295,111 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> ans;
+        // int x = n;
+        // if (x&1) x--;
+        // int i = 0;
+        // while (x > 0) {
+        //     ans[i] = x;
+        //     i++;
+        //     x -= 2;
+        // }
+        // x = n;
+        // if (x % 2 == 0) x--;
+        // ans[i] = x;
+        // i++;
+        // x = 2;
+        // while (x <= n) {
+        //     ans[i] = x;
+        //     i++;
+        //     x += 2;
+        // }
+        // x = n;
+        // if (x % 2 == 0) x--;
+        // while (x > 0) {
+        //     ans[i] = x;
+        //     i++;
+        //     x -= 2;
+        // }
+        // x = n;
+        // if (x % 2 == 0) x--;
+        // ans[i] = 1;
+        // ans[i+1] = x;
+        // x = 1;
+        // while (x <= n) {
+        //     ans[i] = x;
+        //     i++;
+        //     x += 2;
+        // }
+        // ans[n-1] = 1;
+        if (n&1) {
+            for (int i = n-1; i >= 2; i -= 2) {
+                ans.push_back(i);
+            }
+            ans.push_back(n);
+            for (int i = 2; i <= n-1; i += 2) {
+                ans.push_back(i);
+            }
+            for (int i = n-2; i >= 1; i -= 2) {
+                ans.push_back(i);
+            }
+            ans.push_back(n);
+            for (int i = 3; i <= n-2; i += 2) {
+                ans.push_back(i);
+            }
+            ans.push_back(1);
+        } else {
+            for (int i = n; i >= 2; i -= 2) {
+                ans.push_back(i);
+            }
+            ans.push_back(n-1);
+            for (int i = 2; i <= n; i += 2) {
+                ans.push_back(i);
+            }
+            for (int i = n-3; i >= 3; i -= 2) {
+                ans.push_back(i);
+            }
+            ans.push_back(n-1);
+            for (int i = 3; i <= n-3; i += 2) {
+                ans.push_back(i);
+            }
+            ans.push_back(1);
+
+        }
+        if (n == 1) ans = {1, 1};
+        if (n == 2) ans = {2, 1, 2, 1};
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
 /*
+
+4 2 3 2 4 3
+
+4 2 5 2 4 3 1 5 3 1
+6 4 2 5 2 4 6 3 5 1 3 1
+
+6 4 2 7 2 4 6 5 3 1 7 3 5 1
+
+2 3 2 1 3 1 
+
+one odd x goes between the evens
+one odd x goes between the odds along with a 1
+
+highest odd number
+ones
+
+evens decreasing 
+highest odd number
+evens increasing
+odds decreasing
+1, highest odd number
+odds increasing
+1
+
+
 
 */
