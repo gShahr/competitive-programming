@@ -295,9 +295,36 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        stack<char> curr;
+        int ans = 1;
+        int mn = 0;
+        int mx = 0;
+        for (int i = 0; i < n; i++) {
+            if (curr.empty()) curr.push(a[i]);
+            else {
+                if (curr.top() != a[i]) curr.pop();
+                else curr.push(a[i]);
+            }
+            int sz = curr.size();
+            if (!curr.empty() && curr.top() == '<') mn = max(mn, sz);
+            if (!curr.empty() && curr.top() == '>') mx = max(mx, sz);
+        }
+        ans = mx + mn + 1;
+        cout << ans << endl;
     }
 }
 
 /*
+
+<>>><>
+5 6 5 4 3 4 3
+
+<>>>
+5 6 5 4 3
+
 
 */

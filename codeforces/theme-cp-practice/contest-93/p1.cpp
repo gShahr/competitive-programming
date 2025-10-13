@@ -295,6 +295,16 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        int ans = 0;
+        if (a[n-1] == '1') ans++;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == '1' && a[i+1] == '0') ans += 2;
+        }
+        cout << ans << endl;
     }
 }
 

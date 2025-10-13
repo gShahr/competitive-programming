@@ -295,9 +295,24 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        sort(a.begin(), a.end());
+        int ans = 0;
+        map<int, int> cnt;
+        for (auto i: a) cnt[i]++;
+        ans = 2 * cnt[a[0]] * cnt[a[n-1]];
+        if (a[0] == a[n-1]) ans = n*(n-1);
+        cout << ans << endl;
     }
 }
 
 /*
+
+1 1
+
+n*(n-1)/2 * 2
 
 */
