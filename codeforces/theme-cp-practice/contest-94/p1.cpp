@@ -295,9 +295,39 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
     }
 }
 
 /*
+
+1 1 1 n+1
+
+odd => n n n
+even => 
+
+(x1 + x2) / n = x1 ^ x2
+
+n+1 1
+
+n+n n
+
+n+1 1 1 1 
+
+n+(n-1) n-1 n-1 n-1
+
+0110
+0101
+1011
+
+x ^ y  = ((n-1)x + y) / n
+x+y - x&y = ((n-1)x + y) / n
+nx + ny - n(x&y) = (n-1)x + y
+x + (n-1)y - n(x&y) = 0
+
+Assume x&y = 0
+x + (n-1)y = 0
+x = -(n-1)y
 
 */
