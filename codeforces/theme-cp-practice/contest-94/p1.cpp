@@ -297,6 +297,20 @@ int32_t main() {
     while (t--) {
         int n;
         cin >> n;
+        vector<int> ans(n, n);
+        if (n % 2 == 0) {
+            for (int i = 1; i < 2*n; i++) {
+                int x = i;
+                int y = 2*n - i;
+                if ((x ^ y) == n) {
+                    ans[0] = x;
+                    ans[1] = y;
+                    break;
+                }
+            }
+        }
+        for (auto i: ans) cout << i << ' ';
+        cout << endl;
     }
 }
 
@@ -329,5 +343,22 @@ x + (n-1)y - n(x&y) = 0
 Assume x&y = 0
 x + (n-1)y = 0
 x = -(n-1)y
+
+sums to n^2
+xor of a_i has to equal n
+
+sums to 2n
+xor 2 values to be equal to n
+
+x^y = n
+x+y - x&y = n
+x+y = 2n
+
+x&y = n
+
+n = 2
+x = 3, y = 1
+
+n odd number of values that xor to 0
 
 */
