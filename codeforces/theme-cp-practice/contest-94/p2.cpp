@@ -92,7 +92,7 @@ using namespace std;
 namespace __DEBUG_UTIL__
 {
     using namespace std;
-    bool I_want_colored_output = true; /* ONLY WORKS WITH TERMINAL */
+    bool I_want_colored_output = false; /* ONLY WORKS WITH TERMINAL */
     string white = I_want_colored_output ? "\033[0;m" : "";
     string outer = I_want_colored_output ? "\033[0;31m" : "";    // red
     string varName = I_want_colored_output ? "\033[1;34m" : "";  // blue
@@ -295,9 +295,49 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n;
+        cin >> n;
+        string a;
+        cin >> a;
+        bool ok = true;
+        int bob_turns = (n-1)/2;
+        int alice_turns = n - bob_turns;
+        int ones = 0;
+        for (auto i: a) {
+            if (i == '1') ones++;
+        }
+        debug(bob_turns, ones);
+        int zeros = n - ones;
+        if (ones >= zeros) cout << "YES" << endl;
+        else cout << "NO" << endl;
     }
 }
 
 /*
+
+1100
+110
+10
+1
+
+no ones
+3 consecutive zeros
+
+true or false and false or true
+
+000111
+
+1 or 0 => get rid of 0
+0 or 1 => get rid of 0
+0 or 0 => get rid of 0
+1 or 1 => get rid of 1
+
+1 and 0 => get rid of 1
+0 and 1 => get rid of 1
+0 and 0 => get rid of 0
+1 and 1 => get rid of 1
+
+Bob wants to do (1 or 1)
+Alice wnats to do (0 and 0)
 
 */
