@@ -297,17 +297,10 @@ int32_t main() {
     while (t--) {
         int n;
         cin >> n;
-        vector<int> ans(n, n);
+        vector<int> ans(n, 2);
         if (n % 2 == 0) {
-            for (int i = 1; i < 2*n; i++) {
-                int x = i;
-                int y = 2*n - i;
-                if ((x ^ y) == n) {
-                    ans[0] = x;
-                    ans[1] = y;
-                    break;
-                }
-            }
+            ans[0] = 1;
+            ans[1] = 3;
         }
         for (auto i: ans) cout << i << ' ';
         cout << endl;
