@@ -295,6 +295,17 @@ int32_t main() {
     int t;
     cin >> t;
     while (t--) {
+        int n, m, h;
+        cin >> n >> m >> h;
+        for (int i = 0; i < n; i++) {
+            vector<int> a;
+            for (int j = 0; j < m; j++) cin >> a[j];
+            sort(a.begin(), a.end());
+            int pen = 0;
+            for (int j = 0; j < m; j++) {
+
+            }
+        }
     }
 }
 
