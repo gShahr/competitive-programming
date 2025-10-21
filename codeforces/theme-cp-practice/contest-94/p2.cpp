@@ -301,14 +301,11 @@ int32_t main() {
         cin >> a;
         bool ok = true;
         int bob_turns = (n-1)/2;
-        int alice_turns = n - bob_turns;
-        int ones = 0;
-        for (auto i: a) {
-            if (i == '1') ones++;
+        bool cons = false;
+        for (int i = 0; i < n-1; i++) {
+            if (a[i] == '1' && a[i+1] == '1') cons = true;
         }
-        debug(bob_turns, ones);
-        int zeros = n - ones;
-        if (ones >= zeros) cout << "YES" << endl;
+        if (cons|| a[0] == '1' || a[n-1] == '1') cout << "YES" << endl;
         else cout << "NO" << endl;
     }
 }
@@ -339,5 +336,11 @@ true or false and false or true
 
 Bob wants to do (1 or 1)
 Alice wnats to do (0 and 0)
+
+0011b
+
+
+010101010
+
 
 */
