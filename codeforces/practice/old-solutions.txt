@@ -1,0 +1,349 @@
+s1 = 1
+s2 = 2
+d = 10
+
+d / s1 => how fast to travel the distance 
+d / s2 => how fast to travel the distance
+
+x := coordinate where both cars meet
+t := elapsed time when both cars meet
+
+x = d / (s1 + s2)/2 = 2d / (s1 + s2)
+
+:= define distance function for one and then for the other
+=> f1(t, s) = t * s
+=> f2(t, s) = t * s = d - t * s
+Since f2 is starting from the end of needs to simulate one car moving from one of the ends,
+then the idea is to have the distance function be d - t*s.
+
+f1(t, s1) = f2(t, s2) where t should be the same for both functions
+=> t * s1 = d - t * s2
+=> t * s1 + t * s2 = d
+=> t(s1 + s2) = d
+=> t = d / (s1 + s2)
+
+where the defintion of d should be updated to account for the fact that it is the absolute distance between both carts. Therefore, we should run this and just check if it will pass
+a flag where the speed will be increased. If they intersect pass a flag, their location and speed should be updated accordingly and should occur at the next smalleset time available for either car.
+
+The strategy presented thus far will take whichever car passes the first flag and move both cars accordingly so that the car that passes the flag first will get its acceleration increased. Perhaps a reformulation for the problem is needed because the current solution presented will result in precision issues when calculting the respective time and respective new coordinates for both cars. One interesting observation is that all the flags need to be activated by a car and only one car.
+
+Is there a way to solve the problem by knowing which flags go to each car or in other words which flags are used by which cars. Given that we have such information, what would the end result be? I guess the idea would be to calculate the time it takes to go to a flag for each flag. However, since each flag is known before runtime, we are able to know that the cars will not intersect until they reach all the flags from both sides. Therefore, we calculate the time needed to go to each flag for each car independently. Given a sequence such as what is given below:
+
+L L L L R R R R
+
+We would be able to find the time elapsed to reach the last L flag and the first R flag for both cars. The only issue that this sequence needs to be calculated for which cars get which one and when trying to get the time elapsed the same for both cars.
+
+Another way to think about this problem is what if there were only one flag in the mix. Then it would depend on who gets the flag first and what if another assumption that gets added that determines which car gets the flag. There was another 
+
+t2 = tn
+t3 = t1
+t4 = t2
+...
+tn = tn-2
+t1 = tn-1
+
+x = t2 = tn = t4 = t1
+n = 5
+
+t1 = tn-1
+t2 = tn
+t3 = t1
+t4 = t2
+t5 = t3
+...
+tn = tn-2
+
+=>
+i :: 0 (mod 2) => A
+i :: 1 (mod 2) => B
+with the added condition that the string must be even in length.
+
+The strategy involves brute forcing all possible combinations to test if it fits the pattern or not. It involves checking to see if the pattern exists and then subtracting everything else from it. The added condition is necessary or else it will end up with the implication that every digit must be the same because of the odd length and the continuation of every two characters from that spot onwards.
+
+1 2 3 4 5 6 7 8 9 10
+1 3 6 10 15 21 28 36 45 55
+
+d = 2
+d = 0
+d = 10
+
+x = 17
+y = 10
+d = 7
+
+a + x = b + y
+=> a - b + x - y = 0
+=> a + x - (b + y) = 0
+=> d + min(x, y) = max(x, y)
+=> d + m = z - m
+=> d + 2m = z
+
+d = 11 => works
+d = 12 => 
+
+The first thought that comes into mind is binary search for some value of g. However, this does not seem like the correct strategy as there is no indicator for whether a value should decrease or increase.
+
+d = 13
+
+1 2 3 5 6
+4
+
+i = n+m-i
+=> 2i = n+m
+=> i = (n+m)/2
+
+(1, 1) to (n, m)
+(1, 1) to (n, 1) => n cells
+(n, 1) to (n, m) => m cells
+1 cell that overlaps
+
+7 0 0 1 4 0 6
+
+1 -> 7 X
+2 -> ? 
+3 -> ? 
+4 -> 1 X
+5 -> 4 X
+6 -> ? X
+7 -> 6 X
+
+5->4->1->7->6->?
+2 -> ?
+3 -> ?
+
+1 -> 2
+2 -> ?
+
+i -> a[i] -> a[a[i]] -> ...
+=>
+head: 1
+tail: 2
+
+1 -> 5 -> 4 -> 2 -> 0
+
+7 3 5 1 4 2 6 
+
+1->7
+2->4->3->0
+6->5->0
+
+segment that ends first, segment that starts last
+=> sort by pair order
+ends first => (y, x)
+
+2, 5
+3, 7
+
+5, 2
+7, 3
+
+(a, b)
+(c, d)
+
+assume a < c, then
+=> b < c
+
+n * a + b - c = m
+=> m - b + c = n * a
+=> [m - d, m + d] = [n*l, n*r], d = r-l
+=> find if a number in an interval is divisble by i
+2n + 2 = 1
+2n = 1 + p
+2n = [0, 2]
+
+a * n = p
+p = m - b + c
+=> p - m = c - b
+1 = c - b
+
+4n + 4 - 5 = 13
+[11, 15]
+
+p = 12
+m = 13
+4n + 5 - 6 = 13
+c-b = 1
+
+c-b = p-m
+
+suppose p-m >= 0
+=> set c = l
+
+2n + 3 - 2 = 1
+p-m = 1
+c-b = 1
+
+
+suppose p-m <= 0
+=> c-b = p-m
+=> c = p-m+b
+since p-m is negative, set b to highest value possinle which is r
+
+pick any number
+pick two numbers bigger than it and place them on opposite sides
+
+ans := res * (n-3)!
+n = 7
+
+maybe a more simple approach is to say that the permutation must have a decreasing point followed by an increasing point or an increasing point followed by a decreasing point.
+
+WLOG assume we need decreasing point followed by increasing point. We say that the decrasing aspect happens by default and all that we need is an inflection point.
+
+n = 5
+2 5 4 3 1
+
+1 2 3 X
+1 3 2 X
+2 1 3 
+2 3 1 X
+3 1 2 
+3 2 1 X
+
+4 elements 2 set
+
+x, y, z, w
+
+3 elements 2 set := g
+
+{1, 1, 1} => 6  
+
+{1, 1, 1, 1} => 24
+{1, 1, 1, 2} => 21
+
+5 elements, 3 duplicates => 2 + 3-2 = 2 + 1 = 3
+5 elements, 4 duplicates => 1 + 4-1 = 1 + 3 = 4
+5 elements, 5 duplicates => 0 + 5-0 = 0 + 5 = 5
+
+=> Calculate the range of values that make up the majority
+
+3 3 3
+2 2 3
+1 2 3
+
+3 * 5
+2 * 3
+1 * 1
+
+4 * 7
+
+4 4 4 4
+3 3 3 4
+2 2 3 4
+1 2 3 4
+
+4 4 4 4
+3 3 3 4
+2 2 2 4
+1 2 3 4
+
+1 2 3 4
+2 2 3 4
+3 2 3 4
+4 2 3 4
+
+3 3 3
+2 2 3
+1 2 3
+
+3 3 3
+2 2 3
+1 2 3
+
+1 2 3 4
+1 2 3 4
+1 2 3 4
+1 2 3 4
+
+4 4 4 4
+3 3 3 4
+3 1 2 4
+1 2 3 4
+
+4 4 4 4
+3 3 3 4 
+1 2 2 4
+1 2 3 4
+
+5 5 5 5 1
+5 4 4 4 1
+5 4 3 3 1
+5 4 3 2 1
+5 4 3 2 1
+
+1 1 1 1 5
+1 2 2 2 5
+1 2 3 3 5
+1 2 3 4 5
+1 2 3 4 5
+
+5 5 5 5 5
+1 4 4 4 5
+1 2 3 3 5
+1 2 3 2 5
+1 2 3 4 5
+
+5 2 3 4 5
+4
+3
+2
+1
+
+5 5 5 5 5
+4 4 4 4 5
+3 3 3 4 5
+2 2 3 4 5
+1 2 3 4 5 
+
+=> fill row in increasing order with increasing sequence
+=> fill column in decreasing order with decreasing sequence
+alternate the moves
+
+1 2 3 4 5
+
+identity: x - y = (x ^ y) - ((~x & y) << 1)
+
+(x ^ x+1 ^ ... ^ y-1 ^ y ^ y ^ ... ^ z) - (x ^ x+1 ^ ... ^ y ^ ... ^ z)
+=> y - 
+
+If x = y:
+2 ^ 2 ^ 3 => x ^ y ^ z
+2 ^ 3 => x ^ z
+=> y
+
+If y = z:
+
+x ^ y ^ y
+x ^ y
+=> y
+
+If x = z:
+=> x = y = z
+y ^ y
+y
+=> y
+
+3 - 4 ^ 3 = 3 - 7 = 3 ^ 4 ^ 3 - 8 = -4
+
+((~x & y) << 1) < y
+=> ~(x ^ x+1 ^ ... ^ y-1 ^ y ^ y ^ ... ^ z) & (x ^ x+1 ^ ... ^ y ^ ... ^ z) 
+
+~x :=
+A = x ^ x+1 ^ ... ^ y-1 ^ y ^ ... ^ z)
+B = y
+=> ~(A ^ B)
+=> (A & B) | (~A & ~B)
+=> (A & y) | (~A & ~y)
+
+2 ^ 4 ^ 6
+4
+
+(a ^ c) & (a ^ b ^ c)
+=> 
+
+~(a ^ c) & (a ^ b ^ c)
+=>
+
+~(a ^ c) = ~(a ^ b ^ c) 
+
+
+
